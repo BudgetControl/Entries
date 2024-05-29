@@ -21,7 +21,7 @@ This repository contains the code of microservice budgetcontrol template.
     task build:dev
     ```
 
-5. Open your browser and visit [http://localhost:8084](http://localhost:8084) to access the BudgetControl application.
+5. Open your browser and visit [http://localhost:8086](http://localhost:8084) to access the BudgetControl application.
 
 ## Task Commands
 

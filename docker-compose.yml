@@ -2,8 +2,8 @@ version: '2.2'
 
 services:
     bemodule:
-      container_name: budgetcontrol-ms-name
-      image: budgetcontrol/core:v2.2
+      container_name: budgetcontrol-ms-entry
+      image: mlabfactory/php8-apache:v1.0
       volumes:
         - ./:/var/www/workdir
       networks:

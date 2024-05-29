@@ -2,10 +2,10 @@ version: '2.2'
 
 services:
     bemodule:
-      container_name: budgetcontrol-ms-name
-      image: budgetcontrol/core:xdebug-v2.2
+      container_name: budgetcontrol-ms-entry
+      image: mlabfactory/php8-apache:v1.0-xdebug
       ports:
-        - "8084:80" # Change port do container
+        - "8086:80" # Change port do container
       restart: unless-stopped
 
 networks:

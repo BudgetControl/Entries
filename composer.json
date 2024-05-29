@@ -1,5 +1,5 @@
 {
-    "name": "budgetcontrol/stats",
+    "name": "budgetcontrol/entry",
     "description": "defines the dependencies required for a PHP microservice in a Budget control application",
     "type": "none",
     "license": "MIT",
@@ -9,13 +9,13 @@
             "url": "https://github.com/mlabfactory/phpunit-self-api-integration.git"
         }
     },
+    "version": "1.x-dev",
     "require": {
         "php": "^8.1",
         "slim/slim": "^4.13",
         "doctrine/dbal": "^4.0",
         "symfony/var-dumper": "^7.0",
         "ramsey/uuid": "^4.7",
-        "monolog/monolog": "^3.5",
         "vlucas/phpdotenv": "^5.6",
         "illuminate/database": "^11.0",
         "laravel/serializable-closure": "^1.3",
@@ -27,7 +27,11 @@
         "illuminate/events": "^11.0",
         "symfony/property-access": "^7.0",
         "illuminate/filesystem": "^11.0",
-        "nesbot/carbon": "^3.2"
+        "nesbot/carbon": "^3.2",
+        "carbondate/carbon": "^1.17",
+        "illuminate/validation": "^11.7",
+        "illuminate/pagination": "^11.7",
+        "logtail/monolog-logtail": "^3.1"
     },
     "require-dev": {
         "nikic/php-parser": "^5.0",
@@ -37,7 +41,7 @@
     },
     "autoload": {
         "psr-4": {
-            "Budgetcontrol\\MSNAME\\": "src/"
+            "Budgetcontrol\\Entry\\": "src/"
         },
         "files": [
             "config/helpers.php"

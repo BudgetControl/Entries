@@ -23,45 +23,20 @@ $capsule->addConnection($connections['mysql']);
 $capsule->bootEloquent();
 $capsule->setAsGlobal();
 
-//setup log level from env
-switch(env('APP_LOG_LEVEL','debug')) {
-    case 'debug':
-        $logLevel = Level::DEBUG;
-        break;
-    case 'info':
-        $logLevel = Level::INFO;
-        break;
-    case 'notice':
-        $logLevel = Level::NOTICE;
-        break;
-    case 'warning':
-        $logLevel = Level::WARNING;
-        break;
-    case 'error':
-        $logLevel = Level::ERROR;
-        break;
-    case 'critical':
-        $logLevel = Level::CRITICAL;
-        break;
-    case 'alert':
-        $logLevel = Level::ALERT;
-        break;
-    case 'emergency':
-        $logLevel = Level::EMERGENCY;
-        break;
-    default:
-        $logLevel = Level::DEBUG;
-}
+// Set up the logger
+require_once __DIR__ . '/../config/logger.php';
 
-$logPath = env('APP_LOG_PATH',__DIR__.'/../storage/logs/log-'.date("Ymd").'.log');
-$streamHandler = new \Monolog\Handler\StreamHandler($logPath, $logLevel);
-$logger = new \Monolog\Logger('MS-STATS');
-$formatter = new \Monolog\Formatter\SyslogFormatter();
-$streamHandler->setFormatter($formatter);
-$logger->pushHandler($streamHandler);
+// validator laravel
+$validator = new \Illuminate\Validation\Factory(
+    new \Illuminate\Translation\Translator(
+        new \Illuminate\Translation\ArrayLoader(),
+        'en'
+    ),
+);
 
 // Set up the Facade application
 Facade::setFacadeApplication([
     'log' => $logger,
     'date' => new Date(),
+    'validator' => $validator
 ]);
