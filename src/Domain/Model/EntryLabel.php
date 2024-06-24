@@ -4,8 +4,8 @@ namespace Budgetcontrol\Entry\Domain\Model;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
-class Labels extends Model
+class EntryLabel extends Model implements EntryInterface
 {
     use SoftDeletes;
-    protected $table = 'labels';
+    protected $table = 'entry_labels';
 }

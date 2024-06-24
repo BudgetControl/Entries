@@ -3,13 +3,15 @@ namespace Budgetcontrol\Entry\Controller;
 
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Validator;
-use Budgetcontrol\Entry\Domain\Model\Entry;
-use Budgetcontrol\Entry\Service\EntryService;
 use Budgetcontrol\Entry\Controller\Controller;
+use Budgetcontrol\Entry\Domain\Enum\EntryType;
+use Budgetcontrol\Entry\Domain\Model\Transfer;
+use Budgetcontrol\Entry\Domain\Model\Wallet;
+use Dotenv\Exception\ValidationException;
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
 
-class EntryController extends Controller
+class TransferController extends Controller
 {
     public function get(Request $request, Response $response, $argv): Response
     {
@@ -18,7 +20,7 @@ class EntryController extends Controller
         $planned = (bool) $request->getQueryParams()['planned'] ?? null;
 
         $wsId = $argv['wsis'];
-        $entries = Entry::WithRelations()->where('workspace_id', $wsId)
+        $entries = Transfer::WithRelations()->where('workspace_id', $wsId)->where('type', EntryType::transfer->value)
                  ->orderBy('date_time', 'desc');
 
         if($planned === false) {
@@ -28,6 +30,21 @@ class EntryController extends Controller
         }
 
         $entries = $entries->paginate($perPage, ['*'], 'page', $page);
+
+        return response(
+            $entries->toArray()
+        );
+    }
+
+    public function show(Request $request, Response $response, $argv): Response
+    {
+        $wsId = $argv['wsis'];
+        $entryId = $argv['uuid'];
+        $entries = Transfer::WithRelations()->where('workspace_id', $wsId)->where('id', $entryId)->get();
+
+        if ($entries->isEmpty()) {
+            return response([], 404);
+        }
 
         return response(
             $entries->toArray()
@@ -50,14 +67,28 @@ class EntryController extends Controller
         }
 
         $data['workspace_id'] = $wsId;
+        // transfer relation transfer_id
+        $data['amount'] = $data['amount'] * -1;
         $data['planned'] = $this->isPlanned($data['date_time']);
+        $data['category_id'] = 75;
 
-        $entry = new Entry();
-        $entry->fill($data);
-        $entry->save();
+        $transfer = new Transfer();
+        $transfer->fill($data);
+        $transfer->save();
+        
+        // now save new entry transfer with inverted amount
+        $data['amount'] = $data['amount'] * -1;
+        $data['transfer_id'] = $transfer->account_id;
+        $data['account_id'] = $transfer->transfer_id;
+        $transferTo = new Transfer();
+        $transferTo->fill($data);
+        $transferTo->save();
 
         return response(
-            $entry->toArray(),
+            [
+                'transfer_this' => $transfer->toArray(),
+                'to_this' => $transferTo->toArray()
+            ],
             201
         );
 
@@ -67,20 +98,38 @@ class EntryController extends Controller
     {
         $wsId = $argv['wsis'];
         $entryId = $argv['uuid'];
-        $entries = Entry::where('workspace_id', $wsId)->where('uuid', $entryId)->get();
 
-        if ($entries->isEmpty()) {
+        $transfer = Transfer::where('workspace_id', $wsId)->where('uuid', $entryId)->first();
+        $transferTo = Transfer::where('workspace_id', $wsId)->where('uuid', $transfer->transfer_relation)->first();
+
+        if (!$transfer || !$transferTo) {
             return response([], 404);
         }
 
-        $entry = $entries->first();
         $data = $request->getParsedBody();
-        $data['planned'] = $this->isPlanned($data['date_time']);
         
-        $entry->update($data);
+        $data['workspace_id'] = $wsId;
+        // transfer relation transfer_id
+        $data['amount'] = $data['amount'] * -1;
+        $data['category_id'] = 75;
+        $transfer->fill($data);
+        $transfer->update();
+        
+        // now save new entry transfer with inverted amount
+        $data['amount'] = $data['amount'] * -1;
+        $data['transfer_id'] = $transfer->account_id;
+        $data['account_id'] = $transfer->transfer_id;
+        $data['planned'] = $this->isPlanned($data['date_time']);
+
+        $transferTo->fill($data);
+        $transferTo->update();
 
         return response(
-            $entry->toArray()
+            [
+                'transfer_this' => $transfer->toArray(),
+                'to_this' => $transferTo->toArray()
+            ],
+            200
         );
     }
 
@@ -88,13 +137,16 @@ class EntryController extends Controller
     {
         $wsId = $argv['wsis'];
         $entryId = $argv['uuid'];
-        $entries = Entry::where('workspace_id', $wsId)->where('uuid', $entryId)->get();
 
-        if ($entries->isEmpty()) {
+        $transfer = Transfer::where('workspace_id', $wsId)->where('uuid', $entryId)->first();
+        $transferTo = Transfer::where('workspace_id', $wsId)->where('uuid', $transfer->transfer_relation)->first();
+
+        if (!$transfer) {
             return response([], 404);
         }
 
-        $entries->first()->delete();
+        $transfer->delete();
+        $transferTo->delete();
 
         return response([], 204);
     }
@@ -104,6 +156,11 @@ class EntryController extends Controller
 
         if($request instanceof Request) {
             $request = $request->getParsedBody();
+        }
+
+        // check if transfer_id is valid
+        if(Wallet::find($request['transfer_id']) === null) {
+            throw new ValidationException('Invalid wallet ID');
         }
 
         Validator::make($request, [
@@ -119,13 +176,12 @@ class EntryController extends Controller
             'model_id' => 'required|integer',
             'account_id' => 'required|integer',
             'transfer_id' => 'integer',
-            'transfer_relation' => 'integer',
             'currency_id' => 'required|integer',
             'payment_type' => 'required|integer',
-            'payee_id' => 'required|integer',
             'geolocation' => 'array',
             'exclude_from_stats' => 'boolean',
         ]);
 
     }
+
 }

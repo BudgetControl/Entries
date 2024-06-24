@@ -1,11 +1,12 @@
 <?php
 namespace Budgetcontrol\Entry\Domain\Model;
 
+use Illuminate\Support\Carbon;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
-use Illuminate\Support\Carbon;
+use Illuminate\Database\Eloquent\Casts\Attribute;
 
-class Entries extends Model
+class Entry extends Model implements EntryInterface
 {
     use SoftDeletes;
     protected $table = 'entries';
@@ -39,9 +40,23 @@ class Entries extends Model
         'exclude_from_stats'
     ];
 
-    public function setDateTimeAttribute($value)
+    protected $casts = [
+        'geolocation' => 'array',
+        'planned' => 'boolean',
+        'waranty' => 'boolean',
+        'transfer' => 'boolean',
+        'confirmed' => 'boolean',
+        'installment' => 'boolean',
+        'exclude_from_stats' => 'boolean',
+    ];
+
+    public function __construct(array $attributes = [])
     {
-        $this->attributes['date_time'] = Carbon::createFromFormat('Y-d-m H:i:s',$value)->toAtomString();
+        if(!isset($attributes['uuid'])) {
+            $this->setAttribute('uuid', (string) \Ramsey\Uuid\Uuid::uuid4());
+        }
+
+        parent::__construct($attributes);
     }
 
     public function setGeolocationAttribute($value)
@@ -59,7 +74,7 @@ class Entries extends Model
      */
     public function label()
     {
-        return $this->belongsToMany(Labels::class, 'entry_labels','entry_id');
+        return $this->belongsToMany(Label::class, 'entry_labels','entry_id', 'labels_id');
     }
 
     /**
@@ -67,7 +82,7 @@ class Entries extends Model
      */
     public function subCategory()
     {
-        return $this->belongsTo(SubCategories::class, "category_id");
+        return $this->belongsTo(SubCategory::class, "category_id");
     }
 
     /**
@@ -75,7 +90,7 @@ class Entries extends Model
      */
     public function currency()
     {
-        return $this->belongsTo(Currencies::class);
+        return $this->belongsTo(Currency::class);
     }
 
     /**
@@ -83,7 +98,7 @@ class Entries extends Model
      */
     public function wallet()
     {
-        return $this->belongsTo(Wallets::class);
+        return $this->belongsTo(Wallet::class, 'account_id', 'id');
     }
 
     /**
@@ -91,7 +106,7 @@ class Entries extends Model
      */
     public function paymentType()
     {
-        return $this->belongsTo(PaymentsTypes::class);
+        return $this->belongsTo(PaymentType::class);
     }
 
     /**
@@ -99,6 +114,17 @@ class Entries extends Model
      */
     public function payee()
     {
-        return $this->belongsTo(Payees::class);
+        return $this->belongsTo(Payee::class);
+    }
+
+    /**
+     * Scope a query to include relations with label, account, category, and payee.
+     *
+     * @param \Illuminate\Database\Eloquent\Builder $query
+     * @return \Illuminate\Database\Eloquent\Builder
+     */
+    public function scopeWithRelations($query)
+    {
+        return $query->with('label', 'wallet', 'subCategory.category', 'payee', 'currency', 'paymentType');
     }
 }
