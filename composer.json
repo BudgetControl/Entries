@@ -44,15 +44,15 @@
         "illuminate/pagination": "^11.11",
         "logtail/monolog-logtail": "^3.1",
         "webit/bcmath": "^2.0",
-        "budgetcontrol/library": "dev-main",
-        "budgetcontrol/schema-registry-service": "dev-main"
+        "budgetcontrol/schema-registry-service": "v1.0-beta",
+        "budgetcontrol/library": "v0.1-beta"
     },
     "require-dev": {
         "nikic/php-parser": "^5.0",
         "fakerphp/faker": "^1.23",
         "phpunit/phpunit": "^10.0",
-        "mlabfactory/phpunit-self-api-integration": "dev-main",
-        "budgetcontrol/seeds": "dev-main"
+        "mlabfactory/phpunit-self-api-integration": "v1.0-beta",
+        "budgetcontrol/seeds": "v0.1-beta"
     },
     "autoload": {
         "psr-4": {

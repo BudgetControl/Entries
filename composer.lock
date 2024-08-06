@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "f05accefb4122e0a4b5fbf9424f76f89",
+    "content-hash": "4d9076f7e705d75b98394de21df4ad77",
     "packages": [
         {
             "name": "brick/math",
@@ -63,23 +63,22 @@
         },
         {
             "name": "budgetcontrol/library",
-            "version": "dev-main",
+            "version": "v0.1-beta",
             "source": {
                 "type": "git",
                 "url": "https://github.com/BudgetControl/Library.git",
-                "reference": "36d16d42aced27666b144c67078cb1d473ae45e3"
+                "reference": "27652249404244365d81bee43cbea646bcf436c6"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/BudgetControl/Library/zipball/36d16d42aced27666b144c67078cb1d473ae45e3",
-                "reference": "36d16d42aced27666b144c67078cb1d473ae45e3",
+                "url": "https://api.github.com/repos/BudgetControl/Library/zipball/27652249404244365d81bee43cbea646bcf436c6",
+                "reference": "27652249404244365d81bee43cbea646bcf436c6",
                 "shasum": ""
             },
             "require": {
                 "illuminate/database": "11.19",
                 "ramsey/uuid": "^4.7"
             },
-            "default-branch": true,
             "type": "library",
             "autoload": {
                 "psr-4": {
@@ -93,26 +92,25 @@
                 }
             ],
             "support": {
-                "source": "https://github.com/BudgetControl/Library/tree/main",
+                "source": "https://github.com/BudgetControl/Library/tree/v0.1-beta",
                 "issues": "https://github.com/BudgetControl/Library/issues"
             },
-            "time": "2024-08-01T07:02:38+00:00"
+            "time": "2024-08-06T13:14:55+00:00"
         },
         {
             "name": "budgetcontrol/schema-registry-service",
-            "version": "dev-main",
+            "version": "v1.0-beta",
             "source": {
                 "type": "git",
                 "url": "https://github.com/BudgetControl/Schema-Registry-Service.git",
-                "reference": "bd3d4a784cb018cb79ea1073be5c7f023b082b2d"
+                "reference": "01466280c3f20acec2167bee44562285e8e93751"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/BudgetControl/Schema-Registry-Service/zipball/bd3d4a784cb018cb79ea1073be5c7f023b082b2d",
-                "reference": "bd3d4a784cb018cb79ea1073be5c7f023b082b2d",
+                "url": "https://api.github.com/repos/BudgetControl/Schema-Registry-Service/zipball/01466280c3f20acec2167bee44562285e8e93751",
+                "reference": "01466280c3f20acec2167bee44562285e8e93751",
                 "shasum": ""
             },
-            "default-branch": true,
             "type": "library",
             "autoload": {
                 "psr-4": {
@@ -127,10 +125,10 @@
             ],
             "description": "An API Schema Registry is a centralized service that manages and distributes database schema definitions",
             "support": {
-                "source": "https://github.com/BudgetControl/Schema-Registry-Service/tree/v1.0",
+                "source": "https://github.com/BudgetControl/Schema-Registry-Service/tree/v1.0-beta",
                 "issues": "https://github.com/BudgetControl/Schema-Registry-Service/issues"
             },
-            "time": "2024-07-17T17:46:54+00:00"
+            "time": "2024-08-06T13:26:32+00:00"
         },
         {
             "name": "cakephp/chronos",
@@ -5536,23 +5534,22 @@
     "packages-dev": [
         {
             "name": "budgetcontrol/seeds",
-            "version": "dev-main",
+            "version": "v0.1-beta",
             "source": {
                 "type": "git",
                 "url": "https://github.com/BudgetControl/SeedsTestLibs.git",
-                "reference": "a3a2616a413b2b5c1a0b3ea9f19722337107952d"
+                "reference": "b637f614c6faa95895b8cc176179c5e36f197035"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/BudgetControl/SeedsTestLibs/zipball/a3a2616a413b2b5c1a0b3ea9f19722337107952d",
-                "reference": "a3a2616a413b2b5c1a0b3ea9f19722337107952d",
+                "url": "https://api.github.com/repos/BudgetControl/SeedsTestLibs/zipball/b637f614c6faa95895b8cc176179c5e36f197035",
+                "reference": "b637f614c6faa95895b8cc176179c5e36f197035",
                 "shasum": ""
             },
             "require-dev": {
                 "budgetcontrol/library": "dev-main",
                 "ramsey/uuid": "^4.7"
             },
-            "default-branch": true,
             "type": "library",
             "autoload": {
                 "psr-4": {
@@ -5570,10 +5567,10 @@
             ],
             "description": "Seeds and migrations for unit test",
             "support": {
-                "source": "https://github.com/BudgetControl/SeedsTestLibs/tree/main",
+                "source": "https://github.com/BudgetControl/SeedsTestLibs/tree/v0.1-beta",
                 "issues": "https://github.com/BudgetControl/SeedsTestLibs/issues"
             },
-            "time": "2024-08-01T07:23:25+00:00"
+            "time": "2024-08-06T13:29:30+00:00"
         },
         {
             "name": "fakerphp/faker",
@@ -5965,16 +5962,16 @@
         },
         {
             "name": "mlabfactory/phpunit-self-api-integration",
-            "version": "dev-main",
+            "version": "v1.0-beta",
             "source": {
                 "type": "git",
                 "url": "https://github.com/mlabfactory/phpunit-self-api-integration.git",
-                "reference": "7bd8cc853460d48700bed9a4c3a92303db14d4aa"
+                "reference": "81e66ea7a259cc8650c81dbd20504740b25c26b7"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/mlabfactory/phpunit-self-api-integration/zipball/7bd8cc853460d48700bed9a4c3a92303db14d4aa",
-                "reference": "7bd8cc853460d48700bed9a4c3a92303db14d4aa",
+                "url": "https://api.github.com/repos/mlabfactory/phpunit-self-api-integration/zipball/81e66ea7a259cc8650c81dbd20504740b25c26b7",
+                "reference": "81e66ea7a259cc8650c81dbd20504740b25c26b7",
                 "shasum": ""
             },
             "require": {
@@ -5984,7 +5981,6 @@
             "require-dev": {
                 "phpunit/phpunit": "^11.0"
             },
-            "default-branch": true,
             "type": "library",
             "autoload": {
                 "psr-4": {
@@ -6005,10 +6001,10 @@
             ],
             "description": "PHPUnit extension designed for conducting integration tests on self-contained APIs within PHP applications. This extension facilitates seamless testing of API endpoints within the same system, ensuring smooth integration and functionality.",
             "support": {
-                "source": "https://github.com/mlabfactory/phpunit-self-api-integration/tree/main",
+                "source": "https://github.com/mlabfactory/phpunit-self-api-integration/tree/v1.0-beta",
                 "issues": "https://github.com/mlabfactory/phpunit-self-api-integration/issues"
             },
-            "time": "2024-04-11T14:40:06+00:00"
+            "time": "2024-08-06T13:09:58+00:00"
         },
         {
             "name": "myclabs/deep-copy",
@@ -7688,11 +7684,7 @@
     ],
     "aliases": [],
     "minimum-stability": "dev",
-    "stability-flags": {
-        "budgetcontrol/library": 20,
-        "mlabfactory/phpunit-self-api-integration": 20,
-        "budgetcontrol/seeds": 20
-    },
+    "stability-flags": [],
     "prefer-stable": false,
     "prefer-lowest": false,
     "platform": {
