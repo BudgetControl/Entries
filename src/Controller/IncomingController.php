@@ -3,9 +3,9 @@ namespace Budgetcontrol\Entry\Controller;
 
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Validator;
-use Budgetcontrol\Entry\Domain\Model\Income;
+use Budgetcontrol\Library\Model\Income;
 use Budgetcontrol\Entry\Controller\Controller;
-use Budgetcontrol\Entry\Domain\Enum\EntryType;
+use Budgetcontrol\Library\Entity\Entry as EntryType;
 use Illuminate\Validation\ValidationException;
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
@@ -16,9 +16,9 @@ class IncomingController extends Controller
     {
         $page = $request->getQueryParams()['page'] ?? 1;
         $perPage = $request->getQueryParams()['perPage'] ?? 10;
-        $planned = (bool) $request->getQueryParams()['planned'] ?? null;
+        $planned = (bool) @$request->getQueryParams()['planned'] ?? null;
 
-        $wsId = $argv['wsis'];
+        $wsId = $argv['wsid'];
         $entries = Income::WithRelations()->where('workspace_id', $wsId)->where('type', EntryType::incoming->value)
                  ->orderBy('date_time', 'desc');
 
@@ -37,7 +37,9 @@ class IncomingController extends Controller
 
     public function create(Request $request, Response $response, $argv): Response
     {
-        $wsId = $argv['wsis'];
+        $this->validate($request);
+
+        $wsId = $argv['wsid'];
         $data = $request->getParsedBody();
 
         try {
@@ -54,7 +56,7 @@ class IncomingController extends Controller
         $data['planned'] = $this->isPlanned($data['date_time']);
         $incoming = new Income();
         $incoming->fill($data);
-        $incoming->save();
+        $this->saveBalance($incoming);
 
         return response(
             $incoming->toArray(),
@@ -65,7 +67,9 @@ class IncomingController extends Controller
 
     public function update(Request $request, Response $response, $argv): Response
     {
-        $wsId = $argv['wsis'];
+        $this->validate($request);
+
+        $wsId = $argv['wsid'];
         $entryId = $argv['uuid'];
         $entries = Income::where('workspace_id', $wsId)->where('uuid', $entryId)->get();
 
@@ -74,10 +78,13 @@ class IncomingController extends Controller
         }
 
         $entry = $entries->first();
+        $this->setOldEntry($entry);
+
         $data = $request->getParsedBody();
         $data['planned'] = $this->isPlanned($data['date_time']);
         
         $entry->update($data);
+        // $this->updateBalance($entry);
 
         return response(
             $entry->toArray()

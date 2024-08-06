@@ -1,4 +1,6 @@
 <?php
+declare(strict_types=1);
+
 /**
  * This file is a helper file that contains various functions.
  */
@@ -27,6 +29,17 @@ if(!function_exists('response')) {
         }
         
         return $response->withHeader('Content-Type', 'application/json')->withStatus($statusCode);
+    }
+}
+
+if(!function_exists('file_get_json')) {
+    function file_get_json(string $path): array {
+        
+        if(!file_exists($path)) {
+            return [];
+        }
+
+        return json_decode(file_get_contents($path), true);
     }
 }
 

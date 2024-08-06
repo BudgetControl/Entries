@@ -4,9 +4,9 @@ namespace Budgetcontrol\Entry\Controller;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Validator;
 use Budgetcontrol\Entry\Controller\Controller;
-use Budgetcontrol\Entry\Domain\Enum\EntryType;
-use Budgetcontrol\Entry\Domain\Model\Transfer;
-use Budgetcontrol\Entry\Domain\Model\Wallet;
+use Budgetcontrol\Library\Entity\Entry as EntryType;
+use Budgetcontrol\Library\Model\Transfer;
+use Budgetcontrol\Library\Model\Wallet;
 use Dotenv\Exception\ValidationException;
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
@@ -17,9 +17,9 @@ class TransferController extends Controller
     {
         $page = $request->getQueryParams()['page'] ?? 1;
         $perPage = $request->getQueryParams()['perPage'] ?? 10;
-        $planned = (bool) $request->getQueryParams()['planned'] ?? null;
+        $planned = (bool) @$request->getQueryParams()['planned'] ?? null;
 
-        $wsId = $argv['wsis'];
+        $wsId = $argv['wsid'];
         $entries = Transfer::WithRelations()->where('workspace_id', $wsId)->where('type', EntryType::transfer->value)
                  ->orderBy('date_time', 'desc');
 
@@ -38,11 +38,11 @@ class TransferController extends Controller
 
     public function show(Request $request, Response $response, $argv): Response
     {
-        $wsId = $argv['wsis'];
+        $wsId = $argv['wsid'];
         $entryId = $argv['uuid'];
-        $entries = Transfer::WithRelations()->where('workspace_id', $wsId)->where('id', $entryId)->get();
+        $entries = Transfer::WithRelations()->where('workspace_id', $wsId)->where('uuid', $entryId)->first();
 
-        if ($entries->isEmpty()) {
+        if (empty($entries)) {
             return response([], 404);
         }
 
@@ -53,7 +53,9 @@ class TransferController extends Controller
 
     public function create(Request $request, Response $response, $argv): Response
     {
-        $wsId = $argv['wsis'];
+        $this->validate($request);
+
+        $wsId = $argv['wsid'];
         $data = $request->getParsedBody();
 
         try {
@@ -70,19 +72,24 @@ class TransferController extends Controller
         // transfer relation transfer_id
         $data['amount'] = $data['amount'] * -1;
         $data['planned'] = $this->isPlanned($data['date_time']);
-        $data['category_id'] = 75;
 
         $transfer = new Transfer();
         $transfer->fill($data);
-        $transfer->save();
         
         // now save new entry transfer with inverted amount
         $data['amount'] = $data['amount'] * -1;
         $data['transfer_id'] = $transfer->account_id;
         $data['account_id'] = $transfer->transfer_id;
+
         $transferTo = new Transfer();
         $transferTo->fill($data);
-        $transferTo->save();
+
+        // set the transfer relations
+        $transfer->transfer_relation = $transferTo->uuid;
+        $transferTo->transfer_relation = $transfer->uuid;
+        
+        $this->saveBalance($transfer);
+        $this->saveBalance($transferTo);
 
         return response(
             [
@@ -96,7 +103,9 @@ class TransferController extends Controller
 
     public function update(Request $request, Response $response, $argv): Response
     {
-        $wsId = $argv['wsis'];
+        $this->validate($request);
+        
+        $wsId = $argv['wsid'];
         $entryId = $argv['uuid'];
 
         $transfer = Transfer::where('workspace_id', $wsId)->where('uuid', $entryId)->first();
@@ -107,22 +116,19 @@ class TransferController extends Controller
         }
 
         $data = $request->getParsedBody();
-        
-        $data['workspace_id'] = $wsId;
-        // transfer relation transfer_id
+
         $data['amount'] = $data['amount'] * -1;
-        $data['category_id'] = 75;
-        $transfer->fill($data);
-        $transfer->update();
-        
+        $data['planned'] = $this->isPlanned($data['date_time']);
+        $transfer->update($data);
+
         // now save new entry transfer with inverted amount
         $data['amount'] = $data['amount'] * -1;
         $data['transfer_id'] = $transfer->account_id;
         $data['account_id'] = $transfer->transfer_id;
         $data['planned'] = $this->isPlanned($data['date_time']);
+        $data['workspace_id'] = $wsId;
 
-        $transferTo->fill($data);
-        $transferTo->update();
+        $transferTo->update($data);
 
         return response(
             [
@@ -135,13 +141,13 @@ class TransferController extends Controller
 
     public function delete(Request $request, Response $response, $argv): Response
     {
-        $wsId = $argv['wsis'];
+        $wsId = $argv['wsid'];
         $entryId = $argv['uuid'];
 
         $transfer = Transfer::where('workspace_id', $wsId)->where('uuid', $entryId)->first();
         $transferTo = Transfer::where('workspace_id', $wsId)->where('uuid', $transfer->transfer_relation)->first();
 
-        if (!$transfer) {
+        if (empty($transfer) || empty($transferTo)) {
             return response([], 404);
         }
 

@@ -3,7 +3,7 @@ namespace Budgetcontrol\Entry\Controller;
 
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Validator;
-use Budgetcontrol\Entry\Domain\Model\Entry;
+use Budgetcontrol\Library\Model\Entry;
 use Budgetcontrol\Entry\Service\EntryService;
 use Budgetcontrol\Entry\Controller\Controller;
 use Psr\Http\Message\ResponseInterface as Response;
@@ -15,9 +15,9 @@ class EntryController extends Controller
     {
         $page = $request->getQueryParams()['page'] ?? 1;
         $perPage = $request->getQueryParams()['perPage'] ?? 10;
-        $planned = (bool) $request->getQueryParams()['planned'] ?? null;
+        $planned = (bool) @$request->getQueryParams()['planned'] ?? null;
 
-        $wsId = $argv['wsis'];
+        $wsId = $argv['wsid'];
         $entries = Entry::WithRelations()->where('workspace_id', $wsId)
                  ->orderBy('date_time', 'desc');
 
@@ -36,7 +36,7 @@ class EntryController extends Controller
 
     public function create(Request $request, Response $response, $argv): Response
     {
-        $wsId = $argv['wsis'];
+        $wsId = $argv['wsid'];
         $data = $request->getParsedBody();
 
         try {
@@ -54,7 +54,7 @@ class EntryController extends Controller
 
         $entry = new Entry();
         $entry->fill($data);
-        $entry->save();
+        $this->saveBalance($entry);
 
         return response(
             $entry->toArray(),
@@ -65,7 +65,7 @@ class EntryController extends Controller
 
     public function update(Request $request, Response $response, $argv): Response
     {
-        $wsId = $argv['wsis'];
+        $wsId = $argv['wsid'];
         $entryId = $argv['uuid'];
         $entries = Entry::where('workspace_id', $wsId)->where('uuid', $entryId)->get();
 
@@ -74,10 +74,13 @@ class EntryController extends Controller
         }
 
         $entry = $entries->first();
+        $this->setOldEntry($entry);
+
         $data = $request->getParsedBody();
         $data['planned'] = $this->isPlanned($data['date_time']);
         
         $entry->update($data);
+        $this->updateBalance($entry);
 
         return response(
             $entry->toArray()
@@ -86,7 +89,7 @@ class EntryController extends Controller
 
     public function delete(Request $request, Response $response, $argv): Response
     {
-        $wsId = $argv['wsis'];
+        $wsId = $argv['wsid'];
         $entryId = $argv['uuid'];
         $entries = Entry::where('workspace_id', $wsId)->where('uuid', $entryId)->get();
 

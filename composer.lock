@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "5b4296f0beb72369ed218a42efbda2c0",
+    "content-hash": "f05accefb4122e0a4b5fbf9424f76f89",
     "packages": [
         {
             "name": "brick/math",
@@ -60,6 +60,77 @@
                 }
             ],
             "time": "2023-01-15T23:15:59+00:00"
+        },
+        {
+            "name": "budgetcontrol/library",
+            "version": "dev-main",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/BudgetControl/Library.git",
+                "reference": "36d16d42aced27666b144c67078cb1d473ae45e3"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/BudgetControl/Library/zipball/36d16d42aced27666b144c67078cb1d473ae45e3",
+                "reference": "36d16d42aced27666b144c67078cb1d473ae45e3",
+                "shasum": ""
+            },
+            "require": {
+                "illuminate/database": "11.19",
+                "ramsey/uuid": "^4.7"
+            },
+            "default-branch": true,
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Budgetcontrol\\Library\\": "libs/"
+                }
+            },
+            "authors": [
+                {
+                    "name": "Marco De Felice",
+                    "email": "marco.defelice@mlabfactory.it"
+                }
+            ],
+            "support": {
+                "source": "https://github.com/BudgetControl/Library/tree/main",
+                "issues": "https://github.com/BudgetControl/Library/issues"
+            },
+            "time": "2024-08-01T07:02:38+00:00"
+        },
+        {
+            "name": "budgetcontrol/schema-registry-service",
+            "version": "dev-main",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/BudgetControl/Schema-Registry-Service.git",
+                "reference": "bd3d4a784cb018cb79ea1073be5c7f023b082b2d"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/BudgetControl/Schema-Registry-Service/zipball/bd3d4a784cb018cb79ea1073be5c7f023b082b2d",
+                "reference": "bd3d4a784cb018cb79ea1073be5c7f023b082b2d",
+                "shasum": ""
+            },
+            "default-branch": true,
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Budgetcontrol\\Registry\\": "libs/"
+                }
+            },
+            "authors": [
+                {
+                    "name": "Marco De Felice",
+                    "email": "marco.defelice@mlabfactory.it"
+                }
+            ],
+            "description": "An API Schema Registry is a centralized service that manages and distributes database schema definitions",
+            "support": {
+                "source": "https://github.com/BudgetControl/Schema-Registry-Service/tree/v1.0",
+                "issues": "https://github.com/BudgetControl/Schema-Registry-Service/issues"
+            },
+            "time": "2024-07-17T17:46:54+00:00"
         },
         {
             "name": "cakephp/chronos",
@@ -1246,16 +1317,16 @@
         },
         {
             "name": "illuminate/database",
-            "version": "v11.3.1",
+            "version": "v11.19.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/illuminate/database.git",
-                "reference": "ad964b5e8e95417fbad28ecaf5ab77a5b3210b4b"
+                "reference": "db151e9a3221705cb4149c39dce2c51799708637"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/illuminate/database/zipball/ad964b5e8e95417fbad28ecaf5ab77a5b3210b4b",
-                "reference": "ad964b5e8e95417fbad28ecaf5ab77a5b3210b4b",
+                "url": "https://api.github.com/repos/illuminate/database/zipball/db151e9a3221705cb4149c39dce2c51799708637",
+                "reference": "db151e9a3221705cb4149c39dce2c51799708637",
                 "shasum": ""
             },
             "require": {
@@ -1310,7 +1381,7 @@
                 "issues": "https://github.com/laravel/framework/issues",
                 "source": "https://github.com/laravel/framework"
             },
-            "time": "2024-04-10T14:52:18+00:00"
+            "time": "2024-07-30T07:00:12+00:00"
         },
         {
             "name": "illuminate/events",
@@ -5406,9 +5477,104 @@
                 }
             ],
             "time": "2022-03-08T17:03:00+00:00"
+        },
+        {
+            "name": "webit/bcmath",
+            "version": "2.0.2",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/dbojdo/bcmath.git",
+                "reference": "fdc0bd25f7a95f584a2e4ff1483addff054980ef"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/dbojdo/bcmath/zipball/fdc0bd25f7a95f584a2e4ff1483addff054980ef",
+                "reference": "fdc0bd25f7a95f584a2e4ff1483addff054980ef",
+                "shasum": ""
+            },
+            "require": {
+                "ext-bcmath": "*",
+                "php": ">=7.1"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "^7.5.20"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-1.x": "1.x-dev",
+                    "dev-master": "2.x-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Webit\\Wrapper\\BcMath\\": "lib/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Daniel Bojdo",
+                    "email": "daniel.bojdo@web-it.eu"
+                }
+            ],
+            "description": "Object wrapper for PHP BcMath Library",
+            "keywords": [
+                "bcmath",
+                "big numeric"
+            ],
+            "support": {
+                "issues": "https://github.com/dbojdo/bcmath/issues",
+                "source": "https://github.com/dbojdo/bcmath/tree/2.0.2"
+            },
+            "time": "2022-01-10T12:09:15+00:00"
         }
     ],
     "packages-dev": [
+        {
+            "name": "budgetcontrol/seeds",
+            "version": "dev-main",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/BudgetControl/SeedsTestLibs.git",
+                "reference": "a3a2616a413b2b5c1a0b3ea9f19722337107952d"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/BudgetControl/SeedsTestLibs/zipball/a3a2616a413b2b5c1a0b3ea9f19722337107952d",
+                "reference": "a3a2616a413b2b5c1a0b3ea9f19722337107952d",
+                "shasum": ""
+            },
+            "require-dev": {
+                "budgetcontrol/library": "dev-main",
+                "ramsey/uuid": "^4.7"
+            },
+            "default-branch": true,
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Budgetcontrol\\Seeds\\": "src/"
+                }
+            },
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Marco De Felice",
+                    "email": "marco.defelice@mlabfactory.it"
+                }
+            ],
+            "description": "Seeds and migrations for unit test",
+            "support": {
+                "source": "https://github.com/BudgetControl/SeedsTestLibs/tree/main",
+                "issues": "https://github.com/BudgetControl/SeedsTestLibs/issues"
+            },
+            "time": "2024-08-01T07:23:25+00:00"
+        },
         {
             "name": "fakerphp/faker",
             "version": "v1.23.1",
@@ -7521,9 +7687,11 @@
         }
     ],
     "aliases": [],
-    "minimum-stability": "stable",
+    "minimum-stability": "dev",
     "stability-flags": {
-        "mlabfactory/phpunit-self-api-integration": 20
+        "budgetcontrol/library": 20,
+        "mlabfactory/phpunit-self-api-integration": 20,
+        "budgetcontrol/seeds": 20
     },
     "prefer-stable": false,
     "prefer-lowest": false,

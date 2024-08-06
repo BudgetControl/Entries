@@ -4,21 +4,23 @@ namespace Budgetcontrol\Entry\Controller;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Validator;
 use Budgetcontrol\Entry\Controller\Controller;
-use Budgetcontrol\Entry\Domain\Enum\EntryType;
-use Budgetcontrol\Entry\Domain\Model\Debit;
-use Budgetcontrol\Entry\Domain\Model\Payee;
+use Budgetcontrol\Library\Entity\Entry as EntryType;
+use Budgetcontrol\Library\Model\Debit;
+use Budgetcontrol\Library\Model\Payee;
 use Dotenv\Exception\ValidationException;
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
 
 class DebitController extends Controller
 {
+    private int $wsid;
+
     public function get(Request $request, Response $response, $argv): Response
     {
         $page = $request->getQueryParams()['page'] ?? 1;
         $perPage = $request->getQueryParams()['perPage'] ?? 10;
 
-        $wsId = $argv['wsis'];
+        $wsId = $argv['wsid'];
         $entries = Debit::WithRelations()->where('workspace_id', $wsId)->where('type', EntryType::debit->value)
                  ->orderBy('date_time', 'desc');
 
@@ -31,7 +33,11 @@ class DebitController extends Controller
 
     public function create(Request $request, Response $response, $argv): Response
     {
-        $wsId = $argv['wsis'];
+        $this->validate($request);
+
+        $wsId = $argv['wsid'];
+        $this->wsid = $wsId;
+
         $data = $request->getParsedBody();
 
         try {
@@ -51,7 +57,7 @@ class DebitController extends Controller
 
         $debit = new Debit();
         $debit->fill($data);
-        $debit->save();
+        $this->saveBalance($debit);
 
         return response(
             $debit->toArray(),
@@ -62,7 +68,11 @@ class DebitController extends Controller
 
     public function update(Request $request, Response $response, $argv): Response
     {
-        $wsId = $argv['wsis'];
+        $this->validate($request);
+
+        $wsId = $argv['wsid'];
+        $this->wsid = $wsId;
+
         $entryId = $argv['uuid'];
         $entries = Debit::where('workspace_id', $wsId)->where('uuid', $entryId)->get();
 
@@ -71,12 +81,15 @@ class DebitController extends Controller
         }
 
         $entry = $entries->first();
+        $this->setOldEntry($entry);
+        
         $data = $request->getParsedBody();
         $data['planned'] = $this->isPlanned($data['date_time']);
         $data['category_id'] = 55;
         $data['payee_id'] = $this->createOrExistPayee($data['payee_id']);
         
         $entry->update($data);
+        // $this->updateBalance($entry);
 
         return response(
             $entry->toArray()
@@ -89,10 +102,6 @@ class DebitController extends Controller
 
         if($request instanceof Request) {
             $request = $request->getParsedBody();
-        }
-
-        if($request['amount'] > 0) {
-            throw new ValidationException('Amount must be less than 0');
         }
 
         Validator::make($request, [
@@ -125,7 +134,7 @@ class DebitController extends Controller
         $payee = Payee::find($id);
         if(!$payee) {
             $payee = new Payee();
-            $payee->fill(['name' => $id]);
+            $payee->fill(['name' => $id, 'workspace_id' => $this->wsid]);
             $payee->save();
         }
 

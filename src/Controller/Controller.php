@@ -2,11 +2,16 @@
 namespace Budgetcontrol\Entry\Controller;
 
 use Illuminate\Support\Carbon;
-use Budgetcontrol\Entry\Domain\Model\Entry;
+use Budgetcontrol\Library\Model\Entry;
+use Budgetcontrol\Library\Model\EntryInterface;
+use Budgetcontrol\Entry\Service\WalletService;
+use Exception;
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
 
 class Controller {
+
+    private readonly EntryInterface $oldEntry;
 
     public function monitor(Request $request, Response $response)
     {
@@ -19,7 +24,7 @@ class Controller {
 
     public function show(Request $request, Response $response, $argv): Response
     {
-        $wsId = $argv['wsis'];
+        $wsId = $argv['wsid'];
         $entryId = $argv['uuid'];
         $entries = Entry::WithRelations()->where('workspace_id', $wsId)->where('uuid', $entryId)
         ->where('deleted_at', null)
@@ -37,9 +42,9 @@ class Controller {
 
     public function delete(Request $request, Response $response, $argv): Response
     {
-        $wsId = $argv['wsis'];
+        $wsId = $argv['wsid'];
         $entryId = $argv['uuid'];
-        $entries = Entry::where('workspace_id', $wsId)->where('id', $entryId)->get();
+        $entries = Entry::where('workspace_id', $wsId)->where('uuid', $entryId)->get();
 
         if ($entries->isEmpty()) {
             return response([], 404);
@@ -63,5 +68,51 @@ class Controller {
         $now = Carbon::now();
 
         return $date->gt($now);
+    }
+
+    /**
+     * Updates an entry.
+     *
+     * @param Entry $entry The entry to be updated.
+     * @return void
+     */
+    protected function updateBalance(Entry $entry)
+    {
+        if(!isset($this->oldEntry)) {
+            throw new Exception("Old Entry on update must be valid");
+        }
+        
+        $wallet = new WalletService();
+        $wallet->remove($this->oldEntry);
+        $wallet->update($entry);
+    }
+
+    /**
+     * Saves an entry.
+     *
+     * @param Entry $entry The entry to be saved.
+     * @return void
+     */
+    protected function saveBalance(Entry $entry)
+    {
+        $wallet = new WalletService();
+        $wallet->update($entry);
+        $entry->save();
+    }
+
+    /**
+     * Set the value of oldEntry
+     */
+    protected function setOldEntry($oldEntry): self
+    {
+        $this->oldEntry = $oldEntry;
+
+        return $this;
+    }
+
+    public function removeFromBalance(Entry $entry)
+    {
+        $wallet = new WalletService();
+        $wallet->remove($entry);
     }
 }

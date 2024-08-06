@@ -4,8 +4,9 @@ namespace Budgetcontrol\Entry\Controller;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Validator;
 use Budgetcontrol\Entry\Controller\Controller;
-use Budgetcontrol\Entry\Domain\Enum\EntryType;
-use Budgetcontrol\Entry\Domain\Model\Expense;
+use Budgetcontrol\Library\Entity\Entry as EntryType;
+use Budgetcontrol\Library\Model\Expense;
+use Budgetcontrol\Entry\Service\WalletService;
 use Dotenv\Exception\ValidationException;
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
@@ -16,9 +17,9 @@ class ExpensesController extends Controller
     {
         $page = $request->getQueryParams()['page'] ?? 1;
         $perPage = $request->getQueryParams()['perPage'] ?? 10;
-        $planned = (bool) $request->getQueryParams()['planned'] ?? null;
+        $planned = (bool) @$request->getQueryParams()['planned'] ?? null;
 
-        $wsId = $argv['wsis'];
+        $wsId = $argv['wsid'];
         $entries = Expense::WithRelations()->where('workspace_id', $wsId)->where('type', EntryType::expenses->value)
                  ->orderBy('date_time', 'desc');
 
@@ -35,9 +36,26 @@ class ExpensesController extends Controller
         );
     }
 
+    public function show(Request $request, Response $response, $argv): Response
+    {
+        $wsId = $argv['wsid'];
+        $entryId = $argv['uuid'];
+        $entries = Expense::WithRelations()->where('workspace_id', $wsId)->where('uuid', $entryId)->get();
+
+        if ($entries->isEmpty()) {
+            return response([], 404);
+        }
+
+        return response(
+            $entries->first()->toArray()
+        );
+    }
+
     public function create(Request $request, Response $response, $argv): Response
     {
-        $wsId = $argv['wsis'];
+        $this->validate($request);
+
+        $wsId = $argv['wsid'];
         $data = $request->getParsedBody();
 
         try {
@@ -52,10 +70,10 @@ class ExpensesController extends Controller
 
         $data['workspace_id'] = $wsId;
         $data['planned'] = $this->isPlanned($data['date_time']);
-
+        
         $expenses = new Expense();
         $expenses->fill($data);
-        $expenses->save();
+        $this->saveBalance($expenses);
 
         return response(
             $expenses->toArray(),
@@ -66,7 +84,9 @@ class ExpensesController extends Controller
 
     public function update(Request $request, Response $response, $argv): Response
     {
-        $wsId = $argv['wsis'];
+        $this->validate($request);
+
+        $wsId = $argv['wsid'];
         $entryId = $argv['uuid'];
         $entries = Expense::where('workspace_id', $wsId)->where('uuid', $entryId)->get();
 
@@ -75,10 +95,14 @@ class ExpensesController extends Controller
         }
 
         $entry = $entries->first();
+        $this->setOldEntry($entry);
+
         $data = $request->getParsedBody();
         $data['planned'] = $this->isPlanned($data['date_time']);
         
         $entry->update($data);
+        // $this->updateBalance($entry);
+
 
         return response(
             $entry->toArray()

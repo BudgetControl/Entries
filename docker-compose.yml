@@ -2,13 +2,15 @@ version: '2.2'
 
 services:
     bemodule:
-      container_name: budgetcontrol-ms-entry
+      container_name: budgetcontrol-ms-entries
       image: mlabfactory/php8-apache:v1.2-xdebug
       volumes:
         - ./:/var/www/workdir
       networks:
         - budgetcontrol_network
       restart: unless-stopped
+      ports:
+        - "8086:80"
 
 networks:
   budgetcontrol_network:

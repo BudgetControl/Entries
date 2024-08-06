@@ -34,6 +34,7 @@ $validator = new \Illuminate\Validation\Factory(
     ),
 );
 
+
 // Set up the Facade application
 Facade::setFacadeApplication([
     'log' => $logger,
