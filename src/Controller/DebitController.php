@@ -7,9 +7,9 @@ use Budgetcontrol\Entry\Controller\Controller;
 use Budgetcontrol\Library\Entity\Entry as EntryType;
 use Budgetcontrol\Library\Model\Debit;
 use Budgetcontrol\Library\Model\Payee;
-use Dotenv\Exception\ValidationException;
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
+use Budgetcontrol\Library\Service\Wallet\WalletService;
 
 class DebitController extends Controller
 {
@@ -57,7 +57,9 @@ class DebitController extends Controller
 
         $debit = new Debit();
         $debit->fill($data);
-        $this->saveBalance($debit);
+        
+        $wallet = new WalletService($debit);
+        $wallet->sum();
 
         return response(
             $debit->toArray(),
@@ -81,7 +83,6 @@ class DebitController extends Controller
         }
 
         $entry = $entries->first();
-        $this->setOldEntry($entry);
         
         $data = $request->getParsedBody();
         $data['planned'] = $this->isPlanned($data['date_time']);
@@ -89,7 +90,9 @@ class DebitController extends Controller
         $data['payee_id'] = $this->createOrExistPayee($data['payee_id']);
         
         $entry->update($data);
-        // $this->updateBalance($entry);
+        
+        $wallet = new WalletService($entry);
+        $wallet->sum();
 
         return response(
             $entry->toArray()

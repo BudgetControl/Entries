@@ -2,11 +2,12 @@
 namespace Budgetcontrol\Entry\Controller;
 
 use Illuminate\Support\Facades\Log;
-use Illuminate\Support\Facades\Validator;
 use Budgetcontrol\Library\Model\Entry;
+use Illuminate\Support\Facades\Validator;
 use Budgetcontrol\Entry\Service\EntryService;
 use Budgetcontrol\Entry\Controller\Controller;
 use Psr\Http\Message\ResponseInterface as Response;
+use Budgetcontrol\Library\Service\Wallet\WalletService;
 use Psr\Http\Message\ServerRequestInterface as Request;
 
 class EntryController extends Controller
@@ -32,74 +33,6 @@ class EntryController extends Controller
         return response(
             $entries->toArray()
         );
-    }
-
-    public function create(Request $request, Response $response, $argv): Response
-    {
-        $wsId = $argv['wsid'];
-        $data = $request->getParsedBody();
-
-        try {
-            $this->validate($data);
-        } catch (\Exception $e) {
-            Log::warning($e->getMessage());
-            return response(
-                ['error' => $e->getMessage()],
-                400
-            );
-        }
-
-        $data['workspace_id'] = $wsId;
-        $data['planned'] = $this->isPlanned($data['date_time']);
-
-        $entry = new Entry();
-        $entry->fill($data);
-        $this->saveBalance($entry);
-
-        return response(
-            $entry->toArray(),
-            201
-        );
-
-    }
-
-    public function update(Request $request, Response $response, $argv): Response
-    {
-        $wsId = $argv['wsid'];
-        $entryId = $argv['uuid'];
-        $entries = Entry::where('workspace_id', $wsId)->where('uuid', $entryId)->get();
-
-        if ($entries->isEmpty()) {
-            return response([], 404);
-        }
-
-        $entry = $entries->first();
-        $this->setOldEntry($entry);
-
-        $data = $request->getParsedBody();
-        $data['planned'] = $this->isPlanned($data['date_time']);
-        
-        $entry->update($data);
-        $this->updateBalance($entry);
-
-        return response(
-            $entry->toArray()
-        );
-    }
-
-    public function delete(Request $request, Response $response, $argv): Response
-    {
-        $wsId = $argv['wsid'];
-        $entryId = $argv['uuid'];
-        $entries = Entry::where('workspace_id', $wsId)->where('uuid', $entryId)->get();
-
-        if ($entries->isEmpty()) {
-            return response([], 404);
-        }
-
-        $entries->first()->delete();
-
-        return response([], 204);
     }
 
     protected function validate(Request|array $request) 

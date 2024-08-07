@@ -9,6 +9,7 @@ use Budgetcontrol\Library\Entity\Entry as EntryType;
 use Illuminate\Validation\ValidationException;
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
+use Budgetcontrol\Library\Service\Wallet\WalletService;
 
 class IncomingController extends Controller
 {
@@ -56,7 +57,9 @@ class IncomingController extends Controller
         $data['planned'] = $this->isPlanned($data['date_time']);
         $incoming = new Income();
         $incoming->fill($data);
-        $this->saveBalance($incoming);
+        
+        $wallet = new WalletService($incoming);
+        $wallet->sum();
 
         return response(
             $incoming->toArray(),
@@ -78,13 +81,14 @@ class IncomingController extends Controller
         }
 
         $entry = $entries->first();
-        $this->setOldEntry($entry);
 
         $data = $request->getParsedBody();
         $data['planned'] = $this->isPlanned($data['date_time']);
         
         $entry->update($data);
-        // $this->updateBalance($entry);
+        
+        $wallet = new WalletService($entry);
+        $wallet->sum();
 
         return response(
             $entry->toArray()

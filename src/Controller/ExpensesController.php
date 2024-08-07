@@ -6,10 +6,10 @@ use Illuminate\Support\Facades\Validator;
 use Budgetcontrol\Entry\Controller\Controller;
 use Budgetcontrol\Library\Entity\Entry as EntryType;
 use Budgetcontrol\Library\Model\Expense;
-use Budgetcontrol\Entry\Service\WalletService;
 use Dotenv\Exception\ValidationException;
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
+use Budgetcontrol\Library\Service\Wallet\WalletService;
 
 class ExpensesController extends Controller
 {
@@ -73,7 +73,9 @@ class ExpensesController extends Controller
         
         $expenses = new Expense();
         $expenses->fill($data);
-        $this->saveBalance($expenses);
+
+        $wallet = new WalletService($expenses);
+        $wallet->sum();
 
         return response(
             $expenses->toArray(),
@@ -95,14 +97,14 @@ class ExpensesController extends Controller
         }
 
         $entry = $entries->first();
-        $this->setOldEntry($entry);
 
         $data = $request->getParsedBody();
         $data['planned'] = $this->isPlanned($data['date_time']);
         
         $entry->update($data);
-        // $this->updateBalance($entry);
-
+        
+        $wallet = new WalletService($entry);
+        $wallet->sum();
 
         return response(
             $entry->toArray()

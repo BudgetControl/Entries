@@ -4,10 +4,9 @@ namespace Budgetcontrol\Entry\Controller;
 use Illuminate\Support\Carbon;
 use Budgetcontrol\Library\Model\Entry;
 use Budgetcontrol\Library\Model\EntryInterface;
-use Budgetcontrol\Entry\Service\WalletService;
-use Exception;
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
+use Budgetcontrol\Library\Service\Wallet\WalletService;
 
 class Controller {
 
@@ -44,13 +43,16 @@ class Controller {
     {
         $wsId = $argv['wsid'];
         $entryId = $argv['uuid'];
-        $entries = Entry::where('workspace_id', $wsId)->where('uuid', $entryId)->get();
+        $entries = Entry::where('workspace_id', $wsId)->where('uuid', $entryId)->first();
 
-        if ($entries->isEmpty()) {
+        if (empty($entries)) {
             return response([], 404);
         }
 
-        $entries->first()->delete();
+        $entries->delete();
+
+        $wallet = new WalletService($entries);
+        $wallet->subtract();
 
         return response([], 204);
     }
@@ -70,49 +72,4 @@ class Controller {
         return $date->gt($now);
     }
 
-    /**
-     * Updates an entry.
-     *
-     * @param Entry $entry The entry to be updated.
-     * @return void
-     */
-    protected function updateBalance(Entry $entry)
-    {
-        if(!isset($this->oldEntry)) {
-            throw new Exception("Old Entry on update must be valid");
-        }
-        
-        $wallet = new WalletService();
-        $wallet->remove($this->oldEntry);
-        $wallet->update($entry);
-    }
-
-    /**
-     * Saves an entry.
-     *
-     * @param Entry $entry The entry to be saved.
-     * @return void
-     */
-    protected function saveBalance(Entry $entry)
-    {
-        $wallet = new WalletService();
-        $wallet->update($entry);
-        $entry->save();
-    }
-
-    /**
-     * Set the value of oldEntry
-     */
-    protected function setOldEntry($oldEntry): self
-    {
-        $this->oldEntry = $oldEntry;
-
-        return $this;
-    }
-
-    public function removeFromBalance(Entry $entry)
-    {
-        $wallet = new WalletService();
-        $wallet->remove($entry);
-    }
 }
