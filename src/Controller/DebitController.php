@@ -18,13 +18,13 @@ class DebitController extends Controller
     public function get(Request $request, Response $response, $argv): Response
     {
         $page = $request->getQueryParams()['page'] ?? 1;
-        $perPage = $request->getQueryParams()['perPage'] ?? 10;
+        $per_page = $request->getQueryParams()['per_page'] ?? 10;
 
         $wsId = $argv['wsid'];
         $entries = Debit::WithRelations()->where('workspace_id', $wsId)->where('type', EntryType::debit->value)
                  ->orderBy('date_time', 'desc');
 
-        $entries = $entries->paginate($perPage, ['*'], 'page', $page);
+        $entries = $entries->paginate($per_page, ['*'], 'page', $page);
 
         return response(
             $entries->toArray()

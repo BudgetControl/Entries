@@ -17,7 +17,7 @@ class TransferController extends Controller
     public function get(Request $request, Response $response, $argv): Response
     {
         $page = $request->getQueryParams()['page'] ?? 1;
-        $perPage = $request->getQueryParams()['perPage'] ?? 10;
+        $per_page = $request->getQueryParams()['per_page'] ?? 10;
         $planned = (bool) @$request->getQueryParams()['planned'] ?? null;
 
         $wsId = $argv['wsid'];
@@ -30,7 +30,7 @@ class TransferController extends Controller
             $entries = $entries->where('planned', 1);
         }
 
-        $entries = $entries->paginate($perPage, ['*'], 'page', $page);
+        $entries = $entries->paginate($per_page, ['*'], 'page', $page);
 
         return response(
             $entries->toArray()
