@@ -2,18 +2,14 @@
 
 namespace Budgetcontrol\Test\Integration;
 
-use Carbon\Carbon;
-use GuzzleHttp\Psr7\Utils;
 use MLAB\PHPITest\Entity\Json;
-use MLAB\PHPITest\Service\HttpRequest;
 use Budgetcontrol\Library\Entity\Entry;
 use Psr\Http\Message\ResponseInterface;
 use MLAB\PHPITest\Assertions\JsonAssert;
 use Budgetcontrol\Test\Integration\BaseCase;
 use Psr\Http\Message\ServerRequestInterface;
-use Budgetcontrol\Wallet\Domain\Model\Wallet;
 use Budgetcontrol\Entry\Controller\ExpensesController;
-use Budgetcontrol\Wallet\Http\Controller\WalletController;
+use Budgetcontrol\Library\Model\Wallet;
 
 class ExpenseApiTest extends BaseCase
 {
@@ -33,13 +29,13 @@ class ExpenseApiTest extends BaseCase
             $isTrue = $entry->type === Entry::expenses->value;
         }
         $this->assertTrue($isTrue);
-
         $this->assertEquals(200, $result->getStatusCode());
 
         $assertionContent = new JsonAssert(new Json($contentArray));
         $assertionContent->assertJsonStructure(
             file_get_json(__DIR__ . '/../assertions/entry-model.json')
         );
+
     }
 
     public function test_get_specific_expenses_data()
@@ -72,6 +68,9 @@ class ExpenseApiTest extends BaseCase
         $this->assertEquals(201, $result->getStatusCode());
         $this->assertTrue($contentResult['type'] === Entry::expenses->value);
 
+        $wallet = Wallet::find(1);
+        $this->assertEquals(-100, $wallet->balance);
+        
     }
 
     public function test_update_expenses_data()
@@ -89,6 +88,10 @@ class ExpenseApiTest extends BaseCase
 
         $this->assertEquals(200, $result->getStatusCode());
         $this->assertTrue($contentResult['type'] === Entry::expenses->value);
+        $this->assertTrue($contentResult['amount'] === -100);
+
+        $wallet = Wallet::find(1);
+        $this->assertEquals(400, $wallet->balance);
 
     }
 

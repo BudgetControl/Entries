@@ -45,7 +45,7 @@ class MainSeeds extends AbstractSeed
         );
 
         ExpenseSeeds::create(Expense::class, [
-            "amount" => rand(1, 1000) * -1,
+            "amount" => -500,
             "note" => "test",
             "category_id" => 12,
             "account_id" => 1,
@@ -62,7 +62,7 @@ class MainSeeds extends AbstractSeed
         ]);
 
         IncomeSeeds::create(Income::class, [
-            "amount" => rand(1, 1000),
+            "amount" => 500,
             "note" => "test",
             "category_id" => 12,
             "account_id" => 1,
@@ -72,6 +72,7 @@ class MainSeeds extends AbstractSeed
             "label" => [],
             "waranty" => 1,
             "confirmed" => 1,
+            'planned' => 0,
             'uuid' => "f7b3b3b0-0b7b-11ec-82a8-0242ac130003",
             'type' => Entry::incoming->value,
             'workspace_id' => 1,
@@ -93,6 +94,42 @@ class MainSeeds extends AbstractSeed
             'type' => Entry::incoming->value,
             'workspace_id' => 1,
             'account_id' => 1,
+        ]);
+
+        IncomeSeeds::create(Income::class, [
+            "amount" => 200,
+            "note" => "test",
+            "category_id" => 12,
+            "account_id" => 1,
+            "currency_id" => 1,
+            "payment_type_id" => 1,
+            "date_time" => $dateTime->format('Y-m-d H:i:s'),
+            "label" => [],
+            "waranty" => 1,
+            "confirmed" => 1,
+            "planned" => 0,
+            'uuid' => "f7b3b3b0-0b7b-11ec-82a8-0242ac130005",
+            'type' => Entry::incoming->value,
+            'workspace_id' => 1,
+            'account_id' => 1,
+        ]);
+
+        IncomeSeeds::create(Income::class, [
+            "amount" => 400,
+            "note" => "test",
+            "category_id" => 12,
+            "account_id" => 1,
+            "currency_id" => 1,
+            "payment_type_id" => 1,
+            "date_time" => $dateTime->format('Y-m-d H:i:s'),
+            "label" => [],
+            "waranty" => 1,
+            "confirmed" => 1,
+            'uuid' => "f7b3b3b0-0b7b-11ec-82a8-0242ac130006",
+            'type' => Entry::incoming->value,
+            'workspace_id' => 1,
+            'account_id' => 1,
+            'planned' => 0,
         ]);
 
         TransferSeeds::create(Transfer::class, [
@@ -134,6 +171,47 @@ class MainSeeds extends AbstractSeed
             'uuid' => \Ramsey\Uuid\Uuid::uuid4()->toString(),
             'transfer_relation' => 'f7b3b3b0-0b7b-11ec-82a8-0242ac139903',
             'uuid' => 'f7b3b3b0-0b7b-11ec-82a8-0242ac130004',
+        ]);
+
+        TransferSeeds::create(Transfer::class, [
+            "amount" => -300,
+            "note" => "test",
+            "category_id" => 75,
+            "account_id" => 1,
+            "currency_id" => 1,
+            "transfer_id" => 2,
+            "payment_type_id" => 1,
+            "end_date_time" => $dateTime->modify("+20 days")->format('Y-m-d H:i:s'),
+            "date_time" => $dateTime->modify("+20 days")->format('Y-m-d H:i:s'),
+            "label" => [],
+            "waranty" => 1,
+            "confirmed" => 1,
+            'type' => Entry::transfer->value,
+            'workspace_id' => 1,
+            'uuid' => \Ramsey\Uuid\Uuid::uuid4()->toString(),
+            'transfer_relation' => 'f7b3b3b0-0b7b-11ec-82a8-0242ac130001',
+            'uuid' => 'f7b3b3b0-0b7b-11ec-82a8-0242ac139902',
+        ]);
+
+        //the relation
+        TransferSeeds::create(Transfer::class, [
+            "amount" => 300,
+            "note" => "test",
+            "category_id" => 75,
+            "account_id" => 2,
+            "transfer_id" => 1,
+            "currency_id" => 1,
+            "payment_type_id" => 1,
+            "end_date_time" => $dateTime->modify("+20 days")->format('Y-m-d H:i:s'),
+            "date_time" => $dateTime->modify("+20 days")->format('Y-m-d H:i:s'),
+            "label" => [],
+            "waranty" => 1,
+            "confirmed" => 1,
+            'type' => Entry::transfer->value,
+            'workspace_id' => 1,
+            'uuid' => \Ramsey\Uuid\Uuid::uuid4()->toString(),
+            'transfer_relation' => 'f7b3b3b0-0b7b-11ec-82a8-0242ac139902',
+            'uuid' => 'f7b3b3b0-0b7b-11ec-82a8-0242ac130001',
         ]);
     }
 }

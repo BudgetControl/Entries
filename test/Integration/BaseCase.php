@@ -2,6 +2,7 @@
 
 namespace Budgetcontrol\Test\Integration;
 
+use Budgetcontrol\Library\Model\Wallet;
 use Carbon\Carbon;
 
 class BaseCase extends \PHPUnit\Framework\TestCase
@@ -12,6 +13,13 @@ class BaseCase extends \PHPUnit\Framework\TestCase
         // Configura il reporting degli errori prima di eseguire i test
         error_reporting(E_ALL);
         ini_set('display_errors', '1');
+    }
+
+    public function setUp(): void
+    {
+        parent::setUp();
+        // Call the function you want to run at the start of each test
+        Wallet::find(1)->update(['balance' => 0]);
     }
     
     /**

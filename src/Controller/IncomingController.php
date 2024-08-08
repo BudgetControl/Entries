@@ -75,6 +75,7 @@ class IncomingController extends Controller
         $wsId = $argv['wsid'];
         $entryId = $argv['uuid'];
         $entries = Income::where('workspace_id', $wsId)->where('uuid', $entryId)->get();
+        $oldEntry = clone $entries->first();
 
         if ($entries->isEmpty()) {
             return response([], 404);
@@ -87,7 +88,7 @@ class IncomingController extends Controller
         
         $entry->update($data);
         
-        $wallet = new WalletService($entry);
+        $wallet = new WalletService($entry, $oldEntry);
         $wallet->sum();
 
         return response(

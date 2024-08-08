@@ -118,6 +118,9 @@ class TransferController extends Controller
         $transfer = Transfer::where('workspace_id', $wsId)->where('uuid', $entryId)->first();
         $transferTo = Transfer::where('workspace_id', $wsId)->where('uuid', $transfer->transfer_relation)->first();
 
+        $olderTransfer = clone $transfer;
+        $olderTransferTo = clone $transferTo;
+
         if (!$transfer || !$transferTo) {
             return response([], 404);
         }
@@ -137,10 +140,10 @@ class TransferController extends Controller
 
         $transferTo->update($data);
 
-        $wallet = new WalletService($transfer);
+        $wallet = new WalletService($transfer, $olderTransfer);
         $wallet->sum();
 
-        $walletTransferTo = new WalletService($transferTo);
+        $walletTransferTo = new WalletService($transferTo, $olderTransferTo);
         $walletTransferTo->sum();
 
         return response(

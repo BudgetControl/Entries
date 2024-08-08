@@ -77,6 +77,7 @@ class DebitController extends Controller
 
         $entryId = $argv['uuid'];
         $entries = Debit::where('workspace_id', $wsId)->where('uuid', $entryId)->get();
+        $oldEntry = $entries->first();
 
         if ($entries->isEmpty()) {
             return response([], 404);
@@ -91,7 +92,7 @@ class DebitController extends Controller
         
         $entry->update($data);
         
-        $wallet = new WalletService($entry);
+        $wallet = new WalletService($entry, $oldEntry);
         $wallet->sum();
 
         return response(

@@ -2,14 +2,15 @@
 
 namespace Budgetcontrol\Test\Integration;
 
+use MLAB\PHPITest\Entity\Json;
 use MLAB\PHPITest\Service\HttpRequest;
 use Budgetcontrol\Library\Entity\Entry;
+use Budgetcontrol\Library\Model\Wallet;
+use MLAB\PHPITest\Assertions\JsonAssert;
 use Slim\Http\Interfaces\ResponseInterface;
 use Budgetcontrol\Test\Integration\BaseCase;
 use Psr\Http\Message\ServerRequestInterface;
 use Budgetcontrol\Entry\Controller\IncomingController;
-use MLAB\PHPITest\Assertions\JsonAssert;
-use MLAB\PHPITest\Entity\Json;
 
 class IncomeApiTest extends BaseCase
 {
@@ -68,17 +69,20 @@ class IncomeApiTest extends BaseCase
         $response = $this->createMock(ResponseInterface::class);
 
         $controller = new IncomingController();
-        $argv = ['wsid' => 1, 'uuid' => 'f7b3b3b0-0b7b-11ec-82a8-0242ac130003'];
+        $argv = ['wsid' => 1];
         $result = $controller->create($request, $response, $argv);
         $contentResult = (array) json_decode((string) $result->getBody());
 
         $this->assertEquals(201, $result->getStatusCode());
         $this->assertTrue($contentResult['type'] === Entry::incoming->value);
+
+        $wallet = Wallet::find(1);
+        $this->assertEquals(100, $wallet->balance);
     }
 
     public function test_update_incoming_data()
     {
-        $payload = $this->makeRequest(200);
+        $payload = $this->makeRequest(300);
 
         $request = $this->createMock(ServerRequestInterface::class);
         $request->method('getParsedBody')->willReturn($payload);
@@ -86,13 +90,16 @@ class IncomeApiTest extends BaseCase
         $response = $this->createMock(ResponseInterface::class);
 
         $controller = new IncomingController();
-        $argv = ['wsid' => 1, 'uuid' => 'd373d245-512d-4bff-b414-9d59781be3ee'];
+        $argv = ['wsid' => 1, 'uuid' => 'f7b3b3b0-0b7b-11ec-82a8-0242ac130003'];
         $result = $controller->update($request, $response, $argv);
         $contentResult = (array) json_decode((string) $result->getBody());
 
         $this->assertEquals(200, $result->getStatusCode());
         $this->assertTrue($contentResult['type'] === Entry::incoming->value);
-        $this->assertTrue($contentResult['amount'] === 200);
+        $this->assertTrue($contentResult['amount'] === 300);
+
+        $wallet = Wallet::find(1);
+        $this->assertEquals(-200, $wallet->balance);
     }
 
     public function test_delete_data()
