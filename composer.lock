@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "4d9076f7e705d75b98394de21df4ad77",
+    "content-hash": "a023ed2550995e99baa139254362c47f",
     "packages": [
         {
             "name": "brick/math",
@@ -63,21 +63,22 @@
         },
         {
             "name": "budgetcontrol/library",
-            "version": "v0.1-beta",
+            "version": "v0.2-beta",
             "source": {
                 "type": "git",
                 "url": "https://github.com/BudgetControl/Library.git",
-                "reference": "27652249404244365d81bee43cbea646bcf436c6"
+                "reference": "08aa5b866fddcd8001aa34be019df2a73e5e23c0"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/BudgetControl/Library/zipball/27652249404244365d81bee43cbea646bcf436c6",
-                "reference": "27652249404244365d81bee43cbea646bcf436c6",
+                "url": "https://api.github.com/repos/BudgetControl/Library/zipball/08aa5b866fddcd8001aa34be019df2a73e5e23c0",
+                "reference": "08aa5b866fddcd8001aa34be019df2a73e5e23c0",
                 "shasum": ""
             },
             "require": {
                 "illuminate/database": "11.19",
-                "ramsey/uuid": "^4.7"
+                "ramsey/uuid": "^4.7",
+                "webit/bcmath": "^2.0"
             },
             "type": "library",
             "autoload": {
@@ -92,10 +93,10 @@
                 }
             ],
             "support": {
-                "source": "https://github.com/BudgetControl/Library/tree/v0.1-beta",
+                "source": "https://github.com/BudgetControl/Library/tree/v0.2-beta",
                 "issues": "https://github.com/BudgetControl/Library/issues"
             },
-            "time": "2024-08-06T13:14:55+00:00"
+            "time": "2024-08-07T14:59:45+00:00"
         },
         {
             "name": "budgetcontrol/schema-registry-service",
