@@ -1,10 +1,9 @@
 <?php
 
-namespace Budgetcontrol\Test\Integration;
+namespace Budgetcontrol\Test\Unit;
 
 use Budgetcontrol\Library\Entity\Entry;
 use Slim\Http\Interfaces\ResponseInterface;
-use Budgetcontrol\Test\Integration\BaseCase;
 use Psr\Http\Message\ServerRequestInterface;
 use Budgetcontrol\Entry\Controller\DebitController;
 use Budgetcontrol\Entry\Controller\ExpensesController;
@@ -13,6 +12,7 @@ use Budgetcontrol\Entry\Controller\TransferController;
 use Budgetcontrol\Library\Model\Entry as ModelEntry;
 use Budgetcontrol\Library\Model\Wallet;
 use Budgetcontrol\Library\Service\Wallet\WalletService;
+use Budgetcontrol\Test\BaseCase;
 
 class BalanceWalletTest extends BaseCase
 {
@@ -123,7 +123,7 @@ class BalanceWalletTest extends BaseCase
         $this->assertEquals(200, $wallet->balance);
 
         $wallet = Wallet::find(2);
-        $this->assertEquals(500, $wallet->balance);
+        $this->assertEquals(300, $wallet->balance);
 
     }
 

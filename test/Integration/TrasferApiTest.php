@@ -7,7 +7,7 @@ use MLAB\PHPITest\Service\HttpRequest;
 use Budgetcontrol\Library\Entity\Entry;
 use MLAB\PHPITest\Assertions\JsonAssert;
 use Slim\Http\Interfaces\ResponseInterface;
-use Budgetcontrol\Test\Integration\BaseCase;
+use Budgetcontrol\Test\BaseCase;
 use Psr\Http\Message\ServerRequestInterface;
 use Budgetcontrol\Entry\Controller\TransferController;
 use Budgetcontrol\Library\Model\Transfer;

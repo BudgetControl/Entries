@@ -1,6 +1,6 @@
 <?php
 
-namespace Budgetcontrol\Test\Integration;
+namespace Budgetcontrol\Test;
 
 use Budgetcontrol\Library\Model\Wallet;
 use Carbon\Carbon;

@@ -8,9 +8,10 @@ use Budgetcontrol\Library\Entity\Entry;
 use Budgetcontrol\Library\Model\Wallet;
 use MLAB\PHPITest\Assertions\JsonAssert;
 use Slim\Http\Interfaces\ResponseInterface;
-use Budgetcontrol\Test\Integration\BaseCase;
+use Budgetcontrol\Test\BaseCase;
 use Psr\Http\Message\ServerRequestInterface;
 use Budgetcontrol\Entry\Controller\IncomingController;
+use Budgetcontrol\Library\Model\Entry as EntryModel;
 
 class IncomeApiTest extends BaseCase
 {
@@ -75,6 +76,7 @@ class IncomeApiTest extends BaseCase
 
         $this->assertEquals(201, $result->getStatusCode());
         $this->assertTrue($contentResult['type'] === Entry::incoming->value);
+        $this->assertNotEmpty(EntryModel::where('uuid', $contentResult['uuid'])->first());
 
         $wallet = Wallet::find(1);
         $this->assertEquals(100, $wallet->balance);

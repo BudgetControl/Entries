@@ -6,6 +6,7 @@ use Budgetcontrol\Library\Model\Entry;
 use Illuminate\Support\Facades\Validator;
 use Budgetcontrol\Entry\Service\EntryService;
 use Budgetcontrol\Entry\Controller\Controller;
+use Budgetcontrol\Entry\Entity\Filter;
 use Psr\Http\Message\ResponseInterface as Response;
 use Budgetcontrol\Library\Service\Wallet\WalletService;
 use Psr\Http\Message\ServerRequestInterface as Request;
@@ -16,18 +17,16 @@ class EntryController extends Controller
     {
         $page = $request->getQueryParams()['page'] ?? 1;
         $per_page = $request->getQueryParams()['per_page'] ?? 10;
-        $planned = (bool) @$request->getQueryParams()['planned'] ?? null;
 
         $wsId = $argv['wsid'];
         $entries = Entry::WithRelations()->where('workspace_id', $wsId)
                  ->orderBy('date_time', 'desc');
 
-        if($planned === false) {
-            $entries = $entries->where('planned', 0);
-        } elseif($planned === true) {
-            $entries = $entries->where('planned', 1);
+        if(!is_null(@$request->getQueryParams()['filters'])) {
+            $filters = new Filter($request->getQueryParams()['filters']);
+            $entries = $this->filters($entries, $filters);
         }
-
+                
         $entries = $entries->paginate($per_page, ['*'], 'page', $page);
 
         return response(

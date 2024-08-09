@@ -1,6 +1,7 @@
 <?php
 namespace Budgetcontrol\Entry\Controller;
 
+use Budgetcontrol\Entry\Entity\Filter;
 use Illuminate\Support\Carbon;
 use Budgetcontrol\Library\Model\Entry;
 use Budgetcontrol\Library\Model\EntryInterface;
@@ -72,4 +73,18 @@ class Controller {
         return $date->gt($now);
     }
 
+    protected function filters(\Illuminate\Database\Eloquent\Builder $query, Filter $filters): \Illuminate\Database\Eloquent\Builder
+    {
+        foreach($filters->getFilters() as $key => $value) {
+                if(isset($value['condition'])) {
+                    $query->where($key, $value['condition'], $value['value']);
+                }elseif(is_array($value['value'])) {
+                    $query->whereIn($key, $value['value']);
+                }else {
+                    $query->where($key, $value['value']);
+                }
+        }
+
+        return $query;
+    }
 }

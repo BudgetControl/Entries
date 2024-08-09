@@ -54,9 +54,11 @@ class DebitController extends Controller
         $data['planned'] = $this->isPlanned($data['date_time']);
         $data['category_id'] = 55;
         $data['payee_id'] = $this->createOrExistPayee($data['payee_id']);
+        $data['uuid'] = \Ramsey\Uuid\Uuid::uuid4();
 
         $debit = new Debit();
         $debit->fill($data);
+        $debit->save();
         
         $wallet = new WalletService($debit);
         $wallet->sum();

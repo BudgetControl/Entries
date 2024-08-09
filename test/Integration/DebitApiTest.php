@@ -2,12 +2,12 @@
 
 namespace Budgetcontrol\Test\Integration;
 
+use Budgetcontrol\Test\BaseCase;
 use MLAB\PHPITest\Entity\Json;
 use MLAB\PHPITest\Service\HttpRequest;
 use Budgetcontrol\Library\Entity\Entry;
 use MLAB\PHPITest\Assertions\JsonAssert;
 use Slim\Http\Interfaces\ResponseInterface;
-use Budgetcontrol\Test\Integration\BaseCase;
 use Psr\Http\Message\ServerRequestInterface;
 use Budgetcontrol\Entry\Controller\DebitController;
 use Budgetcontrol\Library\Model\Payee;

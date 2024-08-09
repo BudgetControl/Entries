@@ -2,11 +2,11 @@
 
 namespace Budgetcontrol\Test\Integration;
 
+use Budgetcontrol\Test\BaseCase;
 use MLAB\PHPITest\Entity\Json;
 use MLAB\PHPITest\Service\HttpRequest;
 use Psr\Http\Message\ResponseInterface;
 use MLAB\PHPITest\Assertions\JsonAssert;
-use Budgetcontrol\Test\Integration\BaseCase;
 use Psr\Http\Message\ServerRequestInterface;
 use Budgetcontrol\Entry\Controller\EntryController;
 

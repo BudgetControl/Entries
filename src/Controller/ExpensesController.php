@@ -70,9 +70,11 @@ class ExpensesController extends Controller
 
         $data['workspace_id'] = $wsId;
         $data['planned'] = $this->isPlanned($data['date_time']);
+        $data['uuid'] = \Ramsey\Uuid\Uuid::uuid4();
         
         $expenses = new Expense();
         $expenses->fill($data);
+        $expenses->save();
 
         $wallet = new WalletService($expenses);
         $wallet->sum();

@@ -73,17 +73,21 @@ class TransferController extends Controller
         // transfer relation transfer_id
         $data['amount'] = $data['amount'] * -1;
         $data['planned'] = $this->isPlanned($data['date_time']);
+        $data['uuid'] = \Ramsey\Uuid\Uuid::uuid4();
 
         $transfer = new Transfer();
         $transfer->fill($data);
+        $transfer->save();
         
         // now save new entry transfer with inverted amount
         $data['amount'] = $data['amount'] * -1;
         $data['transfer_id'] = $transfer->account_id;
         $data['account_id'] = $transfer->transfer_id;
+        $data['uuid'] = \Ramsey\Uuid\Uuid::uuid4();
 
         $transferTo = new Transfer();
         $transferTo->fill($data);
+        $transferTo->save();
 
         // set the transfer relations
         $transfer->transfer_relation = $transferTo->uuid;

@@ -3,13 +3,14 @@
 namespace Budgetcontrol\Test\Integration;
 
 use MLAB\PHPITest\Entity\Json;
-use Budgetcontrol\Library\Entity\Entry;
 use Psr\Http\Message\ResponseInterface;
 use MLAB\PHPITest\Assertions\JsonAssert;
-use Budgetcontrol\Test\Integration\BaseCase;
+use Budgetcontrol\Test\BaseCase;
 use Psr\Http\Message\ServerRequestInterface;
 use Budgetcontrol\Entry\Controller\ExpensesController;
 use Budgetcontrol\Library\Model\Wallet;
+use Budgetcontrol\Library\Entity\Entry;
+use Budgetcontrol\Library\Model\Entry as EntryModel;
 
 class ExpenseApiTest extends BaseCase
 {
@@ -67,6 +68,7 @@ class ExpenseApiTest extends BaseCase
 
         $this->assertEquals(201, $result->getStatusCode());
         $this->assertTrue($contentResult['type'] === Entry::expenses->value);
+        $this->assertNotEmpty(EntryModel::where('uuid', $contentResult['uuid'])->first());
 
         $wallet = Wallet::find(1);
         $this->assertEquals(-100, $wallet->balance);
