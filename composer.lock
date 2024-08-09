@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "a023ed2550995e99baa139254362c47f",
+    "content-hash": "e3bceec808014f479c0fa38f03b86984",
     "packages": [
         {
             "name": "brick/math",
@@ -63,16 +63,16 @@
         },
         {
             "name": "budgetcontrol/library",
-            "version": "v0.2-beta",
+            "version": "v1.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/BudgetControl/Library.git",
-                "reference": "08aa5b866fddcd8001aa34be019df2a73e5e23c0"
+                "reference": "685e17969c8c19dda8bf3cf32bc6571965806766"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/BudgetControl/Library/zipball/08aa5b866fddcd8001aa34be019df2a73e5e23c0",
-                "reference": "08aa5b866fddcd8001aa34be019df2a73e5e23c0",
+                "url": "https://api.github.com/repos/BudgetControl/Library/zipball/685e17969c8c19dda8bf3cf32bc6571965806766",
+                "reference": "685e17969c8c19dda8bf3cf32bc6571965806766",
                 "shasum": ""
             },
             "require": {
@@ -93,10 +93,10 @@
                 }
             ],
             "support": {
-                "source": "https://github.com/BudgetControl/Library/tree/v0.2-beta",
+                "source": "https://github.com/BudgetControl/Library/tree/v1.0",
                 "issues": "https://github.com/BudgetControl/Library/issues"
             },
-            "time": "2024-08-07T14:59:45+00:00"
+            "time": "2024-08-09T13:14:41+00:00"
         },
         {
             "name": "budgetcontrol/schema-registry-service",
