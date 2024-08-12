@@ -7,9 +7,11 @@ use Phinx\Seed\AbstractSeed;
 use Budgetcontrol\Library\Entity\Entry;
 use Budgetcontrol\Library\Model\Expense;
 use Budgetcontrol\Library\Model\Income;
+use Budgetcontrol\Library\Model\Model;
 use Budgetcontrol\Library\Model\Transfer;
 use Budgetcontrol\Seeds\Resources\Seeds\ExpenseSeeds;
 use Budgetcontrol\Seeds\Resources\Seeds\IncomeSeeds;
+use Budgetcontrol\Seeds\Resources\Seeds\ModelsSeed;
 use Budgetcontrol\Seeds\Resources\Seeds\TransferSeeds;
 
 class MainSeeds extends AbstractSeed
@@ -212,6 +214,23 @@ class MainSeeds extends AbstractSeed
             'uuid' => \Ramsey\Uuid\Uuid::uuid4()->toString(),
             'transfer_relation' => 'f7b3b3b0-0b7b-11ec-82a8-0242ac139902',
             'uuid' => 'f7b3b3b0-0b7b-11ec-82a8-0242ac130001',
+        ]);
+
+        ModelsSeed::create(Model::class, [
+            "name" => "test",
+            "note" => "test",
+            "category_id" => 12,
+            "account_id" => 1,
+            "currency_id" => 1,
+            "payment_type_id" => 1,
+            "date_time" => $dateTime->format('Y-m-d H:i:s'),
+            "label" => [],
+            "waranty" => 1,
+            "confirmed" => 1,
+            'uuid' => "f7b3b3b0-0b7b-11ec-82a8-0242ac130002",
+            'type' => Entry::incoming->value,
+            'workspace_id' => 1,
+            'account_id' => 1,
         ]);
     }
 }
