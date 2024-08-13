@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "e3bceec808014f479c0fa38f03b86984",
+    "content-hash": "59246c7433e566823cc912a511adcbe1",
     "packages": [
         {
             "name": "brick/math",
@@ -63,16 +63,16 @@
         },
         {
             "name": "budgetcontrol/library",
-            "version": "v1.0",
+            "version": "v1.0.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/BudgetControl/Library.git",
-                "reference": "685e17969c8c19dda8bf3cf32bc6571965806766"
+                "reference": "7aecea0e741f85190d74943b48293dad1c0bb769"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/BudgetControl/Library/zipball/685e17969c8c19dda8bf3cf32bc6571965806766",
-                "reference": "685e17969c8c19dda8bf3cf32bc6571965806766",
+                "url": "https://api.github.com/repos/BudgetControl/Library/zipball/7aecea0e741f85190d74943b48293dad1c0bb769",
+                "reference": "7aecea0e741f85190d74943b48293dad1c0bb769",
                 "shasum": ""
             },
             "require": {
@@ -93,10 +93,10 @@
                 }
             ],
             "support": {
-                "source": "https://github.com/BudgetControl/Library/tree/v1.0",
+                "source": "https://github.com/BudgetControl/Library/tree/v1.0.1",
                 "issues": "https://github.com/BudgetControl/Library/issues"
             },
-            "time": "2024-08-09T13:14:41+00:00"
+            "time": "2024-08-13T08:52:40+00:00"
         },
         {
             "name": "budgetcontrol/schema-registry-service",
@@ -7684,8 +7684,12 @@
         }
     ],
     "aliases": [],
-    "minimum-stability": "dev",
-    "stability-flags": [],
+    "minimum-stability": "stable",
+    "stability-flags": {
+        "budgetcontrol/schema-registry-service": 10,
+        "mlabfactory/phpunit-self-api-integration": 10,
+        "budgetcontrol/seeds": 10
+    },
     "prefer-stable": false,
     "prefer-lowest": false,
     "platform": {
