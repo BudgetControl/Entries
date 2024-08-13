@@ -47,7 +47,7 @@ jobs:
         DB_USERNAME: root
         DB_PASSWORD: root
       run: |
-        vendor/bin/phinx migrate -c phinx-github.php
+        vendor/bin/phinx migrate
         vendor/bin/phinx seed:run
 
     - name: Run PHPUnit tests
