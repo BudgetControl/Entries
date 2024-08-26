@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "59246c7433e566823cc912a511adcbe1",
+    "content-hash": "9c185ec153e5a843bf899b145ffd3fc0",
     "packages": [
         {
             "name": "brick/math",
@@ -5963,16 +5963,16 @@
         },
         {
             "name": "mlabfactory/phpunit-self-api-integration",
-            "version": "v1.0-beta",
+            "version": "v1.1-beta",
             "source": {
                 "type": "git",
                 "url": "https://github.com/mlabfactory/phpunit-self-api-integration.git",
-                "reference": "81e66ea7a259cc8650c81dbd20504740b25c26b7"
+                "reference": "bd3eaea18672acc76cc4ea08c71b4b25b42d3c80"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/mlabfactory/phpunit-self-api-integration/zipball/81e66ea7a259cc8650c81dbd20504740b25c26b7",
-                "reference": "81e66ea7a259cc8650c81dbd20504740b25c26b7",
+                "url": "https://api.github.com/repos/mlabfactory/phpunit-self-api-integration/zipball/bd3eaea18672acc76cc4ea08c71b4b25b42d3c80",
+                "reference": "bd3eaea18672acc76cc4ea08c71b4b25b42d3c80",
                 "shasum": ""
             },
             "require": {
@@ -6002,10 +6002,10 @@
             ],
             "description": "PHPUnit extension designed for conducting integration tests on self-contained APIs within PHP applications. This extension facilitates seamless testing of API endpoints within the same system, ensuring smooth integration and functionality.",
             "support": {
-                "source": "https://github.com/mlabfactory/phpunit-self-api-integration/tree/v1.0-beta",
+                "source": "https://github.com/mlabfactory/phpunit-self-api-integration/tree/v1.1-beta",
                 "issues": "https://github.com/mlabfactory/phpunit-self-api-integration/issues"
             },
-            "time": "2024-08-06T13:09:58+00:00"
+            "time": "2024-08-26T13:28:11+00:00"
         },
         {
             "name": "myclabs/deep-copy",
