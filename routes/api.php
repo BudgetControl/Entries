@@ -28,6 +28,12 @@ $app->delete('/{wsid}/expense/{uuid}', \Budgetcontrol\Entry\Controller\ExpensesC
 $app->delete('/{wsid}/transfer/{uuid}', \Budgetcontrol\Entry\Controller\TransferController::class . ':delete');
 $app->delete('/{wsid}/{uuid}', \Budgetcontrol\Entry\Controller\EntryController::class . ':delete');
 
+$app->get('/{wsid}/model', \Budgetcontrol\Entry\Controller\ModelController::class . ':list');
+$app->get('/{wsid}/model/{uuid}', \Budgetcontrol\Entry\Controller\ModelController::class . ':show');
+$app->put('/{wsid}/model/{uuid}', \Budgetcontrol\Entry\Controller\ModelController::class . ':update');
+$app->post('/{wsid}/model', \Budgetcontrol\Entry\Controller\ModelController::class . ':create');
+$app->delete('/{wsid}/model/{uuid}', \Budgetcontrol\Entry\Controller\ModelController::class . ':delete');
+
 $app->get('/{wsid}/{uuid}', \Budgetcontrol\Entry\Controller\EntryController::class . ':show');
 $app->put('/{wsid}/{uuid}', \Budgetcontrol\Entry\Controller\EntryController::class . ':update');
 

@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "e3bceec808014f479c0fa38f03b86984",
+    "content-hash": "9c185ec153e5a843bf899b145ffd3fc0",
     "packages": [
         {
             "name": "brick/math",
@@ -63,16 +63,16 @@
         },
         {
             "name": "budgetcontrol/library",
-            "version": "v1.0",
+            "version": "v1.0.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/BudgetControl/Library.git",
-                "reference": "685e17969c8c19dda8bf3cf32bc6571965806766"
+                "reference": "7aecea0e741f85190d74943b48293dad1c0bb769"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/BudgetControl/Library/zipball/685e17969c8c19dda8bf3cf32bc6571965806766",
-                "reference": "685e17969c8c19dda8bf3cf32bc6571965806766",
+                "url": "https://api.github.com/repos/BudgetControl/Library/zipball/7aecea0e741f85190d74943b48293dad1c0bb769",
+                "reference": "7aecea0e741f85190d74943b48293dad1c0bb769",
                 "shasum": ""
             },
             "require": {
@@ -93,10 +93,10 @@
                 }
             ],
             "support": {
-                "source": "https://github.com/BudgetControl/Library/tree/v1.0",
+                "source": "https://github.com/BudgetControl/Library/tree/v1.0.1",
                 "issues": "https://github.com/BudgetControl/Library/issues"
             },
-            "time": "2024-08-09T13:14:41+00:00"
+            "time": "2024-08-13T08:52:40+00:00"
         },
         {
             "name": "budgetcontrol/schema-registry-service",
@@ -5963,16 +5963,16 @@
         },
         {
             "name": "mlabfactory/phpunit-self-api-integration",
-            "version": "v1.0-beta",
+            "version": "v1.1-beta",
             "source": {
                 "type": "git",
                 "url": "https://github.com/mlabfactory/phpunit-self-api-integration.git",
-                "reference": "81e66ea7a259cc8650c81dbd20504740b25c26b7"
+                "reference": "bd3eaea18672acc76cc4ea08c71b4b25b42d3c80"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/mlabfactory/phpunit-self-api-integration/zipball/81e66ea7a259cc8650c81dbd20504740b25c26b7",
-                "reference": "81e66ea7a259cc8650c81dbd20504740b25c26b7",
+                "url": "https://api.github.com/repos/mlabfactory/phpunit-self-api-integration/zipball/bd3eaea18672acc76cc4ea08c71b4b25b42d3c80",
+                "reference": "bd3eaea18672acc76cc4ea08c71b4b25b42d3c80",
                 "shasum": ""
             },
             "require": {
@@ -6002,10 +6002,10 @@
             ],
             "description": "PHPUnit extension designed for conducting integration tests on self-contained APIs within PHP applications. This extension facilitates seamless testing of API endpoints within the same system, ensuring smooth integration and functionality.",
             "support": {
-                "source": "https://github.com/mlabfactory/phpunit-self-api-integration/tree/v1.0-beta",
+                "source": "https://github.com/mlabfactory/phpunit-self-api-integration/tree/v1.1-beta",
                 "issues": "https://github.com/mlabfactory/phpunit-self-api-integration/issues"
             },
-            "time": "2024-08-06T13:09:58+00:00"
+            "time": "2024-08-26T13:28:11+00:00"
         },
         {
             "name": "myclabs/deep-copy",
@@ -7684,8 +7684,12 @@
         }
     ],
     "aliases": [],
-    "minimum-stability": "dev",
-    "stability-flags": [],
+    "minimum-stability": "stable",
+    "stability-flags": {
+        "budgetcontrol/schema-registry-service": 10,
+        "mlabfactory/phpunit-self-api-integration": 10,
+        "budgetcontrol/seeds": 10
+    },
     "prefer-stable": false,
     "prefer-lowest": false,
     "platform": {

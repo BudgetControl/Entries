@@ -2,6 +2,7 @@
 namespace Budgetcontrol\Entry\Controller;
 
 use Budgetcontrol\Entry\Entity\Filter;
+use Budgetcontrol\Entry\Entity\Order;
 use Illuminate\Support\Carbon;
 use Budgetcontrol\Library\Model\Entry;
 use Budgetcontrol\Library\Model\EntryInterface;
@@ -73,7 +74,7 @@ class Controller {
         return $date->gt($now);
     }
 
-    protected function filters(\Illuminate\Database\Eloquent\Builder $query, Filter $filters): \Illuminate\Database\Eloquent\Builder
+    protected function filters(\Illuminate\Database\Eloquent\Builder &$query, Filter $filters): \Illuminate\Database\Eloquent\Builder
     {
         foreach($filters->getFilters() as $key => $value) {
                 if(isset($value['condition'])) {
@@ -83,6 +84,17 @@ class Controller {
                 }else {
                     $query->where($key, $value['value']);
                 }
+        }
+
+        return $query;
+    }
+
+    public function orderBy(\Illuminate\Database\Eloquent\Builder &$query, Order $orders): \Illuminate\Database\Eloquent\Builder
+    {
+        if($orders->getOrder()) {
+            foreach($orders->getOrder() as $key => $order) {
+                $query->orderBy($key, $order);
+            }
         }
 
         return $query;
