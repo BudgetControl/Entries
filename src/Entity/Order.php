@@ -13,6 +13,7 @@ final class Order {
         'type',
         'created_at',
         'updated_at',
+        'name',
     ];
 
     public function __construct(array $filters) {
