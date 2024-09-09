@@ -34,6 +34,12 @@ $app->put('/{wsid}/model/{uuid}', \Budgetcontrol\Entry\Controller\ModelControlle
 $app->post('/{wsid}/model', \Budgetcontrol\Entry\Controller\ModelController::class . ':create');
 $app->delete('/{wsid}/model/{uuid}', \Budgetcontrol\Entry\Controller\ModelController::class . ':delete');
 
+$app->get('/{wsid}/planned-entry', \Budgetcontrol\Entry\Controller\PlannedEntryController::class . ':list');
+$app->post('/{wsid}/planned-entry', \Budgetcontrol\Entry\Controller\PlannedEntryController::class . ':create');
+$app->get('/{wsid}/planned-entry/{uuid}', \Budgetcontrol\Entry\Controller\PlannedEntryController::class . ':show');
+$app->put('/{wsid}/planned-entry/{uuid}', \Budgetcontrol\Entry\Controller\PlannedEntryController::class . ':update');
+$app->delete('/{wsid}/planned-entry/{uuid}', \Budgetcontrol\Entry\Controller\PlannedEntryController::class . ':delete');
+
 $app->get('/{wsid}/{uuid}', \Budgetcontrol\Entry\Controller\EntryController::class . ':show');
 $app->put('/{wsid}/{uuid}', \Budgetcontrol\Entry\Controller\EntryController::class . ':update');
 
