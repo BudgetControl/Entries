@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "9c185ec153e5a843bf899b145ffd3fc0",
+    "content-hash": "942b6f2daa522892e2503c3dda6d2620",
     "packages": [
         {
             "name": "brick/math",
@@ -63,16 +63,16 @@
         },
         {
             "name": "budgetcontrol/library",
-            "version": "v1.0.1",
+            "version": "v1.0.5",
             "source": {
                 "type": "git",
                 "url": "https://github.com/BudgetControl/Library.git",
-                "reference": "7aecea0e741f85190d74943b48293dad1c0bb769"
+                "reference": "4f4dc5e59f4c40bfe4f54cc148ea8feeed2c2eaf"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/BudgetControl/Library/zipball/7aecea0e741f85190d74943b48293dad1c0bb769",
-                "reference": "7aecea0e741f85190d74943b48293dad1c0bb769",
+                "url": "https://api.github.com/repos/BudgetControl/Library/zipball/4f4dc5e59f4c40bfe4f54cc148ea8feeed2c2eaf",
+                "reference": "4f4dc5e59f4c40bfe4f54cc148ea8feeed2c2eaf",
                 "shasum": ""
             },
             "require": {
@@ -93,10 +93,10 @@
                 }
             ],
             "support": {
-                "source": "https://github.com/BudgetControl/Library/tree/v1.0.1",
+                "source": "https://github.com/BudgetControl/Library/tree/v1.0.5",
                 "issues": "https://github.com/BudgetControl/Library/issues"
             },
-            "time": "2024-08-13T08:52:40+00:00"
+            "time": "2024-09-09T11:42:50+00:00"
         },
         {
             "name": "budgetcontrol/schema-registry-service",
@@ -5535,20 +5535,20 @@
     "packages-dev": [
         {
             "name": "budgetcontrol/seeds",
-            "version": "v0.1-beta",
+            "version": "v0.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/BudgetControl/SeedsTestLibs.git",
-                "reference": "b637f614c6faa95895b8cc176179c5e36f197035"
+                "reference": "7e8b654136388ca46a7cf324374c79855b96496a"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/BudgetControl/SeedsTestLibs/zipball/b637f614c6faa95895b8cc176179c5e36f197035",
-                "reference": "b637f614c6faa95895b8cc176179c5e36f197035",
+                "url": "https://api.github.com/repos/BudgetControl/SeedsTestLibs/zipball/7e8b654136388ca46a7cf324374c79855b96496a",
+                "reference": "7e8b654136388ca46a7cf324374c79855b96496a",
                 "shasum": ""
             },
             "require-dev": {
-                "budgetcontrol/library": "dev-main",
+                "budgetcontrol/library": "^1.0",
                 "ramsey/uuid": "^4.7"
             },
             "type": "library",
@@ -5568,10 +5568,10 @@
             ],
             "description": "Seeds and migrations for unit test",
             "support": {
-                "source": "https://github.com/BudgetControl/SeedsTestLibs/tree/v0.1-beta",
+                "source": "https://github.com/BudgetControl/SeedsTestLibs/tree/v0.1",
                 "issues": "https://github.com/BudgetControl/SeedsTestLibs/issues"
             },
-            "time": "2024-08-06T13:29:30+00:00"
+            "time": "2024-09-09T11:46:59+00:00"
         },
         {
             "name": "fakerphp/faker",
@@ -7687,8 +7687,7 @@
     "minimum-stability": "stable",
     "stability-flags": {
         "budgetcontrol/schema-registry-service": 10,
-        "mlabfactory/phpunit-self-api-integration": 10,
-        "budgetcontrol/seeds": 10
+        "mlabfactory/phpunit-self-api-integration": 10
     },
     "prefer-stable": false,
     "prefer-lowest": false,
@@ -7696,5 +7695,5 @@
         "php": "^8.1"
     },
     "platform-dev": [],
-    "plugin-api-version": "2.3.0"
+    "plugin-api-version": "2.6.0"
 }

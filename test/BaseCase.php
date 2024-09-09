@@ -52,6 +52,34 @@ class BaseCase extends \PHPUnit\Framework\TestCase
     }
 
     /**
+     * Makes a planned request.
+     *
+     * @param float $amount The amount for the request.
+     * @param Carbon|null $dateTime The date and time for the request. Defaults to null.
+     * @return array The response from the request.
+     */
+    protected function makePlannedRequest(float $amount, ?Carbon $dateTime = null): array
+    {
+        if (is_null($dateTime)) {
+            $dateTime = Carbon::now();
+        }
+        
+        $request = [
+            "amount" => $amount,
+            "note" => "test",
+            "category_id" => 12,
+            "account_id" => 1,
+            "currency_id" => 1,
+            "payment_type_id" => 1,
+            "date_time" => $dateTime->format('Y-m-d H:i:s'),
+            "label" => [],
+            'planning' => 'monthly',
+        ];
+
+        return $request;
+    }
+
+    /**
      * Removes the specified properties from the given data array.
      *
      * @param array $data The data array from which to remove the properties.

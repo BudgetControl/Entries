@@ -45,14 +45,14 @@
         "logtail/monolog-logtail": "^3.1",
         "webit/bcmath": "^2.0",
         "budgetcontrol/schema-registry-service": "v1.0-beta",
-        "budgetcontrol/library": "v1.0.1"
+        "budgetcontrol/library": "^v1.0"
     },
     "require-dev": {
         "nikic/php-parser": "^5.0",
         "fakerphp/faker": "^1.23",
         "phpunit/phpunit": "^10.0",
         "mlabfactory/phpunit-self-api-integration": "v1.1-beta",
-        "budgetcontrol/seeds": "v0.1-beta"
+        "budgetcontrol/seeds": "^v0.1"
     },
     "autoload": {
         "psr-4": {
