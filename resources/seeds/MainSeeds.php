@@ -1,5 +1,6 @@
 <?php
 
+use Budgetcontrol\Entry\Entity\Validations\PlannedType;
 use Budgetcontrol\Library\Model\Debit;
 use Budgetcontrol\Seeds\Resources\Seed;
 use Budgetcontrol\Seeds\Resources\Seeds\DebitSeeds;
@@ -8,10 +9,12 @@ use Budgetcontrol\Library\Entity\Entry;
 use Budgetcontrol\Library\Model\Expense;
 use Budgetcontrol\Library\Model\Income;
 use Budgetcontrol\Library\Model\Model;
+use Budgetcontrol\Library\Model\PlannedEntry;
 use Budgetcontrol\Library\Model\Transfer;
 use Budgetcontrol\Seeds\Resources\Seeds\ExpenseSeeds;
 use Budgetcontrol\Seeds\Resources\Seeds\IncomeSeeds;
 use Budgetcontrol\Seeds\Resources\Seeds\ModelsSeed;
+use Budgetcontrol\Seeds\Resources\Seeds\PlannedEntriesSeed;
 use Budgetcontrol\Seeds\Resources\Seeds\TransferSeeds;
 
 class MainSeeds extends AbstractSeed
@@ -232,5 +235,6 @@ class MainSeeds extends AbstractSeed
             'workspace_id' => 1,
             'account_id' => 1,
         ]);
+
     }
 }
