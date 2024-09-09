@@ -9,7 +9,7 @@ final class Filter {
 
     private const FILTERS = [
         'planned',
-        'wallet_id',
+        'account_id',
         'amount',
         'date_time',
         'category_id',
