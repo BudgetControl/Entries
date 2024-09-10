@@ -63,16 +63,16 @@
         },
         {
             "name": "budgetcontrol/library",
-            "version": "v1.0.5",
+            "version": "v1.0.6",
             "source": {
                 "type": "git",
                 "url": "https://github.com/BudgetControl/Library.git",
-                "reference": "4f4dc5e59f4c40bfe4f54cc148ea8feeed2c2eaf"
+                "reference": "9b8a36fb62eff9472f6580ee06eb30ad44ce2bcb"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/BudgetControl/Library/zipball/4f4dc5e59f4c40bfe4f54cc148ea8feeed2c2eaf",
-                "reference": "4f4dc5e59f4c40bfe4f54cc148ea8feeed2c2eaf",
+                "url": "https://api.github.com/repos/BudgetControl/Library/zipball/9b8a36fb62eff9472f6580ee06eb30ad44ce2bcb",
+                "reference": "9b8a36fb62eff9472f6580ee06eb30ad44ce2bcb",
                 "shasum": ""
             },
             "require": {
@@ -93,10 +93,10 @@
                 }
             ],
             "support": {
-                "source": "https://github.com/BudgetControl/Library/tree/v1.0.5",
+                "source": "https://github.com/BudgetControl/Library/tree/v1.0.6",
                 "issues": "https://github.com/BudgetControl/Library/issues"
             },
-            "time": "2024-09-09T11:42:50+00:00"
+            "time": "2024-09-10T15:34:30+00:00"
         },
         {
             "name": "budgetcontrol/schema-registry-service",
@@ -7692,5 +7692,5 @@
         "php": "^8.1"
     },
     "platform-dev": [],
-    "plugin-api-version": "2.6.0"
+    "plugin-api-version": "2.3.0"
 }
