@@ -55,7 +55,8 @@ class TransferController extends Controller
     public function create(Request $request, Response $response, $argv): Response
     {
         $this->validate($request);
-
+        $this->workspaceId = $argv['wsid'];
+        
         $wsId = $argv['wsid'];
         $data = $request->getParsedBody();
 
@@ -78,6 +79,13 @@ class TransferController extends Controller
         $transfer = new Transfer();
         $transfer->fill($data);
         $transfer->save();
+
+        if(!empty($data['labels'])) {
+            foreach($data['labels'] as $label) {
+                $label = $this->createOrGetLabel($label);
+                $transfer->labels()->attach($label);
+            }
+        }
         
         // now save new entry transfer with inverted amount
         $data['amount'] = $data['amount'] * -1;
@@ -88,6 +96,13 @@ class TransferController extends Controller
         $transferTo = new Transfer();
         $transferTo->fill($data);
         $transferTo->save();
+
+        if(!empty($data['labels'])) {
+            foreach($data['labels'] as $label) {
+                $label = $this->createOrGetLabel($label);
+                $transferTo->labels()->attach($label);
+            }
+        }
 
         // set the transfer relations
         $transfer->transfer_relation = $transferTo->uuid;

@@ -54,7 +54,8 @@ class ExpensesController extends Controller
     public function create(Request $request, Response $response, $argv): Response
     {
         $this->validate($request);
-
+        $this->workspaceId = $argv['wsid'];
+        
         $wsId = $argv['wsid'];
         $data = $request->getParsedBody();
 
@@ -75,6 +76,13 @@ class ExpensesController extends Controller
         $expenses = new Expense();
         $expenses->fill($data);
         $expenses->save();
+
+        if(!empty($data['labels'])) {
+            foreach($data['labels'] as $label) {
+                $label = $this->createOrGetLabel($label);
+                $expenses->labels()->attach($label);
+            }
+        }
 
         $wallet = new WalletService($expenses);
         $wallet->sum();

@@ -37,6 +37,7 @@ class ModelController extends Controller
     public function create(Request $request, Response $response, $argv): Response
     {
         $this->validate($request);
+        $this->workspaceId = $argv['wsid'];
 
         $wsId = $argv['wsid'];
         $data = $request->getParsedBody();
@@ -57,6 +58,14 @@ class ModelController extends Controller
         $model = new Model();
         $model->fill($data);
         $model->save();
+
+        if(!empty($data['labels'])) {
+            foreach($data['labels'] as $label) {
+                $label = $this->createOrGetLabel($label);
+                $model->labels()->attach($label);
+            }
+        }
+        
 
         return response(
             $model->toArray(),

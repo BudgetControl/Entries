@@ -39,7 +39,8 @@ class IncomingController extends Controller
     public function create(Request $request, Response $response, $argv): Response
     {
         $this->validate($request);
-
+        $this->workspaceId = $argv['wsid'];
+        
         $wsId = $argv['wsid'];
         $data = $request->getParsedBody();
 
@@ -60,6 +61,13 @@ class IncomingController extends Controller
         $incoming = new Income();
         $incoming->fill($data);
         $incoming->save();
+
+        if(!empty($data['labels'])) {
+            foreach($data['labels'] as $label) {
+                $label = $this->createOrGetLabel($label);
+                $incoming->labels()->attach($label);
+            }
+        }
         
         $wallet = new WalletService($incoming);
         $wallet->sum();

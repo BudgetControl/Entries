@@ -26,7 +26,7 @@
             "geolocation": null,
             "workspace_id": 1,
             "exclude_from_stats": false,
-            "label": [],
+            "labels": [],
             "wallet": {
                 "id": 1,
                 "uuid": "8efd4cfb-f154-403b-b067-28e8735b4811",
@@ -121,7 +121,7 @@
             "geolocation": null,
             "workspace_id": 1,
             "exclude_from_stats": false,
-            "label": [],
+            "labels": [],
             "wallet": {
                 "id": 1,
                 "uuid": "8efd4cfb-f154-403b-b067-28e8735b4811",
@@ -216,7 +216,7 @@
             "geolocation": null,
             "workspace_id": 1,
             "exclude_from_stats": false,
-            "label": [],
+            "labels": [],
             "wallet": {
                 "id": 1,
                 "uuid": "8efd4cfb-f154-403b-b067-28e8735b4811",
@@ -415,7 +415,7 @@
             "geolocation": null,
             "workspace_id": 1,
             "exclude_from_stats": false,
-            "label": [],
+            "labels": [],
             "wallet": {
                 "id": 1,
                 "uuid": "8efd4cfb-f154-403b-b067-28e8735b4811",
@@ -510,7 +510,7 @@
             "geolocation": null,
             "workspace_id": 1,
             "exclude_from_stats": false,
-            "label": [],
+            "labels": [],
             "wallet": {
                 "id": 1,
                 "uuid": "8efd4cfb-f154-403b-b067-28e8735b4811",
@@ -614,7 +614,7 @@
             "geolocation": null,
             "workspace_id": 1,
             "exclude_from_stats": false,
-            "label": [],
+            "labels": [],
             "wallet": {
                 "id": 1,
                 "uuid": "8efd4cfb-f154-403b-b067-28e8735b4811",
@@ -709,7 +709,7 @@
             "geolocation": null,
             "workspace_id": 1,
             "exclude_from_stats": false,
-            "label": [],
+            "labels": [],
             "wallet": {
                 "id": 1,
                 "uuid": "8efd4cfb-f154-403b-b067-28e8735b4811",
@@ -813,7 +813,7 @@
             "geolocation": null,
             "workspace_id": 1,
             "exclude_from_stats": false,
-            "label": [],
+            "labels": [],
             "wallet": {
                 "id": 1,
                 "uuid": "8efd4cfb-f154-403b-b067-28e8735b4811",
@@ -917,7 +917,7 @@
             "geolocation": null,
             "workspace_id": 1,
             "exclude_from_stats": false,
-            "label": [],
+            "labels": [],
             "wallet": {
                 "id": 1,
                 "uuid": "8efd4cfb-f154-403b-b067-28e8735b4811",

@@ -10,6 +10,7 @@ use MLAB\PHPITest\Assertions\JsonAssert;
 use Slim\Http\Interfaces\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Budgetcontrol\Entry\Controller\DebitController;
+use Budgetcontrol\Library\Model\Entry as ModelEntry;
 use Budgetcontrol\Library\Model\Payee;
 
 class DebitApiTest extends BaseCase
@@ -83,6 +84,56 @@ class DebitApiTest extends BaseCase
         $this->assertTrue($contentResult['type'] === Entry::debit->value);
         $this->assertTrue($contentResult['category_id'] === 55);
 
+    }
+
+    public function test_create_debit_data_with_labels()
+    {
+        $payload = $this->makeRequest(-100);
+        $payload['payee_id'] = 'Test NewDebit';
+        $payload['labels'] = [
+            1,2
+         ];
+        $argv = ['wsid' => 1];
+
+        $request = $this->createMock(ServerRequestInterface::class);
+        $request->method('getParsedBody')->willReturn($payload);
+        $response = $this->createMock(ResponseInterface::class);
+
+        $controller = new DebitController();
+        $result = $controller->create($request, $response, $argv);
+        $contentResult = (array) json_decode((string) $result->getBody());
+
+        $this->assertEquals(201, $result->getStatusCode());
+        $this->assertNotEmpty(ModelEntry::where('uuid', $contentResult['uuid'])->first());
+
+        $enstry = ModelEntry::where('uuid', $contentResult['uuid'])->with('labels')->first();
+        $this->assertCount(2, $enstry->labels);
+        
+    }
+
+    public function test_create_debit_data_with_new_labels()
+    {
+        $payload = $this->makeRequest(-100);
+        $payload['payee_id'] = 'Test NewDebit';
+        $payload['labels'] = [
+            'new-label'
+         ];
+        $argv = ['wsid' => 1];
+
+        $request = $this->createMock(ServerRequestInterface::class);
+        $request->method('getParsedBody')->willReturn($payload);
+        $response = $this->createMock(ResponseInterface::class);
+
+        $controller = new DebitController();
+        $result = $controller->create($request, $response, $argv);
+        $contentResult = (array) json_decode((string) $result->getBody());
+
+        $this->assertEquals(201, $result->getStatusCode());
+        $this->assertNotEmpty(ModelEntry::where('uuid', $contentResult['uuid'])->first());
+
+        $enstry = ModelEntry::where('uuid', $contentResult['uuid'])->with('labels')->first();
+        $this->assertCount(1, $enstry->labels);
+        
     }
 
     public function test_add_debit()

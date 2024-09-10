@@ -127,4 +127,62 @@ class IncomeApiTest extends BaseCase
         
         $this->assertEquals(404, $result->getStatusCode());
     }
+
+
+
+    public function test_create_incoming_data_with_labels()
+    {
+        $payload = $this->makeRequest(100);
+        $payload['confirm'] = false;
+        $payload['labels'] = [
+            1,2
+         ];
+        $argv = ['wsid' => 1];
+
+        $request = $this->createMock(ServerRequestInterface::class);
+        $request->method('getParsedBody')->willReturn($payload);
+        $response = $this->createMock(ResponseInterface::class);
+
+        $controller = new IncomingController();
+        $result = $controller->create($request, $response, $argv);
+        $contentResult = (array) json_decode((string) $result->getBody());
+
+        $this->assertEquals(201, $result->getStatusCode());
+        $this->assertTrue($contentResult['type'] === Entry::incoming->value);
+        $this->assertNotEmpty(EntryModel::where('uuid', $contentResult['uuid'])->first());
+
+        $wallet = Wallet::find(1);
+        $enstry = EntryModel::where('uuid', $contentResult['uuid'])->with('labels')->first();
+        $this->assertEquals(100, $wallet->balance);
+        $this->assertCount(2, $enstry->labels);
+        
+    }
+
+    public function test_create_incoming_data_with_new_labels()
+    {
+        $payload = $this->makeRequest(900);
+        $payload['confirm'] = false;
+        $payload['labels'] = [
+            'new-label'
+         ];
+        $argv = ['wsid' => 1];
+
+        $request = $this->createMock(ServerRequestInterface::class);
+        $request->method('getParsedBody')->willReturn($payload);
+        $response = $this->createMock(ResponseInterface::class);
+
+        $controller = new IncomingController();
+        $result = $controller->create($request, $response, $argv);
+        $contentResult = (array) json_decode((string) $result->getBody());
+
+        $this->assertEquals(201, $result->getStatusCode());
+        $this->assertTrue($contentResult['type'] === Entry::incoming->value);
+        $this->assertNotEmpty(EntryModel::where('uuid', $contentResult['uuid'])->first());
+
+        $wallet = Wallet::find(1);
+        $enstry = EntryModel::where('uuid', $contentResult['uuid'])->with('labels')->first();
+        $this->assertEquals(900, $wallet->balance);
+        $this->assertCount(1, $enstry->labels);
+        
+    }
 }

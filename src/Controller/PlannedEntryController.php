@@ -38,7 +38,8 @@ class PlannedEntryController extends Controller
     public function create(Request $request, Response $response, $argv): Response
     {
         $this->validate($request);
-
+        $this->workspaceId = $argv['wsid'];
+        
         $wsId = $argv['wsid'];
         $data = $request->getParsedBody();
 
@@ -58,6 +59,13 @@ class PlannedEntryController extends Controller
         $model = new PlannedEntry();
         $model->fill($data);
         $model->save();
+
+        if(!empty($data['labels'])) {
+            foreach($data['labels'] as $label) {
+                $label = $this->createOrGetLabel($label);
+                $model->labels()->attach($label);
+            }
+        }
 
         return response(
             $model->toArray(),

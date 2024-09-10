@@ -9,6 +9,7 @@ use MLAB\PHPITest\Assertions\JsonAssert;
 use Slim\Http\Interfaces\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Budgetcontrol\Entry\Controller\ModelController;
+use Budgetcontrol\Library\Model\Model;
 
 class ModelTest extends BaseCase {
 
@@ -49,7 +50,7 @@ class ModelTest extends BaseCase {
 
     public function test_create_model_data()
     {
-        $payload = $this->makeRequest(100);
+        $payload = $this->makeModelRequest(100);
 
         $request = $this->createMock(ServerRequestInterface::class);
         $request->method('getParsedBody')->willReturn($payload);
@@ -58,6 +59,46 @@ class ModelTest extends BaseCase {
         $controller = new ModelController();
         $result = $controller->create($request, $response, ['wsid' => 1]);
 
+        $this->assertEquals(201, $result->getStatusCode());
+    }
+
+    public function test_create_model_data_with_label()
+    {
+        $payload = $this->makeModelRequest(100);
+        $payload['name'] = 'test-model-label';
+        $payload['labels'] = [
+            1,2
+        ];
+
+        $request = $this->createMock(ServerRequestInterface::class);
+        $request->method('getParsedBody')->willReturn($payload);
+        $response = $this->createMock(ResponseInterface::class);
+
+        $controller = new ModelController();
+        $result = $controller->create($request, $response, ['wsid' => 1]);
+
+        $label = Model::where('name', 'test-model-label')->with('labels')->first();
+        $this->assertCount(2, $label->labels);
+        $this->assertEquals(201, $result->getStatusCode());
+    }
+
+    public function test_create_model_data_with_new_label()
+    {
+        $payload = $this->makeModelRequest(100);
+        $payload['name'] = 'test-model-new-label';
+        $payload['labels'] = [
+           'new-label'
+        ];
+
+        $request = $this->createMock(ServerRequestInterface::class);
+        $request->method('getParsedBody')->willReturn($payload);
+        $response = $this->createMock(ResponseInterface::class);
+
+        $controller = new ModelController();
+        $result = $controller->create($request, $response, ['wsid' => 1]);
+
+        $label = Model::where('name', 'test-model-new-label')->with('labels')->first();
+        $this->assertCount(1, $label->labels);
         $this->assertEquals(201, $result->getStatusCode());
     }
 

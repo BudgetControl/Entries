@@ -43,7 +43,7 @@ class BaseCase extends \PHPUnit\Framework\TestCase
             "currency_id" => 1,
             "payment_type_id" => 1,
             "date_time" => $dateTime->format('Y-m-d H:i:s'),
-            "label" => [],
+            "labels" => [],
             "waranty" => 0,
             "confirmed" => 1
         ];
@@ -74,6 +74,36 @@ class BaseCase extends \PHPUnit\Framework\TestCase
             "date_time" => $dateTime->format('Y-m-d H:i:s'),
             "label" => [],
             'planning' => 'monthly',
+        ];
+
+        return $request;
+    }
+
+    /**
+     * build model request
+     * @param float $amount
+     * @param DateTime $dateTime
+     * 
+     * @return array
+     */
+    protected function makeModelRequest(float $amount, ?Carbon $dateTime = null): array
+    {
+        if (is_null($dateTime)) {
+            $dateTime = Carbon::now();
+        }
+        
+        $request = [
+            "amount" => $amount,
+            "note" => "test",
+            "category_id" => 12,
+            "account_id" => 1,
+            "currency_id" => 1,
+            "payment_type_id" => 1,
+            "date_time" => $dateTime->format('Y-m-d H:i:s'),
+            "label" => [],
+            "waranty" => 0,
+            "confirmed" => 1,
+            "name" => "test-model",
         ];
 
         return $request;
