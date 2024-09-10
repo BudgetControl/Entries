@@ -79,7 +79,7 @@ class ExpensesController extends Controller
 
         if(!empty($data['labels'])) {
             foreach($data['labels'] as $label) {
-                $label = $this->createOrGetLabel($label);
+                $label = $this->createOrGetLabel($label['name'], $label['color']);
                 $expenses->labels()->attach($label);
             }
         }
@@ -118,7 +118,7 @@ class ExpensesController extends Controller
         $entry->labels()->detach();
         if(!empty($data['labels'])) {
             foreach($data['labels'] as $label) {
-                $label = $this->createOrGetLabel($label);
+                $label = $this->createOrGetLabel($label['name'], $label['color']);
                 $entry->labels()->attach($label);
             }
         }

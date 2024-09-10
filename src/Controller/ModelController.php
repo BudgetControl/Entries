@@ -61,7 +61,7 @@ class ModelController extends Controller
 
         if(!empty($data['labels'])) {
             foreach($data['labels'] as $label) {
-                $label = $this->createOrGetLabel($label);
+                $label = $this->createOrGetLabel($label['name'], $label['color']);
                 $model->labels()->attach($label);
             }
         }
@@ -108,7 +108,7 @@ class ModelController extends Controller
         $model->labels()->detach();
         if(!empty($data['labels'])) {
             foreach($data['labels'] as $label) {
-                $label = $this->createOrGetLabel($label);
+                $label = $this->createOrGetLabel($label['name'], $label['color']);
                 $model->labels()->attach($label);
             }
         }

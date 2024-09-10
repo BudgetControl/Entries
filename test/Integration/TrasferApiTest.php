@@ -120,7 +120,14 @@ class TrasferApiTest extends BaseCase
         $payload['transfer_id'] = 2;
         $payload['confirmed'] = false;
         $payload['labels'] = [
-            1,2
+            [
+                'name' => 1,
+                'color' => null
+            ],
+            [
+                'name' => 2,
+                'color' => null
+            ],
          ];
         $argv = ['wsid' => 1];
 
@@ -150,7 +157,10 @@ class TrasferApiTest extends BaseCase
         $payload['transfer_id'] = 2;
         $payload['confirmed'] = false;
         $payload['labels'] = [
-            'new-label'
+            [
+                'name' => 'new-label',
+                'color' => '#000'
+            ],
          ];
         $argv = ['wsid' => 1];
 
@@ -180,7 +190,10 @@ class TrasferApiTest extends BaseCase
         $payload['transfer_id'] = 2;
         $payload['confirmed'] = false;
         $payload['labels'] = [
-            'new-label'
+            [
+                'name' => 'new-label',
+                'color' => '#000'
+            ],
          ];
         $argv = ['wsid' => 1];
 

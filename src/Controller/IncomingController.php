@@ -64,7 +64,7 @@ class IncomingController extends Controller
 
         if(!empty($data['labels'])) {
             foreach($data['labels'] as $label) {
-                $label = $this->createOrGetLabel($label);
+                $label = $this->createOrGetLabel($label['name'], $label['color']);
                 $incoming->labels()->attach($label);
             }
         }
@@ -103,7 +103,7 @@ class IncomingController extends Controller
         $entry->labels()->detach();
         if(!empty($data['labels'])) {
             foreach($data['labels'] as $label) {
-                $label = $this->createOrGetLabel($label);
+                $label = $this->createOrGetLabel($label['name'], $label['color']);
                 $entry->labels()->attach($label);
             }
         }

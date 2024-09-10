@@ -120,9 +120,10 @@ class Controller {
      * Creates or gets a label.
      *
      * @param string|int $name The name of the label.
+     * @param string|null $color The color of the label.
      * @return Label The created or retrieved label.
      */
-    public function createOrGetLabel(string|int $name): Label
+    public function createOrGetLabel(string|int $name, ?string $color): Label
     {
         if(!isset($this->workspaceId)) {
             throw new \Exception('Workspace ID is not set');
@@ -137,7 +138,7 @@ class Controller {
         $label = new Label();
         $label->name = $name;
         $label->uuid = \Ramsey\Uuid\Uuid::uuid4();
-        $label->color = '#000000';
+        $label->color = $color ?? '#000000';
         $label->workspace_id = $this->workspaceId;
         $label->save();
 

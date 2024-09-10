@@ -82,7 +82,7 @@ class TransferController extends Controller
 
         if(!empty($data['labels'])) {
             foreach($data['labels'] as $label) {
-                $label = $this->createOrGetLabel($label);
+                $label = $this->createOrGetLabel($label['name'], $label['color']);
                 $transfer->labels()->attach($label);
             }
         }
@@ -99,7 +99,7 @@ class TransferController extends Controller
 
         if(!empty($data['labels'])) {
             foreach($data['labels'] as $label) {
-                $label = $this->createOrGetLabel($label);
+                $label = $this->createOrGetLabel($label['name'], $label['color']);
                 $transferTo->labels()->attach($label);
             }
         }
@@ -154,7 +154,7 @@ class TransferController extends Controller
         $transfer->labels()->detach();
         if(!empty($data['labels'])) {
             foreach($data['labels'] as $label) {
-                $label = $this->createOrGetLabel($label);
+                $label = $this->createOrGetLabel($label['name'], $label['color']);
                 $transfer->labels()->attach($label);
             }
         }
@@ -171,7 +171,7 @@ class TransferController extends Controller
         $transferTo->labels()->detach();
         if(!empty($data['labels'])) {
             foreach($data['labels'] as $label) {
-                $label = $this->createOrGetLabel($label);
+                $label = $this->createOrGetLabel($label['name'], $label['color']);
                 $transferTo->labels()->attach($label);
             }
         }

@@ -123,7 +123,14 @@ class IncomeApiTest extends BaseCase
         $payload = $this->makeRequest(100);
         $payload['confirm'] = false;
         $payload['labels'] = [
-            1,2
+            [
+                'name' => 1,
+                'color' => null
+            ],
+            [
+                'name' => 2,
+                'color' => null
+            ],
          ];
         $argv = ['wsid' => 1];
 
@@ -151,7 +158,10 @@ class IncomeApiTest extends BaseCase
         $payload = $this->makeRequest(900);
         $payload['confirm'] = false;
         $payload['labels'] = [
-            'new-label'
+            [
+                'name' => 'new-label',
+                'color' => '#000'
+            ],
          ];
         $argv = ['wsid' => 1];
 
@@ -178,7 +188,18 @@ class IncomeApiTest extends BaseCase
     {
         $payload = $this->makeRequest(300);
         $payload['labels'] = [
-            1,2,'new-label'
+            [
+                'name' => 'new-label',
+                'color' => '#000'
+            ],
+            [
+                'name' => 1,
+                'color' => null
+            ],
+            [
+                'name' => 2,
+                'color' => null
+            ],
          ];
 
         $request = $this->createMock(ServerRequestInterface::class);

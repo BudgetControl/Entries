@@ -67,7 +67,14 @@ class ModelTest extends BaseCase {
         $payload = $this->makeModelRequest(100);
         $payload['name'] = 'test-model-label';
         $payload['labels'] = [
-            1,2
+            [
+                'name' => 1,
+                'color' => null
+            ],
+            [
+                'name' => 2,
+                'color' => null
+            ],
         ];
 
         $request = $this->createMock(ServerRequestInterface::class);
@@ -87,7 +94,10 @@ class ModelTest extends BaseCase {
         $payload = $this->makeModelRequest(100);
         $payload['name'] = 'test-model-new-label';
         $payload['labels'] = [
-           'new-label'
+            [
+                'name' => 'new-label',
+                'color' => '#000'
+            ],
         ];
 
         $request = $this->createMock(ServerRequestInterface::class);
@@ -122,7 +132,18 @@ class ModelTest extends BaseCase {
     {
         $payload = $this->makeRequest(-300);
         $payload['labels'] = [
-            1,2,'new-label'
+            [
+                'name' => 'new-label',
+                'color' => '#000'
+            ],
+            [
+                'name' => 1,
+                'color' => null
+            ],
+            [
+                'name' => 2,
+                'color' => null
+            ],
          ];
 
         $request = $this->createMock(ServerRequestInterface::class);
