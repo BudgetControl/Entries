@@ -43,7 +43,7 @@ class EntryTest extends BaseCase
         $this->assertEquals(204, $result->getStatusCode());
     }
 
-    public function test_get_delete_data()
+    public function test_get_deleted_data()
     {
         $request = $this->createMock(ServerRequestInterface::class);
         $response = $this->createMock(ResponseInterface::class);

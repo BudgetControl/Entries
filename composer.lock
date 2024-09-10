@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "942b6f2daa522892e2503c3dda6d2620",
+    "content-hash": "7328ee10363366c5eda0bd79f7b58a5f",
     "packages": [
         {
             "name": "brick/math",
@@ -63,16 +63,16 @@
         },
         {
             "name": "budgetcontrol/library",
-            "version": "v1.0.5",
+            "version": "v1.0.6",
             "source": {
                 "type": "git",
                 "url": "https://github.com/BudgetControl/Library.git",
-                "reference": "4f4dc5e59f4c40bfe4f54cc148ea8feeed2c2eaf"
+                "reference": "9b8a36fb62eff9472f6580ee06eb30ad44ce2bcb"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/BudgetControl/Library/zipball/4f4dc5e59f4c40bfe4f54cc148ea8feeed2c2eaf",
-                "reference": "4f4dc5e59f4c40bfe4f54cc148ea8feeed2c2eaf",
+                "url": "https://api.github.com/repos/BudgetControl/Library/zipball/9b8a36fb62eff9472f6580ee06eb30ad44ce2bcb",
+                "reference": "9b8a36fb62eff9472f6580ee06eb30ad44ce2bcb",
                 "shasum": ""
             },
             "require": {
@@ -93,10 +93,10 @@
                 }
             ],
             "support": {
-                "source": "https://github.com/BudgetControl/Library/tree/v1.0.5",
+                "source": "https://github.com/BudgetControl/Library/tree/v1.0.6",
                 "issues": "https://github.com/BudgetControl/Library/issues"
             },
-            "time": "2024-09-09T11:42:50+00:00"
+            "time": "2024-09-10T15:34:30+00:00"
         },
         {
             "name": "budgetcontrol/schema-registry-service",
@@ -5963,16 +5963,16 @@
         },
         {
             "name": "mlabfactory/phpunit-self-api-integration",
-            "version": "v1.1-beta",
+            "version": "v1.1.1-beta",
             "source": {
                 "type": "git",
                 "url": "https://github.com/mlabfactory/phpunit-self-api-integration.git",
-                "reference": "bd3eaea18672acc76cc4ea08c71b4b25b42d3c80"
+                "reference": "b29aa320c657a85dd57ccdb56fa5ab54c88d4367"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/mlabfactory/phpunit-self-api-integration/zipball/bd3eaea18672acc76cc4ea08c71b4b25b42d3c80",
-                "reference": "bd3eaea18672acc76cc4ea08c71b4b25b42d3c80",
+                "url": "https://api.github.com/repos/mlabfactory/phpunit-self-api-integration/zipball/b29aa320c657a85dd57ccdb56fa5ab54c88d4367",
+                "reference": "b29aa320c657a85dd57ccdb56fa5ab54c88d4367",
                 "shasum": ""
             },
             "require": {
@@ -6002,10 +6002,10 @@
             ],
             "description": "PHPUnit extension designed for conducting integration tests on self-contained APIs within PHP applications. This extension facilitates seamless testing of API endpoints within the same system, ensuring smooth integration and functionality.",
             "support": {
-                "source": "https://github.com/mlabfactory/phpunit-self-api-integration/tree/v1.1-beta",
+                "source": "https://github.com/mlabfactory/phpunit-self-api-integration/tree/v1.1.1-beta",
                 "issues": "https://github.com/mlabfactory/phpunit-self-api-integration/issues"
             },
-            "time": "2024-08-26T13:28:11+00:00"
+            "time": "2024-08-30T12:53:55+00:00"
         },
         {
             "name": "myclabs/deep-copy",
@@ -7684,16 +7684,13 @@
         }
     ],
     "aliases": [],
-    "minimum-stability": "stable",
-    "stability-flags": {
-        "budgetcontrol/schema-registry-service": 10,
-        "mlabfactory/phpunit-self-api-integration": 10
-    },
+    "minimum-stability": "dev",
+    "stability-flags": [],
     "prefer-stable": false,
     "prefer-lowest": false,
     "platform": {
         "php": "^8.1"
     },
     "platform-dev": [],
-    "plugin-api-version": "2.6.0"
+    "plugin-api-version": "2.3.0"
 }

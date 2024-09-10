@@ -6,6 +6,7 @@ use Budgetcontrol\Entry\Entity\Order;
 use Illuminate\Support\Carbon;
 use Budgetcontrol\Library\Model\Entry;
 use Budgetcontrol\Library\Model\EntryInterface;
+use Budgetcontrol\Library\Model\Label;
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
 use Budgetcontrol\Library\Service\Wallet\WalletService;
@@ -13,6 +14,7 @@ use Budgetcontrol\Library\Service\Wallet\WalletService;
 class Controller {
 
     private readonly EntryInterface $oldEntry;
+    protected int $workspaceId;
 
     public function monitor(Request $request, Response $response)
     {
@@ -74,6 +76,13 @@ class Controller {
         return $date->gt($now);
     }
 
+    /**
+     * Apply filters to the query.
+     *
+     * @param \Illuminate\Database\Eloquent\Builder &$query The query builder instance.
+     * @param Filter $filters The filter instance.
+     * @return \Illuminate\Database\Eloquent\Builder The modified query builder instance.
+     */
     protected function filters(\Illuminate\Database\Eloquent\Builder &$query, Filter $filters): \Illuminate\Database\Eloquent\Builder
     {
         foreach($filters->getFilters() as $key => $value) {
@@ -89,6 +98,13 @@ class Controller {
         return $query;
     }
 
+    /**
+     * Orders the query results based on the given orders.
+     *
+     * @param \Illuminate\Database\Eloquent\Builder &$query The query builder instance.
+     * @param Order $orders The orders to apply to the query.
+     * @return \Illuminate\Database\Eloquent\Builder The modified query builder instance.
+     */
     public function orderBy(\Illuminate\Database\Eloquent\Builder &$query, Order $orders): \Illuminate\Database\Eloquent\Builder
     {
         if($orders->getOrder()) {
@@ -98,5 +114,34 @@ class Controller {
         }
 
         return $query;
+    }
+
+    /**
+     * Creates or gets a label.
+     *
+     * @param string|int $name The name of the label.
+     * @return Label The created or retrieved label.
+     */
+    public function createOrGetLabel(string|int $name): Label
+    {
+        if(!isset($this->workspaceId)) {
+            throw new \Exception('Workspace ID is not set');
+        }
+        
+        // if label is an integer, get it
+        if(is_int($name)) {
+            return Label::find($name);
+        }
+
+        // if label does not exist, create it
+        $label = new Label();
+        $label->name = $name;
+        $label->uuid = \Ramsey\Uuid\Uuid::uuid4();
+        $label->color = '#000000';
+        $label->workspace_id = $this->workspaceId;
+        $label->save();
+
+        return $label;
+
     }
 }

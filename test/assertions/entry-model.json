@@ -26,7 +26,7 @@
             "geolocation": null,
             "workspace_id": 1,
             "exclude_from_stats": false,
-            "label": [],
+            "labels": [],
             "wallet": {
                 "id": 1,
                 "uuid": "fa05e39d-1c74-4d7f-afbb-c3215d8096c2",

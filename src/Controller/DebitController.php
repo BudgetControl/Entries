@@ -34,6 +34,7 @@ class DebitController extends Controller
     public function create(Request $request, Response $response, $argv): Response
     {
         $this->validate($request);
+        $this->workspaceId = $argv['wsid'];
 
         $wsId = $argv['wsid'];
         $this->wsid = $wsId;
@@ -59,6 +60,13 @@ class DebitController extends Controller
         $debit = new Debit();
         $debit->fill($data);
         $debit->save();
+
+        if(!empty($data['labels'])) {
+            foreach($data['labels'] as $label) {
+                $label = $this->createOrGetLabel($label);
+                $debit->labels()->attach($label);
+            }
+        }
         
         $wallet = new WalletService($debit);
         $wallet->sum();
@@ -73,6 +81,7 @@ class DebitController extends Controller
     public function update(Request $request, Response $response, $argv): Response
     {
         $this->validate($request);
+        $this->workspaceId = $argv['wsid'];
 
         $wsId = $argv['wsid'];
         $this->wsid = $wsId;
@@ -93,6 +102,14 @@ class DebitController extends Controller
         $data['payee_id'] = $this->createOrExistPayee($data['payee_id']);
         
         $entry->update($data);
+
+        $entry->labels()->detach();
+        if(!empty($data['labels'])) {
+            foreach($data['labels'] as $label) {
+                $label = $this->createOrGetLabel($label);
+                $entry->labels()->attach($label);
+            }
+        }
         
         $wallet = new WalletService($entry, $oldEntry);
         $wallet->sum();
