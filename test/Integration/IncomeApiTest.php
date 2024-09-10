@@ -116,18 +116,6 @@ class IncomeApiTest extends BaseCase
         $this->assertEquals(204, $result->getStatusCode());
     }
 
-    public function test_get_delete_data()
-    {
-        $request = $this->createMock(ServerRequestInterface::class);
-        $response = $this->createMock(ResponseInterface::class);
-
-        $controller = new IncomingController();
-        $argv = ['wsid' => 1, 'uuid' => 'd373d245-512d-4bff-b414-9d59781be3ee'];
-        $result = $controller->show($request, $response, $argv);
-        
-        $this->assertEquals(404, $result->getStatusCode());
-    }
-
 
 
     public function test_create_incoming_data_with_labels()
@@ -184,5 +172,42 @@ class IncomeApiTest extends BaseCase
         $this->assertEquals(900, $wallet->balance);
         $this->assertCount(1, $enstry->labels);
         
+    }
+
+    public function test_update_incoming_data_with_new_label()
+    {
+        $payload = $this->makeRequest(300);
+        $payload['labels'] = [
+            1,2,'new-label'
+         ];
+
+        $request = $this->createMock(ServerRequestInterface::class);
+        $request->method('getParsedBody')->willReturn($payload);
+        
+        $response = $this->createMock(ResponseInterface::class);
+
+        $controller = new IncomingController();
+        $argv = ['wsid' => 1, 'uuid' => 'f7b3b3b0-0b7b-11ec-82a8-0242ac130003'];
+        $result = $controller->update($request, $response, $argv);
+        $contentResult = (array) json_decode((string) $result->getBody());
+
+        $this->assertEquals(200, $result->getStatusCode());
+        $this->assertTrue($contentResult['type'] === Entry::incoming->value);
+        $this->assertTrue($contentResult['amount'] === 300);
+
+        $enstry = EntryModel::where('uuid', $contentResult['uuid'])->with('labels')->first();
+        $this->assertCount(3, $enstry->labels);
+    }
+
+    public function test_get_deleted_data()
+    {
+        $request = $this->createMock(ServerRequestInterface::class);
+        $response = $this->createMock(ResponseInterface::class);
+
+        $controller = new IncomingController();
+        $argv = ['wsid' => 1, 'uuid' => 'd373d245-512d-4bff-b414-9d59781be3ee'];
+        $result = $controller->show($request, $response, $argv);
+        
+        $this->assertEquals(404, $result->getStatusCode());
     }
 }

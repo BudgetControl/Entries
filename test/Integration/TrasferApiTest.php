@@ -114,39 +114,6 @@ class TrasferApiTest extends BaseCase
 
     }
 
-    public function test_delete_transfer_data()
-    {
-        $request = $this->createMock(ServerRequestInterface::class);
-        $response = $this->createMock(ResponseInterface::class);
-
-        $controller = new TransferController();
-        $argv = ['wsid' => 1, 'uuid' => 'f7b3b3b0-0b7b-11ec-82a8-0242ac139903'];
-        $result = $controller->delete($request, $response, $argv);
-        
-        // check if entry is deleted
-        $entry = Transfer::where('uuid', $argv['uuid'])->first();
-        $relation = Transfer::where('uuid', 'f7b3b3b0-0b7b-11ec-82a8-0242ac130004')->first();
-
-        $this->assertEquals(204, $result->getStatusCode());
-        $this->assertTrue(empty($entry));
-        $this->assertTrue(empty($relation));
-
-    }
-
-    public function test_get_delete_data()
-    {
-        $request = $this->createMock(ServerRequestInterface::class);
-        $response = $this->createMock(ResponseInterface::class);
-
-        $controller = new TransferController();
-        $argv = ['wsid' => 1, 'uuid' => 'f7b3b3b0-0b7b-11ec-82a8-0242ac139903'];
-        $result = $controller->show($request, $response, $argv);
-        
-        $this->assertEquals(404, $result->getStatusCode());
-    }
-
-
-
     public function test_create_transfer_data_with_labels()
     {
         $payload = $this->makeRequest(-100);
@@ -205,5 +172,69 @@ class TrasferApiTest extends BaseCase
         $enstry = Transfer::where('uuid', $contentResult['to_this']->uuid)->with('labels')->first();
         $this->assertCount(1, $enstry->labels);
         
+    }
+
+    public function test_update_transfer_data_with_labels()
+    {
+        $payload = $this->makeRequest(100);
+        $payload['transfer_id'] = 2;
+        $payload['confirmed'] = false;
+        $payload['labels'] = [
+            'new-label'
+         ];
+        $argv = ['wsid' => 1];
+
+        $request = $this->createMock(ServerRequestInterface::class);
+        $request->method('getParsedBody')->willReturn($payload);
+        $response = $this->createMock(ResponseInterface::class);
+
+        $controller = new TransferController();
+        $argv = ['wsid' => 1, 'uuid' => 'f7b3b3b0-0b7b-11ec-82a8-0242ac139903'];
+        $result = $controller->update($request, $response, $argv);
+        $contentResult = (array) json_decode((string) $result->getBody());
+
+        $this->assertEquals(200, $result->getStatusCode());
+
+        $this->assertNotEmpty(Transfer::where('uuid', $contentResult['transfer_this']->uuid)->first());
+        $enstry = Transfer::where('uuid', $contentResult['transfer_this']->uuid)->with('labels')->first();
+        $this->assertCount(1, $enstry->labels);
+
+        $this->assertNotEmpty(Transfer::where('uuid', $contentResult['to_this']->uuid)->first());
+        $enstry = Transfer::where('uuid', $contentResult['to_this']->uuid)->with('labels')->first();
+        $this->assertCount(1, $enstry->labels);
+
+    }
+
+
+    public function test_delete_transfer_data()
+    {
+        $request = $this->createMock(ServerRequestInterface::class);
+        $response = $this->createMock(ResponseInterface::class);
+
+        $controller = new TransferController();
+        $argv = ['wsid' => 1, 'uuid' => 'f7b3b3b0-0b7b-11ec-82a8-0242ac139903'];
+        $result = $controller->delete($request, $response, $argv);
+        
+        // check if entry is deleted
+        $entry = Transfer::where('uuid', $argv['uuid'])->first();
+        $relation = Transfer::where('uuid', 'f7b3b3b0-0b7b-11ec-82a8-0242ac130004')->first();
+
+        $this->assertEquals(204, $result->getStatusCode());
+        $this->assertTrue(empty($entry));
+        $this->assertTrue(empty($relation));
+
+    }
+
+
+    public function test_get_deleted_data()
+    {
+        $request = $this->createMock(ServerRequestInterface::class);
+        $response = $this->createMock(ResponseInterface::class);
+
+        $controller = new TransferController();
+        $argv = ['wsid' => 1, 'uuid' => 'f7b3b3b0-0b7b-11ec-82a8-0242ac139903'];
+        $result = $controller->show($request, $response, $argv);
+        
+        $this->assertEquals(404, $result->getStatusCode());
     }
 }

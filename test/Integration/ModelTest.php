@@ -118,6 +118,28 @@ class ModelTest extends BaseCase {
         $this->assertEquals(200, $result->getStatusCode());
     }
 
+    public function test_update_expenses_data_with_new_label()
+    {
+        $payload = $this->makeRequest(-300);
+        $payload['labels'] = [
+            1,2,'new-label'
+         ];
+
+        $request = $this->createMock(ServerRequestInterface::class);
+        $request->method('getParsedBody')->willReturn($payload);
+        
+        $response = $this->createMock(ResponseInterface::class);
+
+        $controller = new ModelController();
+        $argv = ['wsid' => 1, 'uuid' => 'f7b3b3b0-0b7b-11ec-82a8-0242ac130002'];
+        $result = $controller->update($request, $response, $argv);
+        $contentResult = (array) json_decode((string) $result->getBody());
+
+        $this->assertEquals(200, $result->getStatusCode());
+        $enstry = Model::where('uuid', $contentResult['uuid'])->with('labels')->first();
+        $this->assertCount(3, $enstry->labels);
+    }
+
     public function test_delete_model_data()
     {
         $request = $this->createMock(ServerRequestInterface::class);

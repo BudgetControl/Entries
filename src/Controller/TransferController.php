@@ -130,6 +130,7 @@ class TransferController extends Controller
     public function update(Request $request, Response $response, $argv): Response
     {
         $this->validate($request);
+        $this->workspaceId = $argv['wsid'];
         
         $wsId = $argv['wsid'];
         $entryId = $argv['uuid'];
@@ -150,6 +151,14 @@ class TransferController extends Controller
         $data['planned'] = $this->isPlanned($data['date_time']);
         $transfer->update($data);
 
+        $transfer->labels()->detach();
+        if(!empty($data['labels'])) {
+            foreach($data['labels'] as $label) {
+                $label = $this->createOrGetLabel($label);
+                $transfer->labels()->attach($label);
+            }
+        }
+
         // now save new entry transfer with inverted amount
         $data['amount'] = $data['amount'] * -1;
         $data['transfer_id'] = $transfer->account_id;
@@ -158,6 +167,14 @@ class TransferController extends Controller
         $data['workspace_id'] = $wsId;
 
         $transferTo->update($data);
+
+        $transferTo->labels()->detach();
+        if(!empty($data['labels'])) {
+            foreach($data['labels'] as $label) {
+                $label = $this->createOrGetLabel($label);
+                $transferTo->labels()->attach($label);
+            }
+        }
 
         $wallet = new WalletService($transfer, $olderTransfer);
         $wallet->sum();

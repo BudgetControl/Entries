@@ -97,30 +97,6 @@ class ExpenseApiTest extends BaseCase
 
     }
 
-    public function test_delete_data()
-    {
-        $request = $this->createMock(ServerRequestInterface::class);
-        $response = $this->createMock(ResponseInterface::class);
-
-        $controller = new ExpensesController();
-        $argv = ['wsid' => 1, 'uuid' => '2b598724-4766-4bec-9529-da3196533d11'];
-        $result = $controller->delete($request, $response, $argv);
-        
-        $this->assertEquals(204, $result->getStatusCode());
-    }
-
-    public function test_get_delete_data()
-    {
-        $request = $this->createMock(ServerRequestInterface::class);
-        $response = $this->createMock(ResponseInterface::class);
-
-        $controller = new ExpensesController();
-        $argv = ['wsid' => 1, 'uuid' => '2b598724-4766-4bec-9529-da3196533d11'];
-        $result = $controller->show($request, $response, $argv);
-        
-        $this->assertEquals(404, $result->getStatusCode());
-    }
-
     public function test_create_expenses_data_with_labels()
     {
         $payload = $this->makeRequest(-100);
@@ -175,5 +151,55 @@ class ExpenseApiTest extends BaseCase
         $this->assertEquals(-100, $wallet->balance);
         $this->assertCount(1, $enstry->labels);
         
+    }
+
+    public function test_update_expenses_data_with_new_label()
+    {
+        $payload = $this->makeRequest(-300);
+        $payload['labels'] = [
+            1,2,'new-label'
+         ];
+
+        $request = $this->createMock(ServerRequestInterface::class);
+        $request->method('getParsedBody')->willReturn($payload);
+        
+        $response = $this->createMock(ResponseInterface::class);
+
+        $controller = new ExpensesController();
+        $argv = ['wsid' => 1, 'uuid' => '2b598724-4766-4bec-9529-da3196533d11'];
+        $result = $controller->update($request, $response, $argv);
+        $contentResult = (array) json_decode((string) $result->getBody());
+
+        $this->assertEquals(200, $result->getStatusCode());
+        $this->assertTrue($contentResult['type'] === Entry::expenses->value);
+        $this->assertTrue($contentResult['amount'] === -300);
+
+        $enstry = EntryModel::where('uuid', $contentResult['uuid'])->with('labels')->first();
+        $this->assertCount(3, $enstry->labels);
+    }
+
+
+    public function test_delete_data()
+    {
+        $request = $this->createMock(ServerRequestInterface::class);
+        $response = $this->createMock(ResponseInterface::class);
+
+        $controller = new ExpensesController();
+        $argv = ['wsid' => 1, 'uuid' => '2b598724-4766-4bec-9529-da3196533d11'];
+        $result = $controller->delete($request, $response, $argv);
+        
+        $this->assertEquals(204, $result->getStatusCode());
+    }
+
+    public function test_get_deleted_data()
+    {
+        $request = $this->createMock(ServerRequestInterface::class);
+        $response = $this->createMock(ResponseInterface::class);
+
+        $controller = new ExpensesController();
+        $argv = ['wsid' => 1, 'uuid' => '2b598724-4766-4bec-9529-da3196533d11'];
+        $result = $controller->show($request, $response, $argv);
+        
+        $this->assertEquals(404, $result->getStatusCode());
     }
 }
