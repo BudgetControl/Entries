@@ -54,6 +54,7 @@ class ExpensesController extends Controller
     public function create(Request $request, Response $response, $argv): Response
     {
         $this->validate($request);
+        $this->workspaceId = $argv['wsid'];
 
         $wsId = $argv['wsid'];
         $data = $request->getParsedBody();
@@ -76,6 +77,13 @@ class ExpensesController extends Controller
         $expenses->fill($data);
         $expenses->save();
 
+        if(!empty($data['labels'])) {
+            foreach($data['labels'] as $label) {
+                $label = $this->createOrGetLabel($label['name'], $label['color']);
+                $expenses->labels()->attach($label);
+            }
+        }
+
         $wallet = new WalletService($expenses);
         $wallet->sum();
 
@@ -89,6 +97,7 @@ class ExpensesController extends Controller
     public function update(Request $request, Response $response, $argv): Response
     {
         $this->validate($request);
+        $this->workspaceId = $argv['wsid'];
 
         $wsId = $argv['wsid'];
         $entryId = $argv['uuid'];
@@ -105,6 +114,14 @@ class ExpensesController extends Controller
         $data['planned'] = $this->isPlanned($data['date_time']);
         
         $entry->update($data);
+
+        $entry->labels()->detach();
+        if(!empty($data['labels'])) {
+            foreach($data['labels'] as $label) {
+                $label = $this->createOrGetLabel($label['name'], $label['color']);
+                $entry->labels()->attach($label);
+            }
+        }
         
         $wallet = new WalletService($entry,$oldEntry);
         $wallet->sum();

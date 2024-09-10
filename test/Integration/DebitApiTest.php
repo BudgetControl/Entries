@@ -10,6 +10,8 @@ use MLAB\PHPITest\Assertions\JsonAssert;
 use Slim\Http\Interfaces\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Budgetcontrol\Entry\Controller\DebitController;
+use Budgetcontrol\Library\Model\Debit;
+use Budgetcontrol\Library\Model\Entry as ModelEntry;
 use Budgetcontrol\Library\Model\Payee;
 
 class DebitApiTest extends BaseCase
@@ -85,6 +87,66 @@ class DebitApiTest extends BaseCase
 
     }
 
+    public function test_create_debit_data_with_labels()
+    {
+        $payload = $this->makeRequest(-100);
+        $payload['payee_id'] = 'Test NewDebit';
+        $payload['labels'] = [
+            [
+                'name' => 1,
+                'color' => null
+            ],
+            [
+                'name' => 2,
+                'color' => null
+            ],
+         ];
+        $argv = ['wsid' => 1];
+
+        $request = $this->createMock(ServerRequestInterface::class);
+        $request->method('getParsedBody')->willReturn($payload);
+        $response = $this->createMock(ResponseInterface::class);
+
+        $controller = new DebitController();
+        $result = $controller->create($request, $response, $argv);
+        $contentResult = (array) json_decode((string) $result->getBody());
+
+        $this->assertEquals(201, $result->getStatusCode());
+        $this->assertNotEmpty(ModelEntry::where('uuid', $contentResult['uuid'])->first());
+
+        $enstry = ModelEntry::where('uuid', $contentResult['uuid'])->with('labels')->first();
+        $this->assertCount(2, $enstry->labels);
+        
+    }
+
+    public function test_create_debit_data_with_new_labels()
+    {
+        $payload = $this->makeRequest(-100);
+        $payload['payee_id'] = 'Test NewDebit';
+        $payload['labels'] = [
+            [
+                'name' => 'new-label',
+                'color' => '#000'
+            ],
+         ];
+        $argv = ['wsid' => 1];
+
+        $request = $this->createMock(ServerRequestInterface::class);
+        $request->method('getParsedBody')->willReturn($payload);
+        $response = $this->createMock(ResponseInterface::class);
+
+        $controller = new DebitController();
+        $result = $controller->create($request, $response, $argv);
+        $contentResult = (array) json_decode((string) $result->getBody());
+
+        $this->assertEquals(201, $result->getStatusCode());
+        $this->assertNotEmpty(ModelEntry::where('uuid', $contentResult['uuid'])->first());
+
+        $enstry = ModelEntry::where('uuid', $contentResult['uuid'])->with('labels')->first();
+        $this->assertCount(1, $enstry->labels);
+        
+    }
+
     public function test_add_debit()
     {
         $payload = $this->makeRequest(-100);
@@ -129,6 +191,40 @@ class DebitApiTest extends BaseCase
 
     }
 
+    public function test_update_debit_data_with_new_label()
+    {
+        $payload = $this->makeRequest(300);
+        $payload['payee_id'] = 'test';
+        $payload['labels'] = [
+            [
+                'name' => 'new-label',
+                'color' => '#000'
+            ],
+            [
+                'name' => 1,
+                'color' => null
+            ],
+            [
+                'name' => 2,
+                'color' => null
+            ],
+         ];
+
+        $request = $this->createMock(ServerRequestInterface::class);
+        $request->method('getParsedBody')->willReturn($payload);
+        
+        $response = $this->createMock(ResponseInterface::class);
+
+        $controller = new DebitController();
+        $argv = ['wsid' => 1, 'uuid' => '2b598724-4766-4bec-9529-da3196533d22'];
+        $result = $controller->update($request, $response, $argv);
+        $contentResult = (array) json_decode((string) $result->getBody());
+
+        $this->assertEquals(200, $result->getStatusCode());
+        $enstry = Debit::where('uuid', $contentResult['uuid'])->with('labels')->first();
+        $this->assertCount(3, $enstry->labels);
+    }
+
     public function test_delete_data()
     {
         $request = $this->createMock(ServerRequestInterface::class);
@@ -141,7 +237,7 @@ class DebitApiTest extends BaseCase
         $this->assertEquals(204, $result->getStatusCode());
     }
 
-    public function test_get_delete_data()
+    public function test_get_deleted_data()
     {
         $request = $this->createMock(ServerRequestInterface::class);
         $response = $this->createMock(ResponseInterface::class);

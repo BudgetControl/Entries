@@ -38,6 +38,7 @@ class PlannedEntryController extends Controller
     public function create(Request $request, Response $response, $argv): Response
     {
         $this->validate($request);
+        $this->workspaceId = $argv['wsid'];
 
         $wsId = $argv['wsid'];
         $data = $request->getParsedBody();
@@ -59,6 +60,13 @@ class PlannedEntryController extends Controller
         $model->fill($data);
         $model->save();
 
+        if(!empty($data['labels'])) {
+            foreach($data['labels'] as $label) {
+                $label = $this->createOrGetLabel($label['name'], $label['color']);
+                $model->labels()->attach($label);
+            }
+        }
+
         return response(
             $model->toArray(),
             201
@@ -69,6 +77,7 @@ class PlannedEntryController extends Controller
     public function update(Request $request, Response $response, $argv): Response
     {
         $this->validate($request);
+        $this->workspaceId = $argv['wsid'];
 
         $wsId = $argv['wsid'];
         $uuid = $argv['uuid'];
@@ -95,6 +104,14 @@ class PlannedEntryController extends Controller
         }
 
         $model->update($data);
+
+        $model->labels()->detach();
+        if(!empty($data['labels'])) {
+            foreach($data['labels'] as $label) {
+                $label = $this->createOrGetLabel($label['name'], $label['color']);
+                $model->labels()->attach($label);
+            }
+        }
 
         return response(
             $model->toArray(),

@@ -22,7 +22,7 @@
         "geolocation_id": null,
         "deleted_at": null,
         "workspace_id": 1,
-        "label": [],
+        "labels": [],
         "wallet": {
             "id": 1,
             "uuid": "9d6a9068-8a21-454e-9229-531f9203dcb5",
@@ -105,7 +105,7 @@
         "geolocation_id": null,
         "deleted_at": null,
         "workspace_id": 1,
-        "label": [],
+        "labels": [],
         "wallet": {
             "id": 1,
             "uuid": "9d6a9068-8a21-454e-9229-531f9203dcb5",

@@ -116,7 +116,111 @@ class IncomeApiTest extends BaseCase
         $this->assertEquals(204, $result->getStatusCode());
     }
 
-    public function test_get_delete_data()
+
+
+    public function test_create_incoming_data_with_labels()
+    {
+        $payload = $this->makeRequest(100);
+        $payload['confirm'] = false;
+        $payload['labels'] = [
+            [
+                'name' => 1,
+                'color' => null
+            ],
+            [
+                'name' => 2,
+                'color' => null
+            ],
+         ];
+        $argv = ['wsid' => 1];
+
+        $request = $this->createMock(ServerRequestInterface::class);
+        $request->method('getParsedBody')->willReturn($payload);
+        $response = $this->createMock(ResponseInterface::class);
+
+        $controller = new IncomingController();
+        $result = $controller->create($request, $response, $argv);
+        $contentResult = (array) json_decode((string) $result->getBody());
+
+        $this->assertEquals(201, $result->getStatusCode());
+        $this->assertTrue($contentResult['type'] === Entry::incoming->value);
+        $this->assertNotEmpty(EntryModel::where('uuid', $contentResult['uuid'])->first());
+
+        $wallet = Wallet::find(1);
+        $enstry = EntryModel::where('uuid', $contentResult['uuid'])->with('labels')->first();
+        $this->assertEquals(100, $wallet->balance);
+        $this->assertCount(2, $enstry->labels);
+        
+    }
+
+    public function test_create_incoming_data_with_new_labels()
+    {
+        $payload = $this->makeRequest(900);
+        $payload['confirm'] = false;
+        $payload['labels'] = [
+            [
+                'name' => 'new-label',
+                'color' => '#000'
+            ],
+         ];
+        $argv = ['wsid' => 1];
+
+        $request = $this->createMock(ServerRequestInterface::class);
+        $request->method('getParsedBody')->willReturn($payload);
+        $response = $this->createMock(ResponseInterface::class);
+
+        $controller = new IncomingController();
+        $result = $controller->create($request, $response, $argv);
+        $contentResult = (array) json_decode((string) $result->getBody());
+
+        $this->assertEquals(201, $result->getStatusCode());
+        $this->assertTrue($contentResult['type'] === Entry::incoming->value);
+        $this->assertNotEmpty(EntryModel::where('uuid', $contentResult['uuid'])->first());
+
+        $wallet = Wallet::find(1);
+        $enstry = EntryModel::where('uuid', $contentResult['uuid'])->with('labels')->first();
+        $this->assertEquals(900, $wallet->balance);
+        $this->assertCount(1, $enstry->labels);
+        
+    }
+
+    public function test_update_incoming_data_with_new_label()
+    {
+        $payload = $this->makeRequest(300);
+        $payload['labels'] = [
+            [
+                'name' => 'new-label',
+                'color' => '#000'
+            ],
+            [
+                'name' => 1,
+                'color' => null
+            ],
+            [
+                'name' => 2,
+                'color' => null
+            ],
+         ];
+
+        $request = $this->createMock(ServerRequestInterface::class);
+        $request->method('getParsedBody')->willReturn($payload);
+        
+        $response = $this->createMock(ResponseInterface::class);
+
+        $controller = new IncomingController();
+        $argv = ['wsid' => 1, 'uuid' => 'f7b3b3b0-0b7b-11ec-82a8-0242ac130003'];
+        $result = $controller->update($request, $response, $argv);
+        $contentResult = (array) json_decode((string) $result->getBody());
+
+        $this->assertEquals(200, $result->getStatusCode());
+        $this->assertTrue($contentResult['type'] === Entry::incoming->value);
+        $this->assertTrue($contentResult['amount'] === 300);
+
+        $enstry = EntryModel::where('uuid', $contentResult['uuid'])->with('labels')->first();
+        $this->assertCount(3, $enstry->labels);
+    }
+
+    public function test_get_deleted_data()
     {
         $request = $this->createMock(ServerRequestInterface::class);
         $response = $this->createMock(ResponseInterface::class);

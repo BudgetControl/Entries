@@ -73,6 +73,64 @@ class PlannedEntryTest extends BaseCase
         $this->assertNotEmpty(PlannedEntry::where('uuid', $contentResult['uuid'])->first());
     }
 
+    public function test_create_planned_data_with_labels()
+    {
+        $payload = $this->makeRequest(-100);
+        $payload['labels'] = [
+            [
+                'name' => 1,
+                'color' => null
+            ],
+            [
+                'name' => 2,
+                'color' => null
+            ],
+         ];
+        $argv = ['wsid' => 1];
+
+        $request = $this->createMock(ServerRequestInterface::class);
+        $request->method('getParsedBody')->willReturn($payload);
+        $response = $this->createMock(ResponseInterface::class);
+
+        $controller = new PlannedEntryController();
+        $result = $controller->create($request, $response, $argv);
+        $contentResult = (array) json_decode((string) $result->getBody());
+
+        $this->assertEquals(201, $result->getStatusCode());
+        $this->assertNotEmpty(PlannedEntry::where('uuid', $contentResult['uuid'])->first());
+
+        $enstry = PlannedEntry::where('uuid', $contentResult['uuid'])->with('labels')->first();
+        $this->assertCount(2, $enstry->labels);
+        
+    }
+
+    public function test_create_planned_data_with_new_labels()
+    {
+        $payload = $this->makeRequest(-100);
+        $payload['labels'] = [
+            [
+                'name' => 'new-label',
+                'color' => '#000'
+            ],
+         ];
+        $argv = ['wsid' => 1];
+
+        $request = $this->createMock(ServerRequestInterface::class);
+        $request->method('getParsedBody')->willReturn($payload);
+        $response = $this->createMock(ResponseInterface::class);
+
+        $controller = new PlannedEntryController();
+        $result = $controller->create($request, $response, $argv);
+        $contentResult = (array) json_decode((string) $result->getBody());
+
+        $this->assertEquals(201, $result->getStatusCode());
+        $this->assertNotEmpty(PlannedEntry::where('uuid', $contentResult['uuid'])->first());
+
+        $enstry = PlannedEntry::where('uuid', $contentResult['uuid'])->with('labels')->first();
+        $this->assertCount(1, $enstry->labels);
+        
+    }
+
     public function test_update_planned_data()
     {
         $payload = $this->makePlannedRequest(300);
@@ -93,6 +151,39 @@ class PlannedEntryTest extends BaseCase
         $this->assertTrue($contentResult['planning'] === 'daily');
     }
 
+    public function test_update_expenses_data_with_new_label()
+    {
+        $payload = $this->makeRequest(-300);
+        $payload['labels'] = [
+            [
+                'name' => 'new-label',
+                'color' => '#000'
+            ],
+            [
+                'name' => 1,
+                'color' => null
+            ],
+            [
+                'name' => 2,
+                'color' => null
+            ],
+         ];
+
+        $request = $this->createMock(ServerRequestInterface::class);
+        $request->method('getParsedBody')->willReturn($payload);
+        
+        $response = $this->createMock(ResponseInterface::class);
+
+        $controller = new PlannedEntryController();
+        $argv = ['wsid' => 1, 'uuid' => 'd1de1846-c2c4-4119-b269-67bac02327f9'];
+        $result = $controller->update($request, $response, $argv);
+        $contentResult = (array) json_decode((string) $result->getBody());
+
+        $this->assertEquals(200, $result->getStatusCode());
+        $enstry = PlannedEntry::where('uuid', $contentResult['uuid'])->with('labels')->first();
+        $this->assertCount(3, $enstry->labels);
+    }
+
     public function test_delete_data()
     {
         $request = $this->createMock(ServerRequestInterface::class);
@@ -105,7 +196,7 @@ class PlannedEntryTest extends BaseCase
         $this->assertEquals(204, $result->getStatusCode());
     }
 
-    public function test_get_delete_data()
+    public function test_get_deleted_data()
     {
         $request = $this->createMock(ServerRequestInterface::class);
         $response = $this->createMock(ResponseInterface::class);

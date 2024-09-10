@@ -13,7 +13,7 @@
         "payment_type": null,
         "deleted_at": null,
         "workspace_id": 1,
-        "label": [],
+        "labels": [],
         "wallet": {
             "id": 1,
             "uuid": "d58d61aa-98c5-4c41-973e-c01ff1ccecd1",
