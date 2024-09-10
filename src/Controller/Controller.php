@@ -129,9 +129,15 @@ class Controller {
             throw new \Exception('Workspace ID is not set');
         }
         
-        // if label is an integer, get it
+        // first check if label exists
         if(is_int($name)) {
             return Label::find($name);
+        }
+
+        // check if label exists
+        $label = Label::where('name', $name)->where('workspace_id', $this->workspaceId)->first();
+        if($label) {
+            return $label;
         }
 
         // if label does not exist, create it
