@@ -34,10 +34,14 @@ $validator = new \Illuminate\Validation\Factory(
     ),
 );
 
+//Setup cryptable
+require_once __DIR__ . '/../config/cryptable.php';
 
 // Set up the Facade application
 Facade::setFacadeApplication([
     'log' => $logger,
     'date' => new Date(),
-    'validator' => $validator
+    'validator' => $validator,
+    'crypt' => $crypt,
+
 ]);
