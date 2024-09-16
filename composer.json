@@ -49,7 +49,7 @@
         "logtail/monolog-logtail": "^3.1",
         "webit/bcmath": "^2.0",
         "budgetcontrol/schema-registry-service": "v1.0-beta",
-        "budgetcontrol/library": "^v1.0",
+        "budgetcontrol/library": "dev-develop",
         "budgetcontrol/cryptable": "^v0.1"
     },
     "require-dev": {

@@ -1,14 +1,11 @@
 <?php
 namespace Budgetcontrol\Entry\Controller;
 
-use Illuminate\Support\Facades\Log;
 use Budgetcontrol\Library\Model\Entry;
 use Illuminate\Support\Facades\Validator;
-use Budgetcontrol\Entry\Service\EntryService;
 use Budgetcontrol\Entry\Controller\Controller;
 use Budgetcontrol\Entry\Entity\Filter;
 use Psr\Http\Message\ResponseInterface as Response;
-use Budgetcontrol\Library\Service\Wallet\WalletService;
 use Psr\Http\Message\ServerRequestInterface as Request;
 
 class EntryController extends Controller
