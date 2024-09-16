@@ -19,6 +19,10 @@
         "budgetcontrol/schema-registry-service" : {
             "type":"vcs",
             "url":"git@github.com:BudgetControl/Schema-Registry-Service.git"
+        },
+        "budgetcontrol/cryptable" : {
+            "type":"vcs",
+            "url":"git@github.com:BudgetControl/LibsCryptable.git"
         }
     },
     "require": {
@@ -45,7 +49,8 @@
         "logtail/monolog-logtail": "^3.1",
         "webit/bcmath": "^2.0",
         "budgetcontrol/schema-registry-service": "v1.0-beta",
-        "budgetcontrol/library": "^v1.0"
+        "budgetcontrol/library": "^v1.1",
+        "budgetcontrol/cryptable": "^v0.1"
     },
     "require-dev": {
         "nikic/php-parser": "^5.0",
@@ -69,5 +74,5 @@
             "email": "marco.defelice@mlabfactory.it"
         }
     ],
-    "minimum-stability": "dev"
+    "minimum-stability": "stable"
 }

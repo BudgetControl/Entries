@@ -29,7 +29,7 @@ This repository contains the code of microservice budgetcontrol template.
 - `task build`: Install and build base application.
 
 ## Init db for php unit test
-````
+```
 vendor/bin/phinx rollback -t 0 && vendor/bin/phinx migrate && vendor/bin/phinx seed:run
 ```
 
