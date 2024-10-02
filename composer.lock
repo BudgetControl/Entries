@@ -113,16 +113,16 @@
         },
         {
             "name": "budgetcontrol/library",
-            "version": "v1.2.1",
+            "version": "v1.2.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/BudgetControl/Library.git",
-                "reference": "5721edaae2bea55b9b7cf343a91bc91d2d6a20da"
+                "reference": "edc0215c01eb5a847086f6c25cd5ef53778219da"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/BudgetControl/Library/zipball/5721edaae2bea55b9b7cf343a91bc91d2d6a20da",
-                "reference": "5721edaae2bea55b9b7cf343a91bc91d2d6a20da",
+                "url": "https://api.github.com/repos/BudgetControl/Library/zipball/edc0215c01eb5a847086f6c25cd5ef53778219da",
+                "reference": "edc0215c01eb5a847086f6c25cd5ef53778219da",
                 "shasum": ""
             },
             "require": {
@@ -144,9 +144,9 @@
                 }
             ],
             "support": {
-                "source": "https://github.com/BudgetControl/Library/tree/v1.2.1"
+                "source": "https://github.com/BudgetControl/Library/tree/v1.2.2"
             },
-            "time": "2024-09-27T16:17:25+00:00"
+            "time": "2024-10-02T14:16:54+00:00"
         },
         {
             "name": "budgetcontrol/schema-registry-service",
@@ -5585,16 +5585,16 @@
     "packages-dev": [
         {
             "name": "budgetcontrol/seeds",
-            "version": "v0.2",
+            "version": "v0.2.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/BudgetControl/SeedsTestLibs.git",
-                "reference": "a97d17cb49db68afb1ff13af7a4d27903d5204fe"
+                "reference": "8b4a9d19aef863397fbad3f2e17e5d800f03341f"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/BudgetControl/SeedsTestLibs/zipball/a97d17cb49db68afb1ff13af7a4d27903d5204fe",
-                "reference": "a97d17cb49db68afb1ff13af7a4d27903d5204fe",
+                "url": "https://api.github.com/repos/BudgetControl/SeedsTestLibs/zipball/8b4a9d19aef863397fbad3f2e17e5d800f03341f",
+                "reference": "8b4a9d19aef863397fbad3f2e17e5d800f03341f",
                 "shasum": ""
             },
             "require": {
@@ -5620,10 +5620,10 @@
             ],
             "description": "Seeds and migrations for unit test",
             "support": {
-                "source": "https://github.com/BudgetControl/SeedsTestLibs/tree/v0.2",
+                "source": "https://github.com/BudgetControl/SeedsTestLibs/tree/v0.2.1",
                 "issues": "https://github.com/BudgetControl/SeedsTestLibs/issues"
             },
-            "time": "2024-09-27T10:19:11+00:00"
+            "time": "2024-10-02T14:15:24+00:00"
         },
         {
             "name": "fakerphp/faker",
