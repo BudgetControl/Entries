@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "5322f7b7806c183424f3acda41b7bf44",
+    "content-hash": "76c980c740ee55877da096936d42c1d3",
     "packages": [
         {
             "name": "brick/math",
@@ -5585,20 +5585,22 @@
     "packages-dev": [
         {
             "name": "budgetcontrol/seeds",
-            "version": "v0.1",
+            "version": "v0.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/BudgetControl/SeedsTestLibs.git",
-                "reference": "7e8b654136388ca46a7cf324374c79855b96496a"
+                "reference": "a97d17cb49db68afb1ff13af7a4d27903d5204fe"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/BudgetControl/SeedsTestLibs/zipball/7e8b654136388ca46a7cf324374c79855b96496a",
-                "reference": "7e8b654136388ca46a7cf324374c79855b96496a",
+                "url": "https://api.github.com/repos/BudgetControl/SeedsTestLibs/zipball/a97d17cb49db68afb1ff13af7a4d27903d5204fe",
+                "reference": "a97d17cb49db68afb1ff13af7a4d27903d5204fe",
                 "shasum": ""
             },
+            "require": {
+                "budgetcontrol/library": "^1.2"
+            },
             "require-dev": {
-                "budgetcontrol/library": "^1.0",
                 "ramsey/uuid": "^4.7"
             },
             "type": "library",
@@ -5618,10 +5620,10 @@
             ],
             "description": "Seeds and migrations for unit test",
             "support": {
-                "source": "https://github.com/BudgetControl/SeedsTestLibs/tree/v0.1",
+                "source": "https://github.com/BudgetControl/SeedsTestLibs/tree/v0.2",
                 "issues": "https://github.com/BudgetControl/SeedsTestLibs/issues"
             },
-            "time": "2024-09-09T11:46:59+00:00"
+            "time": "2024-09-27T10:19:11+00:00"
         },
         {
             "name": "fakerphp/faker",
