@@ -207,4 +207,26 @@ class PlannedEntryTest extends BaseCase
         
         $this->assertEquals(404, $result->getStatusCode());
     }
+
+    public function test_update_eplanned_entry_with_end_date_time_nullable()
+    {
+        $payload = $this->makePlannedRequest(-300);
+        $payload['endDateTime'] = null;
+
+        $request = $this->createMock(ServerRequestInterface::class);
+        $request->method('getParsedBody')->willReturn($payload);
+        
+        $response = $this->createMock(ResponseInterface::class);
+
+        $controller = new PlannedEntryController();
+        $argv = ['wsid' => 1, 'uuid' => 'd1de1846-c2c4-4119-b269-67bac02327f9'];
+        $result = $controller->update($request, $response, $argv);
+        $contentResult = (array) json_decode((string) $result->getBody());
+
+        $this->assertEquals(200, $result->getStatusCode());
+
+        // assert if endDateTime is nullable
+        $isNull = is_null($contentResult['endDateTime']);
+        $this->assertTrue($isNull);
+    }
 }
