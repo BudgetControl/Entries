@@ -75,7 +75,7 @@ class PlannedEntryTest extends BaseCase
 
     public function test_create_planned_data_with_labels()
     {
-        $payload = $this->makeRequest(-100);
+        $payload = $this->makePlannedRequest(-100);
         $payload['labels'] = [
             [
                 'name' => 1,
@@ -106,7 +106,7 @@ class PlannedEntryTest extends BaseCase
 
     public function test_create_planned_data_with_new_labels()
     {
-        $payload = $this->makeRequest(-100);
+        $payload = $this->makePlannedRequest(-100);
         $payload['labels'] = [
             [
                 'name' => 'new-label',
@@ -153,7 +153,7 @@ class PlannedEntryTest extends BaseCase
 
     public function test_update_expenses_data_with_new_label()
     {
-        $payload = $this->makeRequest(-300);
+        $payload = $this->makePlannedRequest(-300);
         $payload['labels'] = [
             [
                 'name' => 'new-label',
@@ -182,6 +182,28 @@ class PlannedEntryTest extends BaseCase
         $this->assertEquals(200, $result->getStatusCode());
         $enstry = PlannedEntry::where('uuid', $contentResult['uuid'])->with('labels')->first();
         $this->assertCount(3, $enstry->labels);
+    }
+
+    public function test_update_eplanned_entry_with_end_date_time_nullable()
+    {
+        $payload = $this->makePlannedRequest(-300);
+        $payload['end_date_time'] = null;
+
+        $request = $this->createMock(ServerRequestInterface::class);
+        $request->method('getParsedBody')->willReturn($payload);
+        
+        $response = $this->createMock(ResponseInterface::class);
+
+        $controller = new PlannedEntryController();
+        $argv = ['wsid' => 1, 'uuid' => 'd1de1846-c2c4-4119-b269-67bac02327f9'];
+        $result = $controller->update($request, $response, $argv);
+        $contentResult = (array) json_decode((string) $result->getBody());
+
+        $this->assertEquals(200, $result->getStatusCode());
+
+        // assert if endDateTime is nullable
+        $isNull = is_null($contentResult['endDateTime']);
+        $this->assertTrue($isNull);
     }
 
     public function test_delete_data()
