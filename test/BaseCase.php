@@ -74,6 +74,9 @@ class BaseCase extends \PHPUnit\Framework\TestCase
             "date_time" => $dateTime->format('Y-m-d H:i:s'),
             "label" => [],
             'planning' => 'monthly',
+            'type' => 'expense',
+            'payment_type' => 1,
+            'end_date_time' => $dateTime->addDays(1)->format('Y-m-d H:i:s'),
         ];
 
         return $request;

@@ -57,10 +57,10 @@ class PlannedEntryController extends Controller
         $data['uuid'] = \Ramsey\Uuid\Uuid::uuid4();
         
         $model = new PlannedEntry();
+        $model->uuid = \Ramsey\Uuid\Uuid::uuid4();
         $model->date_time = $data['date_time'];
         $model->end_date_time = $data['end_date_time'];
         $model->planning = $data['planning'];
-        $model->uuid = $data['uuid'];
         $model->amount = $data['amount'];
         $model->note = $data['note'];
         $model->type = $data['type'];
@@ -117,7 +117,6 @@ class PlannedEntryController extends Controller
         $model->date_time = $data['date_time'];
         $model->end_date_time = $data['end_date_time'];
         $model->planning = $data['planning'];
-        $model->uuid = $data['uuid'];
         $model->amount = $data['amount'];
         $model->note = $data['note'];
         $model->type = $data['type'];
