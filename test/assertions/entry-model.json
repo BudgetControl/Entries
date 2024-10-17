@@ -20,7 +20,7 @@
             "transfer_id": null,
             "transfer_relation": null,
             "currency_id": 1,
-            "payment_type_id": 1,
+            "payment_type": 1,
             "payee_id": null,
             "waranty": true,
             "geolocation": null,

@@ -41,7 +41,7 @@ class BaseCase extends \PHPUnit\Framework\TestCase
             "category_id" => 12,
             "account_id" => 1,
             "currency_id" => 1,
-            "payment_type_id" => 1,
+            "payment_type" => 1,
             "date_time" => $dateTime->format('Y-m-d H:i:s'),
             "labels" => [],
             "waranty" => 0,
@@ -70,10 +70,13 @@ class BaseCase extends \PHPUnit\Framework\TestCase
             "category_id" => 12,
             "account_id" => 1,
             "currency_id" => 1,
-            "payment_type_id" => 1,
+            "payment_type" => 1,
             "date_time" => $dateTime->format('Y-m-d H:i:s'),
             "label" => [],
             'planning' => 'monthly',
+            'type' => 'expense',
+            'payment_type' => 1,
+            'end_date_time' => $dateTime->addDays(1)->format('Y-m-d H:i:s'),
         ];
 
         return $request;
@@ -98,7 +101,7 @@ class BaseCase extends \PHPUnit\Framework\TestCase
             "category_id" => 12,
             "account_id" => 1,
             "currency_id" => 1,
-            "payment_type_id" => 1,
+            "payment_type" => 1,
             "date_time" => $dateTime->format('Y-m-d H:i:s'),
             "label" => [],
             "waranty" => 0,

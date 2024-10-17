@@ -57,7 +57,18 @@ class PlannedEntryController extends Controller
         $data['uuid'] = \Ramsey\Uuid\Uuid::uuid4();
         
         $model = new PlannedEntry();
-        $model->fill($data);
+        $model->uuid = \Ramsey\Uuid\Uuid::uuid4();
+        $model->date_time = $data['date_time'];
+        $model->end_date_time = $data['end_date_time'];
+        $model->planning = $data['planning'];
+        $model->amount = $data['amount'];
+        $model->note = $data['note'];
+        $model->type = $data['type'];
+        $model->category_id = $data['category_id'];
+        $model->account_id = $data['account_id'];
+        $model->currency_id = $data['currency_id'];
+        $model->payment_type = $data['payment_type'];
+        $model->workspace_id = $data['workspace_id'];
         $model->save();
 
         if(!empty($data['labels'])) {
@@ -103,7 +114,18 @@ class PlannedEntryController extends Controller
             );
         }
 
-        $model->update($data);
+        $model->date_time = $data['date_time'];
+        $model->end_date_time = $data['end_date_time'];
+        $model->planning = $data['planning'];
+        $model->amount = $data['amount'];
+        $model->note = $data['note'];
+        $model->type = $data['type'];
+        $model->category_id = $data['category_id'];
+        $model->account_id = $data['account_id'];
+        $model->currency_id = $data['currency_id'];
+        $model->payment_type = $data['payment_type'];
+        $model->workspace_id = $data['workspace_id'];
+        $model->save();
 
         $model->labels()->detach();
         if(!empty($data['labels'])) {
