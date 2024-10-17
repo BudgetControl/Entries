@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "1744a1a8ff74dbbe6ea257bae74d7118",
+    "content-hash": "d9e3a53143206a04db3df5f01518cdc5",
     "packages": [
         {
             "name": "brick/math",
@@ -147,39 +147,6 @@
                 "source": "https://github.com/BudgetControl/Library/tree/v1.2.4"
             },
             "time": "2024-10-03T07:51:25+00:00"
-        },
-        {
-            "name": "budgetcontrol/schema-registry-service",
-            "version": "v1.1",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/BudgetControl/Schema-Registry-Service.git",
-                "reference": "155f15b4939f441578cee51d8ca52d2368d45c9c"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/BudgetControl/Schema-Registry-Service/zipball/155f15b4939f441578cee51d8ca52d2368d45c9c",
-                "reference": "155f15b4939f441578cee51d8ca52d2368d45c9c",
-                "shasum": ""
-            },
-            "type": "library",
-            "autoload": {
-                "psr-4": {
-                    "Budgetcontrol\\Registry\\": "libs/"
-                }
-            },
-            "authors": [
-                {
-                    "name": "Marco De Felice",
-                    "email": "marco.defelice@mlabfactory.it"
-                }
-            ],
-            "description": "An API Schema Registry is a centralized service that manages and distributes database schema definitions",
-            "support": {
-                "source": "https://github.com/BudgetControl/Schema-Registry-Service/tree/v1.1",
-                "issues": "https://github.com/BudgetControl/Schema-Registry-Service/issues"
-            },
-            "time": "2024-10-15T16:54:24+00:00"
         },
         {
             "name": "cakephp/chronos",
@@ -5583,6 +5550,39 @@
         }
     ],
     "packages-dev": [
+        {
+            "name": "budgetcontrol/schema-registry-service",
+            "version": "v1.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/BudgetControl/Schema-Registry-Service.git",
+                "reference": "155f15b4939f441578cee51d8ca52d2368d45c9c"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/BudgetControl/Schema-Registry-Service/zipball/155f15b4939f441578cee51d8ca52d2368d45c9c",
+                "reference": "155f15b4939f441578cee51d8ca52d2368d45c9c",
+                "shasum": ""
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Budgetcontrol\\Registry\\": "libs/"
+                }
+            },
+            "authors": [
+                {
+                    "name": "Marco De Felice",
+                    "email": "marco.defelice@mlabfactory.it"
+                }
+            ],
+            "description": "An API Schema Registry is a centralized service that manages and distributes database schema definitions",
+            "support": {
+                "source": "https://github.com/BudgetControl/Schema-Registry-Service/tree/v1.1",
+                "issues": "https://github.com/BudgetControl/Schema-Registry-Service/issues"
+            },
+            "time": "2024-10-15T16:54:24+00:00"
+        },
         {
             "name": "budgetcontrol/seeds",
             "version": "v0.2.2",
