@@ -202,7 +202,6 @@ class PlannedEntryTest extends BaseCase
         $this->assertEquals(200, $result->getStatusCode());
 
         // assert if endDateTime is nullable
-        var_dump($contentResult);die;
         $isNull = is_null($contentResult['end_date_time']);
         $this->assertTrue($isNull);
     }
