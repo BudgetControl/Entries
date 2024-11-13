@@ -7,7 +7,9 @@ use Budgetcontrol\Entry\Entity\Filter;
 use Illuminate\Support\Facades\Validator;
 use Budgetcontrol\Entry\Controller\Controller;
 use Budgetcontrol\Entry\Entity\Validations\PlannedType;
+use Budgetcontrol\Library\Entity\Entry;
 use Budgetcontrol\Library\Model\PlannedEntry;
+use InvalidArgumentException;
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
 
@@ -37,7 +39,6 @@ class PlannedEntryController extends DebitController
 
     public function create(Request $request, Response $response, $argv): Response
     {
-        $this->validate($request);
         $this->workspaceId = $argv['wsid'];
 
         $wsId = $argv['wsid'];
@@ -88,7 +89,6 @@ class PlannedEntryController extends DebitController
 
     public function update(Request $request, Response $response, $argv): Response
     {
-        $this->validate($request);
         $this->workspaceId = $argv['wsid'];
 
         $wsId = $argv['wsid'];
@@ -192,6 +192,10 @@ class PlannedEntryController extends DebitController
 
         if($request instanceof Request) {
             $request = $request->getParsedBody();
+        }
+
+        if($request['type'] === Entry::transfer) {
+            throw new InvalidArgumentException('Transfer is not allowed for planned entries');
         }
 
         Validator::make($request, [
