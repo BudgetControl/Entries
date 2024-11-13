@@ -7,11 +7,13 @@ use Budgetcontrol\Entry\Entity\Filter;
 use Illuminate\Support\Facades\Validator;
 use Budgetcontrol\Entry\Controller\Controller;
 use Budgetcontrol\Entry\Entity\Validations\PlannedType;
+use Budgetcontrol\Library\Entity\Entry;
 use Budgetcontrol\Library\Model\PlannedEntry;
+use InvalidArgumentException;
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
 
-class PlannedEntryController extends Controller
+class PlannedEntryController extends DebitController
 {
     public function list(Request $request, Response $response, $argv): Response
     {
@@ -37,7 +39,6 @@ class PlannedEntryController extends Controller
 
     public function create(Request $request, Response $response, $argv): Response
     {
-        $this->validate($request);
         $this->workspaceId = $argv['wsid'];
 
         $wsId = $argv['wsid'];
@@ -64,11 +65,12 @@ class PlannedEntryController extends Controller
         $model->amount = $data['amount'];
         $model->note = $data['note'];
         $model->type = $data['type'];
-        $model->category_id = $data['category_id'];
+        $model->category_id = $this->retriveCategoryIdOfEntryType($data['type'],$data['category_id']);
         $model->account_id = $data['account_id'];
         $model->currency_id = $data['currency_id'];
         $model->payment_type = $data['payment_type'];
         $model->workspace_id = $data['workspace_id'];
+        $model->payee_id = !empty($data['payee_id']) ? $this->createOrExistPayee($data['payee_id']) : null;
         $model->save();
 
         if(!empty($data['labels'])) {
@@ -87,7 +89,6 @@ class PlannedEntryController extends Controller
 
     public function update(Request $request, Response $response, $argv): Response
     {
-        $this->validate($request);
         $this->workspaceId = $argv['wsid'];
 
         $wsId = $argv['wsid'];
@@ -120,11 +121,12 @@ class PlannedEntryController extends Controller
         $model->amount = $data['amount'];
         $model->note = $data['note'];
         $model->type = $data['type'];
-        $model->category_id = $data['category_id'];
+        $model->category_id = $this->retriveCategoryIdOfEntryType($data['type'],$data['category_id']);
         $model->account_id = $data['account_id'];
         $model->currency_id = $data['currency_id'];
         $model->payment_type = $data['payment_type'];
         $model->workspace_id = $data['workspace_id'];
+        $model->payee_id = !empty($data['payee_id']) ? $this->createOrExistPayee($data['payee_id']) : null;
         $model->save();
 
         $model->labels()->detach();
@@ -190,6 +192,10 @@ class PlannedEntryController extends Controller
 
         if($request instanceof Request) {
             $request = $request->getParsedBody();
+        }
+
+        if($request['type'] === Entry::transfer) {
+            throw new InvalidArgumentException('Transfer is not allowed for planned entries');
         }
 
         Validator::make($request, [
