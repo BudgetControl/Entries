@@ -70,7 +70,7 @@ class PlannedEntryController extends DebitController
         $model->currency_id = $data['currency_id'];
         $model->payment_type = $data['payment_type'];
         $model->workspace_id = $data['workspace_id'];
-        $model->payee_id = !empty($data['payee_id']) ?? $this->createOrExistPayee($data['payee_id']);
+        $model->payee_id = !empty($data['payee_id']) ? $this->createOrExistPayee($data['payee_id']) : null;
         $model->save();
 
         if(!empty($data['labels'])) {
@@ -126,7 +126,7 @@ class PlannedEntryController extends DebitController
         $model->currency_id = $data['currency_id'];
         $model->payment_type = $data['payment_type'];
         $model->workspace_id = $data['workspace_id'];
-        $model->payee_id = !empty($data['payee_id']) ?? $this->createOrExistPayee($data['payee_id']);
+        $model->payee_id = !empty($data['payee_id']) ? $this->createOrExistPayee($data['payee_id']) : null;
         $model->save();
 
         $model->labels()->detach();
