@@ -113,16 +113,16 @@
         },
         {
             "name": "budgetcontrol/library",
-            "version": "v1.2.4",
+            "version": "v1.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/BudgetControl/Library.git",
-                "reference": "da913251a8950ec9a4e1bb3e73462a7e084da8ea"
+                "reference": "591c808cbd2a6b2e852879fcf60aca279dda1a51"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/BudgetControl/Library/zipball/da913251a8950ec9a4e1bb3e73462a7e084da8ea",
-                "reference": "da913251a8950ec9a4e1bb3e73462a7e084da8ea",
+                "url": "https://api.github.com/repos/BudgetControl/Library/zipball/591c808cbd2a6b2e852879fcf60aca279dda1a51",
+                "reference": "591c808cbd2a6b2e852879fcf60aca279dda1a51",
                 "shasum": ""
             },
             "require": {
@@ -144,9 +144,9 @@
                 }
             ],
             "support": {
-                "source": "https://github.com/BudgetControl/Library/tree/v1.2.4"
+                "source": "https://github.com/BudgetControl/Library/tree/v1.3"
             },
-            "time": "2024-10-03T07:51:25+00:00"
+            "time": "2024-10-18T13:20:42+00:00"
         },
         {
             "name": "cakephp/chronos",
@@ -5552,16 +5552,16 @@
     "packages-dev": [
         {
             "name": "budgetcontrol/schema-registry-service",
-            "version": "v1.1.1",
+            "version": "v1.1.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/BudgetControl/Schema-Registry-Service.git",
-                "reference": "3338f0a829dc887ed54d2f69ebf1659e7077333c"
+                "reference": "50625a1e72ff21d7f9baf643d374158cdf65bbab"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/BudgetControl/Schema-Registry-Service/zipball/3338f0a829dc887ed54d2f69ebf1659e7077333c",
-                "reference": "3338f0a829dc887ed54d2f69ebf1659e7077333c",
+                "url": "https://api.github.com/repos/BudgetControl/Schema-Registry-Service/zipball/50625a1e72ff21d7f9baf643d374158cdf65bbab",
+                "reference": "50625a1e72ff21d7f9baf643d374158cdf65bbab",
                 "shasum": ""
             },
             "type": "library",
@@ -5578,10 +5578,10 @@
             ],
             "description": "An API Schema Registry is a centralized service that manages and distributes database schema definitions",
             "support": {
-                "source": "https://github.com/BudgetControl/Schema-Registry-Service/tree/v1.1.1",
+                "source": "https://github.com/BudgetControl/Schema-Registry-Service/tree/v1.1.2",
                 "issues": "https://github.com/BudgetControl/Schema-Registry-Service/issues"
             },
-            "time": "2024-10-17T17:52:22+00:00"
+            "time": "2024-10-18T12:55:08+00:00"
         },
         {
             "name": "budgetcontrol/seeds",
