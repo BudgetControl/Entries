@@ -3,6 +3,7 @@ namespace Budgetcontrol\Entry\Controller;
 
 use Budgetcontrol\Entry\Entity\Filter;
 use Budgetcontrol\Entry\Entity\Order;
+use Budgetcontrol\Library\Entity\Entry as EntityEntry;
 use Illuminate\Support\Carbon;
 use Budgetcontrol\Library\Model\Entry;
 use Budgetcontrol\Library\Model\EntryInterface;
@@ -150,5 +151,24 @@ class Controller {
 
         return $label;
 
+    }
+
+    /**
+     * Retrieves the category ID associated with a given entry type.
+     *
+     * @param string $type The type of the entry.
+     * @param int $currentValue The current value associated with the entry type.
+     * @return int The category ID corresponding to the entry type.
+     */
+    public function retriveCategoryIdOfEntryType(string $type, int $currentValue): int
+    {
+        switch($type) {
+            case EntityEntry::debit->value:
+                return 55;
+            case EntityEntry::transfer->value:
+                return 75;
+            default:
+                return $currentValue;
+        }
     }
 }

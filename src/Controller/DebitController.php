@@ -152,7 +152,7 @@ class DebitController extends Controller
      * @param int|string $id The ID of the payee.
      * @return int The ID of the payee.
      */
-    private function createOrExistPayee(string|int $id): int
+    protected function createOrExistPayee(string|int $id): int
     {
         $payee = Payee::find($id);
         if(!$payee) {
