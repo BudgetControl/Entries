@@ -1,4 +1,5 @@
 <?php
+$app->get('/monitor', \Budgetcontrol\Entry\Controller\Controller::class . ':monitor');
 
 $app->get('/{wsid}', \Budgetcontrol\Entry\Controller\EntryController::class . ':get');
 
