@@ -154,7 +154,12 @@ class DebitController extends Controller
      */
     protected function createOrExistPayee(string|int $id): int
     {
-        $payee = Payee::find($id);
+        if(is_numeric($id)) {
+            $payee = Payee::find($id);
+        } else {
+             $payee = Payee::where('name', $id)->first();
+        }
+
         if(!$payee) {
             $payee = new Payee();
             $payee->fill(['name' => $id, 'workspace_id' => $this->wsid]);
