@@ -9,7 +9,6 @@ use Budgetcontrol\Library\Model\Debit;
 use Budgetcontrol\Library\Model\Payee;
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
-use Budgetcontrol\Library\Service\Wallet\WalletService;
 
 class DebitController extends Controller
 {
@@ -67,9 +66,6 @@ class DebitController extends Controller
                 $debit->labels()->attach($label);
             }
         }
-        
-        $wallet = new WalletService($debit);
-        $wallet->sum();
 
         return response(
             $debit->toArray(),
@@ -110,9 +106,6 @@ class DebitController extends Controller
                 $entry->labels()->attach($label);
             }
         }
-        
-        $wallet = new WalletService($entry, $oldEntry);
-        $wallet->sum();
 
         return response(
             $entry->toArray()

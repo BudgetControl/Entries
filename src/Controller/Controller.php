@@ -10,7 +10,6 @@ use Budgetcontrol\Library\Model\EntryInterface;
 use Budgetcontrol\Library\Model\Label;
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
-use Budgetcontrol\Library\Service\Wallet\WalletService;
 
 class Controller {
 
@@ -55,9 +54,6 @@ class Controller {
         }
 
         $entries->delete();
-
-        $wallet = new WalletService($entries);
-        $wallet->subtract();
 
         return response([], 204);
     }

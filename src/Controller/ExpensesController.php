@@ -9,7 +9,6 @@ use Budgetcontrol\Library\Model\Expense;
 use Dotenv\Exception\ValidationException;
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
-use Budgetcontrol\Library\Service\Wallet\WalletService;
 
 class ExpensesController extends Controller
 {
@@ -84,9 +83,6 @@ class ExpensesController extends Controller
             }
         }
 
-        $wallet = new WalletService($expenses);
-        $wallet->sum();
-
         return response(
             $expenses->toArray(),
             201
@@ -122,9 +118,6 @@ class ExpensesController extends Controller
                 $entry->labels()->attach($label);
             }
         }
-        
-        $wallet = new WalletService($entry,$oldEntry);
-        $wallet->sum();
 
         return response(
             $entry->toArray()
