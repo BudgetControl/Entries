@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "d9e3a53143206a04db3df5f01518cdc5",
+    "content-hash": "09dfdff0afab7b47430be587899c2151",
     "packages": [
         {
             "name": "brick/math",
@@ -449,57 +449,6 @@
                 "source": "https://github.com/cakephp/utility"
             },
             "time": "2024-02-24T04:42:47+00:00"
-        },
-        {
-            "name": "carbondate/carbon",
-            "version": "1.17.0",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/CarbonDate/Carbon.git",
-                "reference": "a1dd1ad9abfc8b3c4d8768068e6c71d293424e86"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/CarbonDate/Carbon/zipball/a1dd1ad9abfc8b3c4d8768068e6c71d293424e86",
-                "reference": "a1dd1ad9abfc8b3c4d8768068e6c71d293424e86",
-                "shasum": ""
-            },
-            "require": {
-                "php": ">=5.3.0"
-            },
-            "require-dev": {
-                "phpunit/phpunit": "~4.0"
-            },
-            "type": "library",
-            "autoload": {
-                "psr-0": {
-                    "Carbon": "src"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Brian Nesbitt",
-                    "email": "brian@nesbot.com",
-                    "homepage": "http://nesbot.com"
-                }
-            ],
-            "description": "A simple API extension for DateTime.",
-            "homepage": "http://carbon.nesbot.com",
-            "keywords": [
-                "date",
-                "datetime",
-                "time"
-            ],
-            "support": {
-                "issues": "https://github.com/CarbonDate/Carbon/issues",
-                "source": "https://github.com/CarbonDate/Carbon/tree/1.17.0"
-            },
-            "abandoned": true,
-            "time": "2015-03-08T14:05:44+00:00"
         },
         {
             "name": "carbonphp/carbon-doctrine-types",
@@ -5552,16 +5501,16 @@
     "packages-dev": [
         {
             "name": "budgetcontrol/schema-registry-service",
-            "version": "v1.1.2",
+            "version": "v1.2.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/BudgetControl/Schema-Registry-Service.git",
-                "reference": "50625a1e72ff21d7f9baf643d374158cdf65bbab"
+                "reference": "c354691bcb28805900e86992be6bf1e2f5ab8627"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/BudgetControl/Schema-Registry-Service/zipball/50625a1e72ff21d7f9baf643d374158cdf65bbab",
-                "reference": "50625a1e72ff21d7f9baf643d374158cdf65bbab",
+                "url": "https://api.github.com/repos/BudgetControl/Schema-Registry-Service/zipball/c354691bcb28805900e86992be6bf1e2f5ab8627",
+                "reference": "c354691bcb28805900e86992be6bf1e2f5ab8627",
                 "shasum": ""
             },
             "type": "library",
@@ -5578,10 +5527,10 @@
             ],
             "description": "An API Schema Registry is a centralized service that manages and distributes database schema definitions",
             "support": {
-                "source": "https://github.com/BudgetControl/Schema-Registry-Service/tree/v1.1.2",
+                "source": "https://github.com/BudgetControl/Schema-Registry-Service/tree/v1.2.1",
                 "issues": "https://github.com/BudgetControl/Schema-Registry-Service/issues"
             },
-            "time": "2024-10-18T12:55:08+00:00"
+            "time": "2024-12-18T16:02:57+00:00"
         },
         {
             "name": "budgetcontrol/seeds",

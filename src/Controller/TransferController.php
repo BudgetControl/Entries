@@ -10,7 +10,6 @@ use Budgetcontrol\Library\Model\Wallet;
 use Dotenv\Exception\ValidationException;
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
-use Budgetcontrol\Library\Service\Wallet\WalletService;
 
 class TransferController extends Controller
 {
@@ -111,12 +110,6 @@ class TransferController extends Controller
         $transfer->save();
         $transferTo->save();
 
-        $wallet = new WalletService($transfer);
-        $wallet->sum();
-
-        $walletTransferTo = new WalletService($transferTo);
-        $walletTransferTo->sum();
-        
         return response(
             [
                 'transfer_this' => $transfer->toArray(),
@@ -176,12 +169,6 @@ class TransferController extends Controller
             }
         }
 
-        $wallet = new WalletService($transfer, $olderTransfer);
-        $wallet->sum();
-
-        $walletTransferTo = new WalletService($transferTo, $olderTransferTo);
-        $walletTransferTo->sum();
-
         return response(
             [
                 'transfer_this' => $transfer->toArray(),
@@ -205,12 +192,6 @@ class TransferController extends Controller
 
         $transfer->delete();
         $transferTo->delete();
-
-        $wallet = new WalletService($transfer);
-        $wallet->subtract();
-
-        $walletTransferTo = new WalletService($transferTo);
-        $walletTransferTo->subtract();
 
         return response([], 204);
     }

@@ -2,6 +2,7 @@
 
 namespace Budgetcontrol\Test;
 
+use Budgetcontrol\Library\Entity\Entry;
 use Budgetcontrol\Library\Model\Wallet;
 use Carbon\Carbon;
 
@@ -74,7 +75,7 @@ class BaseCase extends \PHPUnit\Framework\TestCase
             "date_time" => $dateTime->format('Y-m-d H:i:s'),
             "label" => [],
             'planning' => 'monthly',
-            'type' => 'expense',
+            'type' => Entry::expenses->value,
             'payment_type' => 1,
             'end_date_time' => $dateTime->addDays(1)->format('Y-m-d H:i:s'),
         ];
@@ -108,6 +109,12 @@ class BaseCase extends \PHPUnit\Framework\TestCase
             "confirmed" => 1,
             "name" => "test-model",
         ];
+
+        if($amount < 0) {
+            $request['type'] = Entry::expenses->value;
+        } else {
+            $request['type'] = Entry::incoming->value;
+        }
 
         return $request;
     }

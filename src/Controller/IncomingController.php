@@ -9,7 +9,6 @@ use Budgetcontrol\Library\Entity\Entry as EntryType;
 use Illuminate\Validation\ValidationException;
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
-use Budgetcontrol\Library\Service\Wallet\WalletService;
 
 class IncomingController extends Controller
 {
@@ -68,9 +67,6 @@ class IncomingController extends Controller
                 $incoming->labels()->attach($label);
             }
         }
-        
-        $wallet = new WalletService($incoming);
-        $wallet->sum();
 
         return response(
             $incoming->toArray(),
@@ -108,9 +104,6 @@ class IncomingController extends Controller
             }
         }
         
-        $wallet = new WalletService($entry, $oldEntry);
-        $wallet->sum();
-
         return response(
             $entry->toArray()
         );
