@@ -5505,12 +5505,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/BudgetControl/Schema-Registry-Service.git",
-                "reference": "759fbae0e1f811ea938977c657ef194b4b6f11ac"
+                "reference": "c354691bcb28805900e86992be6bf1e2f5ab8627"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/BudgetControl/Schema-Registry-Service/zipball/759fbae0e1f811ea938977c657ef194b4b6f11ac",
-                "reference": "759fbae0e1f811ea938977c657ef194b4b6f11ac",
+                "url": "https://api.github.com/repos/BudgetControl/Schema-Registry-Service/zipball/c354691bcb28805900e86992be6bf1e2f5ab8627",
+                "reference": "c354691bcb28805900e86992be6bf1e2f5ab8627",
                 "shasum": ""
             },
             "type": "library",
@@ -5530,7 +5530,7 @@
                 "source": "https://github.com/BudgetControl/Schema-Registry-Service/tree/v1.2.1",
                 "issues": "https://github.com/BudgetControl/Schema-Registry-Service/issues"
             },
-            "time": "2024-12-18T15:50:57+00:00"
+            "time": "2024-12-18T16:02:57+00:00"
         },
         {
             "name": "budgetcontrol/seeds",
