@@ -40,7 +40,7 @@ require_once __DIR__ . '/../config/cryptable.php';
 // Set up the Facade application
 Facade::setFacadeApplication([
     'log' => $logger,
-    'date' => new Date(),
+    'date' => new Date('now', new DateTimeZone('Europe/Rome')),
     'validator' => $validator,
     'crypt' => $crypt,
 
