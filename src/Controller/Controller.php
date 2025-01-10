@@ -4,10 +4,10 @@ namespace Budgetcontrol\Entry\Controller;
 use Budgetcontrol\Entry\Entity\Filter;
 use Budgetcontrol\Entry\Entity\Order;
 use Budgetcontrol\Library\Entity\Entry as EntityEntry;
-use Illuminate\Support\Carbon;
 use Budgetcontrol\Library\Model\Entry;
 use Budgetcontrol\Library\Model\EntryInterface;
 use Budgetcontrol\Library\Model\Label;
+use Illuminate\Support\Facades\Date as Carbon;
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
 
@@ -68,7 +68,7 @@ class Controller {
     {
         //use carbon
         $date = Carbon::parse($date_time);
-        $now = Carbon::now();
+        $now = Carbon::now(new \DateTimeZone('Europe/Rome'));
 
         return $date->gt($now);
     }
