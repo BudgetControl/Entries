@@ -214,10 +214,6 @@ class TransferController extends Controller
             $request = $request->getParsedBody();
         }
 
-        // check if transfer_id is valid
-        if(Wallet::find($request['transfer_id']) === null) {
-            throw new ValidationException('Invalid wallet ID');
-        }
 
         Validator::make($request, [
             'date_time' => 'required|date',
