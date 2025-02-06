@@ -3,7 +3,6 @@
 namespace Budgetcontrol\Test\Integration;
 
 use MLAB\PHPITest\Entity\Json;
-use MLAB\PHPITest\Service\HttpRequest;
 use Budgetcontrol\Library\Entity\Entry;
 use MLAB\PHPITest\Assertions\JsonAssert;
 use Slim\Http\Interfaces\ResponseInterface;
@@ -220,38 +219,6 @@ class TrasferApiTest extends BaseCase
     }
 
 
-    public function test_delete_transfer_data()
-    {
-        $request = $this->createMock(ServerRequestInterface::class);
-        $response = $this->createMock(ResponseInterface::class);
-
-        $controller = new TransferController();
-        $argv = ['wsid' => 1, 'uuid' => 'f7b3b3b0-0b7b-11ec-82a8-0242ac139903'];
-        $result = $controller->delete($request, $response, $argv);
-        
-        // check if entry is deleted
-        $entry = Transfer::where('uuid', $argv['uuid'])->first();
-        $relation = Transfer::where('uuid', 'f7b3b3b0-0b7b-11ec-82a8-0242ac130004')->first();
-
-        $this->assertEquals(204, $result->getStatusCode());
-        $this->assertTrue(empty($entry));
-        $this->assertTrue(empty($relation));
-
-    }
-
-
-    public function test_get_deleted_data()
-    {
-        $request = $this->createMock(ServerRequestInterface::class);
-        $response = $this->createMock(ResponseInterface::class);
-
-        $controller = new TransferController();
-        $argv = ['wsid' => 1, 'uuid' => 'f7b3b3b0-0b7b-11ec-82a8-0242ac139903'];
-        $result = $controller->show($request, $response, $argv);
-        
-        $this->assertEquals(404, $result->getStatusCode());
-    }
-
     public function test_trasnfer_entry_to_other_Workspace()
     {
         $payload = $this->makeRequest(-100);
@@ -317,5 +284,37 @@ class TrasferApiTest extends BaseCase
         $this->assertTrue($transferThis->category_id === 75);
         $this->assertTrue($relation->workspace_id === Workspace::where('uuid', $payload['workspace_id'])->first()->id);
 
+    }
+
+    public function test_delete_transfer_data()
+    {
+        $request = $this->createMock(ServerRequestInterface::class);
+        $response = $this->createMock(ResponseInterface::class);
+
+        $controller = new TransferController();
+        $argv = ['wsid' => 2, 'uuid' => 'f7b3b3b0-0b7b-11ec-82a8-0242ac139903'];
+        $result = $controller->delete($request, $response, $argv);
+        
+        // check if entry is deleted
+        $entry = Transfer::where('uuid', $argv['uuid'])->first();
+        $relation = Transfer::where('uuid', 'f7b3b3b0-0b7b-11ec-82a8-0242ac130004')->first();
+
+        $this->assertEquals(204, $result->getStatusCode());
+        $this->assertTrue(empty($entry));
+        $this->assertTrue(empty($relation));
+
+    }
+
+
+    public function test_get_deleted_data()
+    {
+        $request = $this->createMock(ServerRequestInterface::class);
+        $response = $this->createMock(ResponseInterface::class);
+
+        $controller = new TransferController();
+        $argv = ['wsid' => 2, 'uuid' => 'f7b3b3b0-0b7b-11ec-82a8-0242ac139903'];
+        $result = $controller->show($request, $response, $argv);
+        
+        $this->assertEquals(404, $result->getStatusCode());
     }
 }

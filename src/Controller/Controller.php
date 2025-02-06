@@ -176,7 +176,10 @@ class Controller {
      */
     protected function findWorkspaceId(string $uuid): int
     {
-        $wsId = Workspace::where('uuid', $uuid)->first();
+        $userId = Workspace::find($this->workspaceId)->user_id;
+        $wsId = Workspace::where('uuid', $uuid)
+        ->leftJoin('workspaces_users_mm', 'workspaces.id', '=', 'workspaces_users_mm.workspace_id')
+        ->where('workspaces_users_mm.user_id', $userId)->first();
 
         if(!$wsId) {
             throw new \Exception('Workspace not found');

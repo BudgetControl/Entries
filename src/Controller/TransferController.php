@@ -2,11 +2,13 @@
 namespace Budgetcontrol\Entry\Controller;
 
 use Illuminate\Support\Facades\Log;
+use Budgetcontrol\Library\Model\Wallet;
+use Budgetcontrol\Library\Model\Transfer;
 use Illuminate\Support\Facades\Validator;
 use Budgetcontrol\Entry\Controller\Controller;
-use Budgetcontrol\Library\Entity\Entry as EntryType;
-use Budgetcontrol\Library\Model\Transfer;
+use Illuminate\Validation\ValidationException;
 use Psr\Http\Message\ResponseInterface as Response;
+use Budgetcontrol\Library\Entity\Entry as EntryType;
 use Psr\Http\Message\ServerRequestInterface as Request;
 
 class TransferController extends Controller
@@ -85,11 +87,14 @@ class TransferController extends Controller
         }
         
         // now save new entry transfer with inverted amount
+        $data = $request->getParsedBody();
         if(!empty($data['workspace_id'])) {
-            $wsId = $this->findWorkspaceId($request['workspace_id']);
+            $data['workspace_id'] = $this->findWorkspaceId($data['workspace_id']);
+        } else {
+            $data['workspace_id'] = $wsId;
         }
 
-        $data['amount'] = $data['amount'] * -1;
+        $data['amount'] = $data['amount'];
         $data['transfer_id'] = $transfer->account_id;
         $data['account_id'] = $transfer->transfer_id;
         $data['uuid'] = \Ramsey\Uuid\Uuid::uuid4();
@@ -153,15 +158,17 @@ class TransferController extends Controller
         }
 
         // now save new entry transfer with inverted amount
+        $data = $request->getParsedBody();
         if(!empty($data['workspace_id'])) {
-            $wsId = $this->findWorkspaceId($request['workspace_id']);
+            $data['workspace_id'] = $this->findWorkspaceId($data['workspace_id']);
+        } else {
+            $data['workspace_id'] = $wsId;
         }
 
-        $data['amount'] = $data['amount'] * -1;
+        $data['amount'] = $data['amount'];
         $data['transfer_id'] = $transfer->account_id;
         $data['account_id'] = $transfer->transfer_id;
         $data['planned'] = $this->isPlanned($data['date_time']);
-        $data['workspace_id'] = $wsId;
 
         $transferTo->update($data);
 
