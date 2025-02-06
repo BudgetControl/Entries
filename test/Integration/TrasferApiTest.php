@@ -11,6 +11,7 @@ use Budgetcontrol\Test\BaseCase;
 use Psr\Http\Message\ServerRequestInterface;
 use Budgetcontrol\Entry\Controller\TransferController;
 use Budgetcontrol\Library\Model\Transfer;
+use Budgetcontrol\Library\Model\Workspace;
 
 class TrasferApiTest extends BaseCase
 {
@@ -249,5 +250,72 @@ class TrasferApiTest extends BaseCase
         $result = $controller->show($request, $response, $argv);
         
         $this->assertEquals(404, $result->getStatusCode());
+    }
+
+    public function test_trasnfer_entry_to_other_Workspace()
+    {
+        $payload = $this->makeRequest(-100);
+        $payload['transfer_id'] = 2;
+        $payload['confirmed'] = false;
+        $payload['labels'] = [
+            [
+                'name' => 'new-label',
+                'color' => '#000'
+            ],
+         ];
+        $payload['workspace_id'] = 'feb89b18-07fa-4b3c-8b9f-0add708170ae';
+        $argv = ['wsid' => 1];
+
+        $request = $this->createMock(ServerRequestInterface::class);
+        $request->method('getParsedBody')->willReturn($payload);
+        $response = $this->createMock(ResponseInterface::class);
+
+        $controller = new TransferController();
+        $result = $controller->create($request, $response, $argv);
+        $contentResult = (array) json_decode((string) $result->getBody());
+
+        $this->assertEquals(201, $result->getStatusCode());
+
+        $this->assertNotEmpty(Transfer::where('uuid', $contentResult['transfer_this']->uuid)->first());
+        $enstry = Transfer::where('uuid', $contentResult['transfer_this']->uuid)->with('labels')->first();
+        $this->assertCount(1, $enstry->labels);
+        $this->assertTrue($enstry->workspace_id === 1);
+
+        $this->assertNotEmpty(Transfer::where('uuid', $contentResult['to_this']->uuid)->first());
+        $enstry = Transfer::where('uuid', $contentResult['to_this']->uuid)->with('labels')->first();
+        $this->assertCount(1, $enstry->labels);
+        $this->assertTrue($enstry->workspace_id === Workspace::where('uuid', $payload['workspace_id'])->first()->id);
+    }
+
+    public function test_update_transfer_data_with_other_workspace()
+    {
+        $payload = $this->makeRequest(100);
+        $payload['transfer_id'] = 1;
+        $payload['workspace_id'] = 'feb89b18-07fa-4b3c-8b9f-0add708170ae';
+
+        $request = $this->createMock(ServerRequestInterface::class);
+        $request->method('getParsedBody')->willReturn($payload);
+        $response = $this->createMock(ResponseInterface::class);
+
+        $controller = new TransferController();
+        $argv = ['wsid' => 1, 'uuid' => 'f7b3b3b0-0b7b-11ec-82a8-0242ac139903'];
+        $result = $controller->update($request, $response, $argv);
+        $contentArray = json_decode((string) $result->getBody());
+        $transferThis = $contentArray->transfer_this;
+
+        $this->assertTrue($transferThis->workspace_id === 1);
+        $this->assertEquals(200, $result->getStatusCode());
+
+        // check if relation exists
+        $relation = Transfer::where('uuid', $transferThis->transfer_relation)->first();
+        $this->assertTrue($relation->uuid === $transferThis->transfer_relation);
+        $this->assertTrue($relation->transfer_relation === $transferThis->uuid);
+        $this->assertTrue((float) $relation->amount === (float) $transferThis->amount * -1);
+        $this->assertTrue($relation->transfer_id === $transferThis->account_id);
+        $this->assertTrue($relation->account_id === $transferThis->transfer_id);
+        $this->assertTrue($relation->category_id === 75);
+        $this->assertTrue($transferThis->category_id === 75);
+        $this->assertTrue($relation->workspace_id === Workspace::where('uuid', $payload['workspace_id'])->first()->id);
+
     }
 }

@@ -6,8 +6,6 @@ use Illuminate\Support\Facades\Validator;
 use Budgetcontrol\Entry\Controller\Controller;
 use Budgetcontrol\Library\Entity\Entry as EntryType;
 use Budgetcontrol\Library\Model\Transfer;
-use Budgetcontrol\Library\Model\Wallet;
-use Dotenv\Exception\ValidationException;
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
 
@@ -87,6 +85,10 @@ class TransferController extends Controller
         }
         
         // now save new entry transfer with inverted amount
+        if(!empty($data['workspace_id'])) {
+            $wsId = $this->findWorkspaceId($request['workspace_id']);
+        }
+
         $data['amount'] = $data['amount'] * -1;
         $data['transfer_id'] = $transfer->account_id;
         $data['account_id'] = $transfer->transfer_id;
@@ -124,6 +126,7 @@ class TransferController extends Controller
     {
         $this->validate($request);
         $this->workspaceId = $argv['wsid'];
+        $data = $request->getParsedBody();
         
         $wsId = $argv['wsid'];
         $entryId = $argv['uuid'];
@@ -131,15 +134,12 @@ class TransferController extends Controller
         $transfer = Transfer::where('workspace_id', $wsId)->where('uuid', $entryId)->first();
         $transferTo = Transfer::where('workspace_id', $wsId)->where('uuid', $transfer->transfer_relation)->first();
 
-        $olderTransfer = clone $transfer;
-        $olderTransferTo = clone $transferTo;
-
         if (!$transfer || !$transferTo) {
             return response([], 404);
         }
 
-        $data = $request->getParsedBody();
 
+        $data['workspace_id'] = $wsId;
         $data['amount'] = $data['amount'] * -1;
         $data['planned'] = $this->isPlanned($data['date_time']);
         $transfer->update($data);
@@ -153,6 +153,10 @@ class TransferController extends Controller
         }
 
         // now save new entry transfer with inverted amount
+        if(!empty($data['workspace_id'])) {
+            $wsId = $this->findWorkspaceId($request['workspace_id']);
+        }
+
         $data['amount'] = $data['amount'] * -1;
         $data['transfer_id'] = $transfer->account_id;
         $data['account_id'] = $transfer->transfer_id;
