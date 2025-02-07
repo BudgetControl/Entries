@@ -7,6 +7,7 @@ use Budgetcontrol\Library\Entity\Entry as EntityEntry;
 use Budgetcontrol\Library\Model\Entry;
 use Budgetcontrol\Library\Model\EntryInterface;
 use Budgetcontrol\Library\Model\Label;
+use Budgetcontrol\Library\Model\Workspace;
 use Illuminate\Support\Facades\Date as Carbon;
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
@@ -166,5 +167,24 @@ class Controller {
             default:
                 return $currentValue;
         }
+    }
+
+    /**
+     * Retrieves the workspace ID.
+     *
+     * @return int The ID of the workspace.
+     */
+    protected function findWorkspaceId(string $uuid): int
+    {
+        $userId = Workspace::find($this->workspaceId)->user_id;
+        $wsId = Workspace::where('uuid', $uuid)
+        ->leftJoin('workspaces_users_mm', 'workspaces.id', '=', 'workspaces_users_mm.workspace_id')
+        ->where('workspaces_users_mm.user_id', $userId)->first();
+
+        if(!$wsId) {
+            throw new \Exception('Workspace not found');
+        }
+
+        return $wsId->id;
     }
 }

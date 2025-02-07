@@ -2,13 +2,13 @@
 namespace Budgetcontrol\Entry\Controller;
 
 use Illuminate\Support\Facades\Log;
+use Budgetcontrol\Library\Model\Wallet;
+use Budgetcontrol\Library\Model\Transfer;
 use Illuminate\Support\Facades\Validator;
 use Budgetcontrol\Entry\Controller\Controller;
-use Budgetcontrol\Library\Entity\Entry as EntryType;
-use Budgetcontrol\Library\Model\Transfer;
-use Budgetcontrol\Library\Model\Wallet;
-use Dotenv\Exception\ValidationException;
+use Illuminate\Validation\ValidationException;
 use Psr\Http\Message\ResponseInterface as Response;
+use Budgetcontrol\Library\Entity\Entry as EntryType;
 use Psr\Http\Message\ServerRequestInterface as Request;
 
 class TransferController extends Controller
@@ -87,7 +87,14 @@ class TransferController extends Controller
         }
         
         // now save new entry transfer with inverted amount
-        $data['amount'] = $data['amount'] * -1;
+        $data = $request->getParsedBody();
+        if(!empty($data['workspace_id'])) {
+            $data['workspace_id'] = $this->findWorkspaceId($data['workspace_id']);
+        } else {
+            $data['workspace_id'] = $wsId;
+        }
+
+        $data['amount'] = $data['amount'];
         $data['transfer_id'] = $transfer->account_id;
         $data['account_id'] = $transfer->transfer_id;
         $data['uuid'] = \Ramsey\Uuid\Uuid::uuid4();
@@ -124,6 +131,7 @@ class TransferController extends Controller
     {
         $this->validate($request);
         $this->workspaceId = $argv['wsid'];
+        $data = $request->getParsedBody();
         
         $wsId = $argv['wsid'];
         $entryId = $argv['uuid'];
@@ -131,15 +139,12 @@ class TransferController extends Controller
         $transfer = Transfer::where('workspace_id', $wsId)->where('uuid', $entryId)->first();
         $transferTo = Transfer::where('workspace_id', $wsId)->where('uuid', $transfer->transfer_relation)->first();
 
-        $olderTransfer = clone $transfer;
-        $olderTransferTo = clone $transferTo;
-
         if (!$transfer || !$transferTo) {
             return response([], 404);
         }
 
-        $data = $request->getParsedBody();
 
+        $data['workspace_id'] = $wsId;
         $data['amount'] = $data['amount'] * -1;
         $data['planned'] = $this->isPlanned($data['date_time']);
         $transfer->update($data);
@@ -153,11 +158,17 @@ class TransferController extends Controller
         }
 
         // now save new entry transfer with inverted amount
-        $data['amount'] = $data['amount'] * -1;
+        $data = $request->getParsedBody();
+        if(!empty($data['workspace_id'])) {
+            $data['workspace_id'] = $this->findWorkspaceId($data['workspace_id']);
+        } else {
+            $data['workspace_id'] = $wsId;
+        }
+
+        $data['amount'] = $data['amount'];
         $data['transfer_id'] = $transfer->account_id;
         $data['account_id'] = $transfer->transfer_id;
         $data['planned'] = $this->isPlanned($data['date_time']);
-        $data['workspace_id'] = $wsId;
 
         $transferTo->update($data);
 
@@ -184,7 +195,7 @@ class TransferController extends Controller
         $entryId = $argv['uuid'];
 
         $transfer = Transfer::where('workspace_id', $wsId)->where('uuid', $entryId)->first();
-        $transferTo = Transfer::where('workspace_id', $wsId)->where('uuid', $transfer->transfer_relation)->first();
+        $transferTo = Transfer::where('uuid', $transfer->transfer_relation)->first();
 
         if (empty($transfer) || empty($transferTo)) {
             return response([], 404);
@@ -203,10 +214,6 @@ class TransferController extends Controller
             $request = $request->getParsedBody();
         }
 
-        // check if transfer_id is valid
-        if(Wallet::find($request['transfer_id']) === null) {
-            throw new ValidationException('Invalid wallet ID');
-        }
 
         Validator::make($request, [
             'date_time' => 'required|date',
