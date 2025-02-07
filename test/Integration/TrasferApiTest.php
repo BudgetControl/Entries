@@ -292,7 +292,7 @@ class TrasferApiTest extends BaseCase
         $response = $this->createMock(ResponseInterface::class);
 
         $controller = new TransferController();
-        $argv = ['wsid' => 2, 'uuid' => 'f7b3b3b0-0b7b-11ec-82a8-0242ac139903'];
+        $argv = ['wsid' => 1, 'uuid' => 'f7b3b3b0-0b7b-11ec-82a8-0242ac139903'];
         $result = $controller->delete($request, $response, $argv);
         
         // check if entry is deleted

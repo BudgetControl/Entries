@@ -195,7 +195,7 @@ class TransferController extends Controller
         $entryId = $argv['uuid'];
 
         $transfer = Transfer::where('workspace_id', $wsId)->where('uuid', $entryId)->first();
-        $transferTo = Transfer::where('workspace_id', $wsId)->where('uuid', $transfer->transfer_relation)->first();
+        $transferTo = Transfer::where('uuid', $transfer->transfer_relation)->first();
 
         if (empty($transfer) || empty($transferTo)) {
             return response([], 404);
