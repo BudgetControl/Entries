@@ -69,9 +69,10 @@ class EntryTest extends BaseCase
         $argv = ['wsid' => 1];
         $result = $controller->create($request, $response, $argv);
         $this->assertEquals(201, $result->getStatusCode());
+        $uuid = json_decode((string) $result->getBody())->uuid;
 
         $noteToTest = Crypt::encrypt($payload['note']);
-        $dbRaw = "select note from entries where uuid = '" . $payload['uuid'] . "'";
+        $dbRaw = "select note from entries where uuid = '" . $uuid . "'";
         $contentToTest = DB::select($dbRaw);
         $contentResult = (array) $contentToTest[0];
         $this->assertEquals($noteToTest, $contentResult['note']);
