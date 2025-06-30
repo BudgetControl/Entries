@@ -21,6 +21,7 @@ class BaseCase extends \PHPUnit\Framework\TestCase
         parent::setUp();
         // Call the function you want to run at the start of each test
         Wallet::find(1)->update(['balance' => 0]);
+        
     }
     
     /**

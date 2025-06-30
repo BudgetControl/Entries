@@ -2,17 +2,18 @@
 
 namespace Budgetcontrol\Test\Integration;
 
-use Budgetcontrol\Test\BaseCase;
 use MLAB\PHPITest\Entity\Json;
-use MLAB\PHPITest\Service\HttpRequest;
+use Budgetcontrol\Test\BaseCase;
 use Psr\Http\Message\ResponseInterface;
 use MLAB\PHPITest\Assertions\JsonAssert;
 use Psr\Http\Message\ServerRequestInterface;
 use Budgetcontrol\Entry\Controller\EntryController;
+use Budgetcontrol\Entry\Controller\IncomingController;
+use Budgetcontrol\Entry\Facade\Crypt;
+use Illuminate\Support\Facades\DB;
 
 class EntryTest extends BaseCase
 {
-
     public function test_get_data()
     {
         $request = $this->createMock(ServerRequestInterface::class);
@@ -53,5 +54,31 @@ class EntryTest extends BaseCase
         $result = $controller->show($request, $response, $argv);
         
         $this->assertEquals(404, $result->getStatusCode());
+    }
+
+    public function test_encrypt_decrypt_note()
+    {
+        $payload = $this->makeRequest(100);
+        $payload['note'] = 'This is a test note';
+
+        $request = $this->createMock(ServerRequestInterface::class);
+        $request->method('getParsedBody')->willReturn($payload);
+        $response = $this->createMock(ResponseInterface::class);
+
+        $controller = new IncomingController();
+        $argv = ['wsid' => 1];
+        $result = $controller->create($request, $response, $argv);
+        $this->assertEquals(201, $result->getStatusCode());
+
+        $noteToTest = Crypt::encrypt($payload['note']);
+        $dbRaw = "select note from entries where uuid = '" . $payload['uuid'] . "'";
+        $contentToTest = DB::select($dbRaw);
+        $contentResult = (array) $contentToTest[0];
+        $this->assertEquals($noteToTest, $contentResult['note']);
+
+        //check if the note can be decrypted
+        $decryptedNote = Crypt::decrypt($contentResult['note']);
+        $this->assertEquals($payload['note'], $decryptedNote);
+
     }
 }
