@@ -19,7 +19,17 @@ class SavingController extends Controller {
         $planned = (bool) @$request->getQueryParams()['planned'] ?? null;
 
         $wsId = $argv['wsid'];
-        $goalId = $this->getIdOfGoal($argv['goalUuid']);
+
+        try {
+            $goalId = $this->getIdOfGoal($argv['goalUuid']);
+        } catch (ValidationException $e) {
+            Log::warning($e->getMessage());
+            return response(
+                ['error' => $e->getMessage()],
+                404
+            );
+        }
+
         $entries = Saving::WithRelations()->where('workspace_id', $wsId)
         ->where('goal_id', $goalId)
         ->where('type', EntryType::saving->value)
@@ -71,8 +81,17 @@ class SavingController extends Controller {
             );
         }
 
+        try {
+            $data['goal_id'] = $this->getIdOfGoal($data['goal_id']);
+        } catch (ValidationException $e) {
+            Log::warning($e->getMessage());
+            return response(
+                ['error' => $e->getMessage()],
+                404
+            );
+        }
+
         $data['workspace_id'] = $wsId;
-        $data['goal_id'] = $data['goal_id'];
         $data['planned'] = $this->isPlanned($data['date_time']);
         $data['uuid'] = \Ramsey\Uuid\Uuid::uuid4();
         
