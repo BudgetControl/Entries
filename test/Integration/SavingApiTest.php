@@ -58,7 +58,7 @@ class SavingApiTest extends BaseCase
     {
         $payload = $this->makeRequest(100);
         $argv = ['wsid' => 1];
-        $payload['goal_id'] = 1; // Assuming goal_id is required for saving entries
+        $payload['goal_id'] = "148defec-ae28-4779-bf4e-b6e999c93f26"; // Assuming goal_id is required for saving entries
 
         $request = $this->createMock(ServerRequestInterface::class);
         $request->method('getParsedBody')->willReturn($payload);
@@ -120,7 +120,7 @@ class SavingApiTest extends BaseCase
             ],
          ];
         $argv = ['wsid' => 1];
-        $payload['goal_id'] = 1; // Assuming goal_id is required for saving entries
+        $payload['goal_id'] = "148defec-ae28-4779-bf4e-b6e999c93f26"; // Assuming goal_id is required for saving entries
 
         $request = $this->createMock(ServerRequestInterface::class);
         $request->method('getParsedBody')->willReturn($payload);
@@ -155,7 +155,7 @@ class SavingApiTest extends BaseCase
             ],
          ];
         $argv = ['wsid' => 1];
-        $payload['goal_id'] = 1; // Assuming goal_id is required for saving entries
+        $payload['goal_id'] = '148defec-ae28-4779-bf4e-b6e999c93f26'; // Assuming goal_id is required for saving entries
 
         $request = $this->createMock(ServerRequestInterface::class);
         $request->method('getParsedBody')->willReturn($payload);
