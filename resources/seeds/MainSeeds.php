@@ -1,6 +1,5 @@
 <?php
 
-use Budgetcontrol\Entry\Entity\Validations\PlannedType;
 use Budgetcontrol\Library\Model\Debit;
 use Budgetcontrol\Seeds\Resources\Seed;
 use Budgetcontrol\Seeds\Resources\Seeds\DebitSeeds;
@@ -9,13 +8,13 @@ use Budgetcontrol\Library\Entity\Entry;
 use Budgetcontrol\Library\Model\Expense;
 use Budgetcontrol\Library\Model\Income;
 use Budgetcontrol\Library\Model\Model;
-use Budgetcontrol\Library\Model\PlannedEntry;
 use Budgetcontrol\Library\Model\Transfer;
 use Budgetcontrol\Seeds\Resources\Seeds\ExpenseSeeds;
 use Budgetcontrol\Seeds\Resources\Seeds\IncomeSeeds;
 use Budgetcontrol\Seeds\Resources\Seeds\ModelsSeed;
-use Budgetcontrol\Seeds\Resources\Seeds\PlannedEntriesSeed;
+use Budgetcontrol\Seeds\Resources\Seeds\SavingSeeds;
 use Budgetcontrol\Seeds\Resources\Seeds\TransferSeeds;
+use Budgetcontrol\Library\Model\Saving;
 
 class MainSeeds extends AbstractSeed
 {
@@ -235,6 +234,25 @@ class MainSeeds extends AbstractSeed
             'type' => Entry::incoming->value,
             'workspace_id' => 1,
             'account_id' => 1,
+        ]);
+
+        SavingSeeds::create(Saving::class, [
+            "amount" => 400,
+            "note" => "test",
+            "category_id" => 12,
+            "account_id" => 1,
+            "currency_id" => 1,
+            "payment_type_id" => 1,
+            "date_time" => $dateTime->format('Y-m-d H:i:s'),
+            "label" => [],
+            "waranty" => 1,
+            "confirmed" => 1,
+            'uuid' => "1b7674a9-49ab-418c-a84c-c24ae48ecbbc",
+            'type' => Entry::saving->value,
+            'workspace_id' => 1,
+            'account_id' => 1,
+            'planned' => 0,
+            'goal_id' => 1
         ]);
 
     }
