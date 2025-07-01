@@ -43,5 +43,6 @@ Facade::setFacadeApplication([
     'date' => new Date('now', new DateTimeZone('Europe/Rome')),
     'validator' => $validator,
     'crypt' => $crypt,
+    'db' => $capsule->getDatabaseManager(),
 
 ]);
