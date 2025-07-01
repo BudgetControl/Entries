@@ -23,10 +23,16 @@ $app->get('/{wsid}/debit/{uuid}', \Budgetcontrol\Entry\Controller\EntryControlle
 $app->post('/{wsid}/debit', \Budgetcontrol\Entry\Controller\DebitController::class . ':create');
 $app->put('/{wsid}/debit/{uuid}', \Budgetcontrol\Entry\Controller\DebitController::class . ':update');
 
+$app->get('/{wsid}/{goalUuid}/saving', \Budgetcontrol\Entry\Controller\SavingController::class . ':get');
+$app->get('/{wsid}/saving/{uuid}', \Budgetcontrol\Entry\Controller\SavingController::class . ':show');
+$app->post('/{wsid}/saving', \Budgetcontrol\Entry\Controller\SavingController::class . ':create');
+$app->put('/{wsid}/saving/{uuid}', \Budgetcontrol\Entry\Controller\SavingController::class . ':update');
+
 $app->delete('/{wsid}/debit/{uuid}', \Budgetcontrol\Entry\Controller\DebitController::class . ':delete');
 $app->delete('/{wsid}/income/{uuid}', \Budgetcontrol\Entry\Controller\IncomingController::class . ':delete');
 $app->delete('/{wsid}/expense/{uuid}', \Budgetcontrol\Entry\Controller\ExpensesController::class . ':delete');
 $app->delete('/{wsid}/transfer/{uuid}', \Budgetcontrol\Entry\Controller\TransferController::class . ':delete');
+$app->delete('/{wsid}/saving/{uuid}', \Budgetcontrol\Entry\Controller\SavingController::class . ':delete');
 $app->delete('/{wsid}/{uuid}', \Budgetcontrol\Entry\Controller\EntryController::class . ':delete');
 
 $app->get('/{wsid}/model', \Budgetcontrol\Entry\Controller\ModelController::class . ':list');
