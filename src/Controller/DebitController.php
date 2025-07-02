@@ -55,6 +55,7 @@ class DebitController extends Controller
         $data['category_id'] = 55;
         $data['payee_id'] = $this->createOrExistPayee($data['payee_id']);
         $data['uuid'] = \Ramsey\Uuid\Uuid::uuid4();
+        $data['type'] = EntryType::debit->value;
 
         $debit = new Debit();
         $debit->fill($data);
