@@ -94,6 +94,7 @@ class SavingController extends Controller {
         $data['workspace_id'] = $wsId;
         $data['planned'] = $this->isPlanned($data['date_time']);
         $data['uuid'] = \Ramsey\Uuid\Uuid::uuid4();
+        $data['type'] = EntryType::saving->value;
         
         $saving = new Saving();
         $saving->fill($data);

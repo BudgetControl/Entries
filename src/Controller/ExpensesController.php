@@ -71,6 +71,7 @@ class ExpensesController extends Controller
         $data['workspace_id'] = $wsId;
         $data['planned'] = $this->isPlanned($data['date_time']);
         $data['uuid'] = \Ramsey\Uuid\Uuid::uuid4();
+        $data['type'] = EntryType::expenses->value;
         
         $expenses = new Expense();
         $expenses->fill($data);

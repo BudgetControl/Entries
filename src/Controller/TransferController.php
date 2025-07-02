@@ -74,6 +74,7 @@ class TransferController extends Controller
         $data['amount'] = $data['amount'] * -1;
         $data['planned'] = $this->isPlanned($data['date_time']);
         $data['uuid'] = \Ramsey\Uuid\Uuid::uuid4();
+        $data['type'] = EntryType::transfer->value;
 
         $transfer = new Transfer();
         $transfer->fill($data);
