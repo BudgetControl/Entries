@@ -25,10 +25,7 @@ functions:
   web:
     handler: public/index.php
     timeout: 60
-    layers:
       - arn:aws:lambda:eu-west-1:534081306603:layer:php-82-fpm:99
-    events:
-      - httpApi: '*'
 package:
   exclude:
     - '.git/**'
