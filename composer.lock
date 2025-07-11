@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "2b944025f357bf854d07dcf61aa69411",
+    "content-hash": "a40d6be25dd40cdcca1f301a4714e208",
     "packages": [
         {
             "name": "bref/bref",
@@ -196,12 +196,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/BudgetControl/Library.git",
-                "reference": "38ae6dc1dfda2238a77b6118c9d4bd00b734dfa4"
+                "reference": "6ac08b9eb6bedf50e8b9b471101c2b741475d8f3"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/BudgetControl/Library/zipball/38ae6dc1dfda2238a77b6118c9d4bd00b734dfa4",
-                "reference": "38ae6dc1dfda2238a77b6118c9d4bd00b734dfa4",
+                "url": "https://api.github.com/repos/BudgetControl/Library/zipball/6ac08b9eb6bedf50e8b9b471101c2b741475d8f3",
+                "reference": "6ac08b9eb6bedf50e8b9b471101c2b741475d8f3",
                 "shasum": ""
             },
             "require": {
@@ -225,7 +225,7 @@
             "support": {
                 "source": "https://github.com/BudgetControl/Library/tree/v1.4.4"
             },
-            "time": "2025-07-11T06:14:22+00:00"
+            "time": "2025-07-11T08:09:52+00:00"
         },
         {
             "name": "cakephp/chronos",
