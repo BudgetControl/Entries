@@ -22,3 +22,11 @@ tasks:
     desc: Run database
     cmds:
       - docker-compose -f docker-compose.db.yml up -d database
+  test:prepare:
+    desc: Prepare test enviroment
+    cmds:
+      - docker container exec budgetcontrol-ms-entries bash -c "vendor/bin/phinx rollback -t0 && vendor/bin/phinx migrate && vendor/bin/phinx seed:run"
+  test:run:
+    desc: Run tests
+    cmds:
+      - docker container exec budgetcontrol-ms-entries bash -c "vendor/bin/phpunit --testdox --colors=always test"

@@ -56,6 +56,7 @@ class IncomingController extends Controller
         $data['workspace_id'] = $wsId;
         $data['planned'] = $this->isPlanned($data['date_time']);
         $data['uuid'] = \Ramsey\Uuid\Uuid::uuid4();
+        $data['type'] = EntryType::incoming->value;
         
         $incoming = new Income();
         $incoming->fill($data);

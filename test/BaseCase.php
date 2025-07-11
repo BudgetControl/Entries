@@ -3,6 +3,7 @@
 namespace Budgetcontrol\Test;
 
 use Budgetcontrol\Library\Entity\Entry;
+use Budgetcontrol\Library\Model\Goal;
 use Budgetcontrol\Library\Model\Wallet;
 use Carbon\Carbon;
 
@@ -21,6 +22,7 @@ class BaseCase extends \PHPUnit\Framework\TestCase
         parent::setUp();
         // Call the function you want to run at the start of each test
         Wallet::find(1)->update(['balance' => 0]);
+        Goal::find(1)->update(['balance' => 0]);
     }
     
     /**

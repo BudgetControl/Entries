@@ -2,16 +2,16 @@
 namespace Budgetcontrol\Entry\Controller;
 
 use Illuminate\Support\Facades\Log;
+use Budgetcontrol\Library\Model\Saving;
 use Illuminate\Support\Facades\Validator;
 use Budgetcontrol\Entry\Controller\Controller;
 use Budgetcontrol\Library\Entity\Entry as EntryType;
-use Budgetcontrol\Library\Model\Expense;
 use Dotenv\Exception\ValidationException;
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
 
-class ExpensesController extends Controller
-{
+class SavingController extends Controller {
+
     public function get(Request $request, Response $response, $argv): Response
     {
         $page = $request->getQueryParams()['page'] ?? 1;
@@ -19,7 +19,20 @@ class ExpensesController extends Controller
         $planned = (bool) @$request->getQueryParams()['planned'] ?? null;
 
         $wsId = $argv['wsid'];
-        $entries = Expense::WithRelations()->where('workspace_id', $wsId)->where('type', EntryType::expenses->value)
+
+        try {
+            $goalId = $this->getIdOfGoal($argv['goalUuid']);
+        } catch (ValidationException $e) {
+            Log::warning($e->getMessage());
+            return response(
+                ['error' => $e->getMessage()],
+                404
+            );
+        }
+
+        $entries = Saving::WithRelations()->where('workspace_id', $wsId)
+        ->where('goal_id', $goalId)
+        ->where('type', EntryType::saving->value)
                  ->orderBy('date_time', 'desc');
 
         if($planned === false) {
@@ -39,7 +52,7 @@ class ExpensesController extends Controller
     {
         $wsId = $argv['wsid'];
         $entryId = $argv['uuid'];
-        $entries = Expense::WithRelations()->where('workspace_id', $wsId)->where('uuid', $entryId)->get();
+        $entries = Saving::WithRelations()->where('workspace_id', $wsId)->where('uuid', $entryId)->get();
 
         if ($entries->isEmpty()) {
             return response([], 404);
@@ -68,24 +81,34 @@ class ExpensesController extends Controller
             );
         }
 
+        try {
+            $data['goal_id'] = $this->getIdOfGoal($data['goal_id']);
+        } catch (ValidationException $e) {
+            Log::warning($e->getMessage());
+            return response(
+                ['error' => $e->getMessage()],
+                404
+            );
+        }
+
         $data['workspace_id'] = $wsId;
         $data['planned'] = $this->isPlanned($data['date_time']);
         $data['uuid'] = \Ramsey\Uuid\Uuid::uuid4();
-        $data['type'] = EntryType::expenses->value;
+        $data['type'] = EntryType::saving->value;
         
-        $expenses = new Expense();
-        $expenses->fill($data);
-        $expenses->save();
+        $saving = new Saving();
+        $saving->fill($data);
+        $saving->save();
 
         if(!empty($data['labels'])) {
             foreach($data['labels'] as $label) {
                 $label = $this->createOrGetLabel($label['name'], $label['color']);
-                $expenses->labels()->attach($label);
+                $saving->labels()->attach($label);
             }
         }
 
         return response(
-            $expenses->toArray(),
+            $saving->toArray(),
             201
         );
 
@@ -98,8 +121,7 @@ class ExpensesController extends Controller
 
         $wsId = $argv['wsid'];
         $entryId = $argv['uuid'];
-        $entries = Expense::where('workspace_id', $wsId)->where('uuid', $entryId)->get();
-        $oldEntry = clone $entries->first();
+        $entries = Saving::where('workspace_id', $wsId)->where('uuid', $entryId)->get();
 
         if ($entries->isEmpty()) {
             return response([], 404);
@@ -132,12 +154,9 @@ class ExpensesController extends Controller
             $request = $request->getParsedBody();
         }
 
-        if($request['amount'] > 0) {
-            throw new ValidationException('Amount must be less than 0');
-        }
-
         Validator::make($request, [
             'date_time' => 'required|date',
+            'goal_id' => 'required|integer',
             'amount' => 'required|numeric',
             'note' => 'string',
             'type' => 'string',
@@ -154,4 +173,19 @@ class ExpensesController extends Controller
 
     }
 
+    /**
+     * Retrieves the database ID of a goal based on its UUID.
+     *
+     * @param string $goalUuid The UUID of the goal to look up
+     * @return int The database ID of the goal
+     * @throws \Exception If the goal is not found
+     */
+    private function getIdOfGoal(string $goalUuid): int
+    {
+        $goal = \Budgetcontrol\Library\Model\Goal::where('uuid', $goalUuid)->first();
+        if (!$goal) {
+            throw new ValidationException('Goal not found');
+        }
+        return $goal->id;
+    }
 }
