@@ -192,16 +192,16 @@
         },
         {
             "name": "budgetcontrol/library",
-            "version": "v1.4.3",
+            "version": "v1.4.4",
             "source": {
                 "type": "git",
                 "url": "https://github.com/BudgetControl/Library.git",
-                "reference": "45467c946b73d067a4b6293309ef1cd387ece9a6"
+                "reference": "38ae6dc1dfda2238a77b6118c9d4bd00b734dfa4"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/BudgetControl/Library/zipball/45467c946b73d067a4b6293309ef1cd387ece9a6",
-                "reference": "45467c946b73d067a4b6293309ef1cd387ece9a6",
+                "url": "https://api.github.com/repos/BudgetControl/Library/zipball/38ae6dc1dfda2238a77b6118c9d4bd00b734dfa4",
+                "reference": "38ae6dc1dfda2238a77b6118c9d4bd00b734dfa4",
                 "shasum": ""
             },
             "require": {
@@ -223,9 +223,9 @@
                 }
             ],
             "support": {
-                "source": "https://github.com/BudgetControl/Library/tree/v1.4.3"
+                "source": "https://github.com/BudgetControl/Library/tree/v1.4.4"
             },
-            "time": "2025-07-01T12:43:16+00:00"
+            "time": "2025-07-11T06:14:22+00:00"
         },
         {
             "name": "cakephp/chronos",
