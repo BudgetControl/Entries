@@ -34,7 +34,8 @@ public_html/hot
 .png
 .gif
 .phpunit.cache/*
-
 .env.develop
 .env.local
 .serverless/
+.phpunit*
+.serverless/*
