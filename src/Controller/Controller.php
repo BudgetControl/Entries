@@ -67,9 +67,9 @@ class Controller {
      */
     protected function isPlanned($date_time): bool
     {
-        //use carbon
-        $date = Carbon::parse($date_time);
-        $now = Carbon::now(new \DateTimeZone('Europe/Rome'));
+        $tz = $timezone ?? 'UTC';
+        $date = Carbon::parse($date_time, $tz)->setSecond(0);
+        $now = Carbon::now($tz)->setSecond(0);
 
         return $date->gt($now);
     }
