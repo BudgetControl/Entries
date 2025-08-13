@@ -55,7 +55,7 @@
         "fakerphp/faker": "^1.23",
         "phpunit/phpunit": "^10.0",
         "mlabfactory/phpunit-self-api-integration": "^v1.1-beta",
-        "budgetcontrol/schema-registry-service": "^1.4.1",
+        "budgetcontrol/schema-registry-service": "^1.5.1",
         "budgetcontrol/seeds": "0.3"
     },
     "autoload": {
