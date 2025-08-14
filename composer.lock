@@ -5953,16 +5953,16 @@
     "packages-dev": [
         {
             "name": "budgetcontrol/application-tests",
-            "version": "v1-beta",
+            "version": "v1-beta.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/BudgetControl/ApplicationTests.git",
-                "reference": "67b0a7bba0a19acb7df63b1d8d3813810ca2bc7d"
+                "reference": "1e4c39ddc7e64c1b07959e21765edc51ac3a95d9"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/BudgetControl/ApplicationTests/zipball/67b0a7bba0a19acb7df63b1d8d3813810ca2bc7d",
-                "reference": "67b0a7bba0a19acb7df63b1d8d3813810ca2bc7d",
+                "url": "https://api.github.com/repos/BudgetControl/ApplicationTests/zipball/1e4c39ddc7e64c1b07959e21765edc51ac3a95d9",
+                "reference": "1e4c39ddc7e64c1b07959e21765edc51ac3a95d9",
                 "shasum": ""
             },
             "require": {
@@ -6009,10 +6009,10 @@
                 "testing"
             ],
             "support": {
-                "source": "https://github.com/BudgetControl/ApplicationTests/tree/v1-beta",
+                "source": "https://github.com/BudgetControl/ApplicationTests/tree/v1-beta.1",
                 "issues": "https://github.com/BudgetControl/ApplicationTests/issues"
             },
-            "time": "2025-08-14T09:59:35+00:00"
+            "time": "2025-08-14T10:09:29+00:00"
         },
         {
             "name": "budgetcontrol/schema-registry-service",
