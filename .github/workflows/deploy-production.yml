@@ -49,8 +49,7 @@ jobs:
         DB_USERNAME: root
         DB_PASSWORD: root
       run: |
-        vendor/bin/phinx migrate
-        vendor/bin/phinx seed:run
+        vendor/bin/bc-application --drop-schema --migrate
 
     - name: Run PHPUnit tests
       env:

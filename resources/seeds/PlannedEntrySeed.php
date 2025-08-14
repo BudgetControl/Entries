@@ -1,11 +1,12 @@
 <?php
 
+use Budgetcontrol\ApplicationTests\Seeds\SeedInterface;
 use Phinx\Seed\AbstractSeed;
 use Budgetcontrol\Library\Entity\Entry;
 use Budgetcontrol\Library\Model\PlannedEntry;
 use Budgetcontrol\Seeds\Resources\Seeds\PlannedEntriesSeed;
 
-class PlannedEntrySeed extends AbstractSeed
+class PlannedEntrySeed extends AbstractSeed implements SeedInterface
 {
 
     public function run(): void
@@ -30,5 +31,20 @@ class PlannedEntrySeed extends AbstractSeed
                 'planning' => 'monthly',
             ]
         );
+    }
+
+    public function getName(): string
+    {
+        return __CLASS__;
+    }
+
+    public function getDescription(): string
+    {
+        return 'Main seeds for the application, including entries, transfers, models, and savings.';
+    }
+
+    public function shouldRun(): bool
+    {
+        return true;
     }
 }

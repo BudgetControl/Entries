@@ -23,6 +23,10 @@
         "budgetcontrol/cryptable" : {
             "type":"vcs",
             "url":"git@github.com:BudgetControl/LibsCryptable.git"
+        },
+        "budgetcontrol/application-tests": {
+            "type": "vcs",
+            "url": "https://github.com/BudgetControl/ApplicationTests.git"
         }
     },
     "require": {
@@ -53,10 +57,7 @@
     "require-dev": {
         "nikic/php-parser": "^5.0",
         "fakerphp/faker": "^1.23",
-        "phpunit/phpunit": "^10.0",
-        "mlabfactory/phpunit-self-api-integration": "^v1.1-beta",
-        "budgetcontrol/schema-registry-service": "^1.5.1",
-        "budgetcontrol/seeds": "0.3"
+        "budgetcontrol/application-tests": "dev-main"
     },
     "autoload": {
         "psr-4": {
@@ -73,5 +74,5 @@
             "email": "marco.defelice@mlabfactory.it"
         }
     ],
-    "minimum-stability": "stable"
+    "minimum-stability": "dev"
 }

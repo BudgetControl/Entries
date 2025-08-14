@@ -1,8 +1,9 @@
 <?php
 
+use Budgetcontrol\ApplicationTests\Seeds\SeedInterface;
 use Phinx\Seed\AbstractSeed;
 
-class WorkspaceSeed extends AbstractSeed
+class WorkspaceSeed extends AbstractSeed implements SeedInterface
 {
 
     public function run(): void
@@ -24,5 +25,20 @@ class WorkspaceSeed extends AbstractSeed
         $workspace->users()->attach($user);
         $workspace->save();
 
+    }
+
+    public function getName(): string
+    {
+        return __CLASS__;
+    }
+
+    public function getDescription(): string
+    {
+        return 'Main seeds for the application, including entries, transfers, models, and savings.';
+    }
+
+    public function shouldRun(): bool
+    {
+        return true;
     }
 }

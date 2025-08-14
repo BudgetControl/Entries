@@ -1,5 +1,6 @@
 <?php
 
+use Budgetcontrol\ApplicationTests\Seeds\SeedInterface;
 use Budgetcontrol\Library\Model\Debit;
 use Budgetcontrol\Seeds\Resources\Seed;
 use Budgetcontrol\Seeds\Resources\Seeds\DebitSeeds;
@@ -16,15 +17,12 @@ use Budgetcontrol\Seeds\Resources\Seeds\SavingSeeds;
 use Budgetcontrol\Seeds\Resources\Seeds\TransferSeeds;
 use Budgetcontrol\Library\Model\Saving;
 
-class MainSeeds extends AbstractSeed
+class MainSeed extends AbstractSeed implements SeedInterface
 {
 
     public function run(): void
     {
         $dateTime = new DateTime();
-
-        $seeds = new Seed();
-        $seeds->runAllSeeds();
 
         DebitSeeds::create(
             Debit::class,
@@ -255,5 +253,20 @@ class MainSeeds extends AbstractSeed
             'goal_id' => 1
         ]);
 
+    }
+
+    public function getName(): string
+    {
+        return __CLASS__;
+    }
+
+    public function getDescription(): string
+    {
+        return 'Main seeds for the application, including entries, transfers, models, and savings.';
+    }
+
+    public function shouldRun(): bool
+    {
+        return true;
     }
 }
