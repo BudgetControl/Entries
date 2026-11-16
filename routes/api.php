@@ -3,6 +3,8 @@ $app->get('/monitor', \Budgetcontrol\Entry\Controller\Controller::class . ':moni
 
 $app->get('/{wsid}', \Budgetcontrol\Entry\Controller\EntryController::class . ':get');
 
+$app->post('/{wsid}/sync-expense', \Budgetcontrol\Entry\Controller\SyncExpenseController::class . ':create');
+
 $app->get('/{wsid}/expense', \Budgetcontrol\Entry\Controller\ExpensesController::class . ':get');
 $app->get('/{wsid}/expense/{uuid}', \Budgetcontrol\Entry\Controller\EntryController::class . ':show');
 $app->post('/{wsid}/expense', \Budgetcontrol\Entry\Controller\ExpensesController::class . ':create');
