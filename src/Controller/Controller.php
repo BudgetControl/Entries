@@ -11,8 +11,25 @@ use Budgetcontrol\Library\Model\Workspace;
 use Illuminate\Support\Facades\Date as Carbon;
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
+use Illuminate\Database\Capsule\Manager as DB;
 
 class Controller {
+
+    /**
+     * A manually edited bank entry keeps its import marker, but loses its sync label.
+     */
+    protected function withoutSyncLabelForEditedImport($entry, array $labels): array
+    {
+        if (!DB::table('sync_imported_expenses')->where('workspace_id', $entry->workspace_id)->where('entry_uuid', $entry->uuid)->exists()) {
+            return $labels;
+        }
+        $syncIds = array_map('intval', Label::where('workspace_id', $entry->workspace_id)->whereRaw('LOWER(name) = ?', ['sync'])->pluck('id')->all());
+        return array_values(array_filter($labels, static function ($label) use ($syncIds) {
+            $name = $label['name'] ?? '';
+            return !(is_string($name) && strtolower($name) === 'sync')
+                && !in_array((int) ($label['id'] ?? $name), $syncIds, true);
+        }));
+    }
 
     private readonly EntryInterface $oldEntry;
     protected int $workspaceId;
