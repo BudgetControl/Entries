@@ -57,7 +57,8 @@
     "require-dev": {
         "nikic/php-parser": "^5.0",
         "fakerphp/faker": "^1.23",
-        "budgetcontrol/application-tests": "~v1-beta"
+        "budgetcontrol/application-tests": "~v1-beta",
+        "budgetcontrol/schema-registry-service": "^1.5.4"
     },
     "autoload": {
         "psr-4": {
