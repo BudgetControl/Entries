@@ -94,6 +94,7 @@ class IncomingController extends Controller
 
         $data = $request->getParsedBody();
         $data['planned'] = $this->isPlanned($data['date_time']);
+        $data['labels'] = $this->withoutSyncLabelForEditedImport($entry, $data['labels'] ?? []);
         
         $entry->update($data);
 

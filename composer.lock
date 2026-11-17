@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "8f4a77c99c17449efbe234a697645e50",
+    "content-hash": "335f43b1e2d23916c2f6bac4a4bf20b1",
     "packages": [
         {
             "name": "bref/bref",
@@ -6016,17 +6016,20 @@
         },
         {
             "name": "budgetcontrol/schema-registry-service",
-            "version": "v1.5.1",
+            "version": "v1.5.6",
             "source": {
                 "type": "git",
                 "url": "https://github.com/BudgetControl/Schema-Registry-Service.git",
-                "reference": "519464855e04c82a70f621e318b6d5f53a7879ec"
+                "reference": "eef257e567fba64907298cc2ddd087cd135b49f3"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/BudgetControl/Schema-Registry-Service/zipball/519464855e04c82a70f621e318b6d5f53a7879ec",
-                "reference": "519464855e04c82a70f621e318b6d5f53a7879ec",
+                "url": "https://api.github.com/repos/BudgetControl/Schema-Registry-Service/zipball/eef257e567fba64907298cc2ddd087cd135b49f3",
+                "reference": "eef257e567fba64907298cc2ddd087cd135b49f3",
                 "shasum": ""
+            },
+            "require": {
+                "robmorgan/phinx": "^0.16.2"
             },
             "type": "library",
             "autoload": {
@@ -6042,10 +6045,10 @@
             ],
             "description": "An API Schema Registry is a centralized service that manages and distributes database schema definitions",
             "support": {
-                "source": "https://github.com/BudgetControl/Schema-Registry-Service/tree/v1.5.1",
+                "source": "https://github.com/BudgetControl/Schema-Registry-Service/tree/v1.5.6",
                 "issues": "https://github.com/BudgetControl/Schema-Registry-Service/issues"
             },
-            "time": "2025-08-11T13:03:17+00:00"
+            "time": "2026-11-17T09:05:51+00:00"
         },
         {
             "name": "budgetcontrol/seeds",
@@ -8244,5 +8247,5 @@
         "php": "^8.1"
     },
     "platform-dev": {},
-    "plugin-api-version": "2.6.0"
+    "plugin-api-version": "2.9.0"
 }

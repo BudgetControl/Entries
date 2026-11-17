@@ -17,6 +17,8 @@ $schema = $db->schema();
 $schema->create('wallets', function ($t) { $t->increments('id'); $t->integer('workspace_id'); $t->softDeletes(); });
 $schema->create('entries', function ($t) { $t->increments('id'); $t->string('uuid'); $t->string('type'); $t->string('date_time'); $t->decimal('amount', 12, 2); $t->text('note')->nullable(); $t->boolean('has_keywords')->nullable(); $t->integer('category_id'); $t->integer('account_id'); $t->integer('currency_id'); $t->integer('payment_type'); $t->integer('workspace_id'); $t->boolean('planned'); $t->boolean('confirmed'); $t->boolean('transfer')->nullable(); $t->integer('transfer_id')->nullable(); $t->integer('payee_id')->nullable(); $t->timestamps(); });
 $schema->create('sync_imported_expenses', function ($t) { $t->integer('workspace_id'); $t->string('source_hash'); $t->string('entry_uuid'); $t->string('created_at'); $t->primary(['workspace_id', 'source_hash']); });
+$schema->create('labels', function ($t) { $t->increments('id'); $t->string('uuid'); $t->integer('workspace_id'); $t->string('name'); $t->string('color'); $t->softDeletes(); $t->timestamps(); });
+$schema->create('entry_labels', function ($t) { $t->integer('entry_id'); $t->integer('labels_id'); });
 DB::table('wallets')->insert(['id'=>1, 'workspace_id'=>7]);
 $data=['source_hash'=>str_repeat('a',64),'amount'=>'-12.50','date_time'=>'2026-01-01 12:00:00','note'=>'Transaction','account_id'=>1,'category_id'=>1,'currency_id'=>2,'payment_type'=>1];
 $controller = new SyncExpenseController(); $factory = new ServerRequestFactory();
