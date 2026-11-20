@@ -7,6 +7,7 @@ use Budgetcontrol\Library\Model\Transfer;
 use Illuminate\Support\Facades\Validator;
 use Budgetcontrol\Entry\Controller\Controller;
 use Illuminate\Validation\ValidationException;
+use Illuminate\Database\Capsule\Manager as DB;
 use Psr\Http\Message\ResponseInterface as Response;
 use Budgetcontrol\Library\Entity\Entry as EntryType;
 use Psr\Http\Message\ServerRequestInterface as Request;
@@ -97,7 +98,7 @@ class TransferController extends Controller
 
         $data['amount'] = $data['amount'];
         $data['transfer_id'] = $transfer->account_id;
-        $data['account_id'] = $transfer->transfer_id;
+        $data['account_id'] = $transfer->transfer_id ?: null;
         $data['uuid'] = \Ramsey\Uuid\Uuid::uuid4();
 
         $transferTo = new Transfer();
@@ -138,56 +139,81 @@ class TransferController extends Controller
         $entryId = $argv['uuid'];
 
         $transfer = Transfer::where('workspace_id', $wsId)->where('uuid', $entryId)->first();
-        $transferTo = Transfer::where('workspace_id', $wsId)->where('uuid', $transfer->transfer_relation)->first();
-
-        if (!$transfer || !$transferTo) {
+        if (!$transfer) {
             return response([], 404);
         }
 
-
-        $data['workspace_id'] = $wsId;
-        $data['amount'] = $data['amount'] * -1;
-        $data['planned'] = $this->isPlanned($data['date_time']);
-        $transfer->update($data);
-
-        $transfer->labels()->detach();
-        if(!empty($data['labels'])) {
-            foreach($data['labels'] as $label) {
-                $label = $this->createOrGetLabel($label['name'], $label['color']);
-                $transfer->labels()->attach($label);
-            }
+        $convertingExpense = $transfer->type === EntryType::expenses->value && !$transfer->transfer_relation;
+        $transferTo = $transfer->transfer_relation
+            ? Transfer::where('workspace_id', $wsId)->where('uuid', $transfer->transfer_relation)->first()
+            : null;
+        if (!$transferTo && !$convertingExpense) {
+            return response([], 404);
         }
 
-        // now save new entry transfer with inverted amount
-        $data = $request->getParsedBody();
-        if(!empty($data['workspace_id'])) {
-            $data['workspace_id'] = $this->findWorkspaceId($data['workspace_id']);
-        } else {
+        return DB::connection()->transaction(function () use ($request, $data, $wsId, $transfer, $transferTo, $convertingExpense) {
             $data['workspace_id'] = $wsId;
-        }
-
-        $data['amount'] = $data['amount'];
-        $data['transfer_id'] = $transfer->account_id;
-        $data['account_id'] = $transfer->transfer_id;
-        $data['planned'] = $this->isPlanned($data['date_time']);
-
-        $transferTo->update($data);
-
-        $transferTo->labels()->detach();
-        if(!empty($data['labels'])) {
-            foreach($data['labels'] as $label) {
-                $label = $this->createOrGetLabel($label['name'], $label['color']);
-                $transferTo->labels()->attach($label);
+            $data['amount'] = $data['amount'] * -1;
+            $data['planned'] = $this->isPlanned($data['date_time']);
+            if ($convertingExpense) {
+                $data['type'] = EntryType::transfer->value;
+                $data['transfer'] = true;
+                $data['payee_id'] = null;
             }
-        }
+            $transfer->update($data);
 
-        return response(
-            [
-                'transfer_this' => $transfer->toArray(),
-                'to_this' => $transferTo->toArray()
-            ],
-            200
-        );
+            $transfer->labels()->detach();
+            if(!empty($data['labels'])) {
+                foreach($data['labels'] as $label) {
+                    $label = $this->createOrGetLabel($label['name'], $label['color']);
+                    $transfer->labels()->attach($label);
+                }
+            }
+
+            // now save new entry transfer with inverted amount
+            $data = $request->getParsedBody();
+            if(!empty($data['workspace_id'])) {
+                $data['workspace_id'] = $this->findWorkspaceId($data['workspace_id']);
+            } else {
+                $data['workspace_id'] = $wsId;
+            }
+
+            $data['amount'] = $data['amount'];
+            $data['transfer_id'] = $transfer->account_id;
+            $data['account_id'] = $transfer->transfer_id ?: null;
+            $data['planned'] = $this->isPlanned($data['date_time']);
+
+            if ($convertingExpense) {
+                $data['uuid'] = (string) \Ramsey\Uuid\Uuid::uuid4();
+                $data['type'] = EntryType::transfer->value;
+                $data['transfer'] = true;
+                $data['payee_id'] = null;
+                $data['transfer_relation'] = $transfer->uuid;
+                $transferTo = new Transfer();
+                $transferTo->fill($data);
+                $transferTo->save();
+                $transfer->transfer_relation = $transferTo->uuid;
+                $transfer->save();
+            } else {
+                $transferTo->update($data);
+            }
+
+            $transferTo->labels()->detach();
+            if(!empty($data['labels'])) {
+                foreach($data['labels'] as $label) {
+                    $label = $this->createOrGetLabel($label['name'], $label['color']);
+                    $transferTo->labels()->attach($label);
+                }
+            }
+
+            return response(
+                [
+                    'transfer_this' => $transfer->toArray(),
+                    'to_this' => $transferTo->toArray()
+                ],
+                200
+            );
+        });
     }
 
     public function delete(Request $request, Response $response, $argv): Response
